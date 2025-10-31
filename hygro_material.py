@@ -1,6 +1,5 @@
 from honeybee_energy.writer import generate_idf_string
 from honeybee_energy.material._base import _EnergyMaterialOpaqueBase
-from utils import tabulated_idf
 
 class HygroMaterial(_EnergyMaterialOpaqueBase):
     def __init__(self, identifier, porosity, initial_w, sorption_w, sorption_rh,
@@ -40,6 +39,18 @@ class HygroMaterial(_EnergyMaterialOpaqueBase):
                 raise ValueError('Corresponding lists must have the same length')
 
 
+    # Private helper method
+    def _tabulated_idf(self, object_type, xs, ys, x_name, y_name):
+        """Create tabulated IDF strings for material-dependent properties."""
+        values = [self.identifier, len(xs)]
+        comments = ['Name', 'Number of data Coordinates']
+
+        for i, (x, y) in enumerate(zip(xs, ys)):
+            values.extend([x, y])
+            comments.extend(['{} {}'.format(x_name, i+1), '{} {}'.format(y_name, i+1)])
+
+        return generate_idf_string(object_type, values, comments)
+
     def to_dict(self):
         """Dictionary representation of HygroMaterial object."""
         return {
@@ -70,8 +81,7 @@ class HygroMaterial(_EnergyMaterialOpaqueBase):
         )
         
         # Sorption isotherm
-        idf_sorption = tabulated_idf(
-            self.identifier,
+        idf_sorption = self._tabulated_idf(
             'MaterialProperty:HeatAndMoistureTransfer:SorptionIsotherm',
             self.sorption_rh,
             self.sorption_w,
@@ -80,8 +90,7 @@ class HygroMaterial(_EnergyMaterialOpaqueBase):
         )
         
         # Liquid suction
-        idf_suction = tabulated_idf(
-            self.identifier,
+        idf_suction = self._tabulated_idf(
             'MaterialProperty:HeatAndMoistureTransfer:Suction',
             self.suction_w,
             self.suction_coeff,
@@ -90,8 +99,7 @@ class HygroMaterial(_EnergyMaterialOpaqueBase):
         )
         
         # Liquid redistribution
-        idf_redist = tabulated_idf(
-            self.identifier,
+        idf_redist = self._tabulated_idf(
             'MaterialProperty:HeatAndMoistureTransfer:Redistribution',
             self.redist_w,
             self.redist_coeff,
@@ -100,8 +108,7 @@ class HygroMaterial(_EnergyMaterialOpaqueBase):
         )
         
         # Vapor diffusion
-        idf_diff = tabulated_idf(
-            self.identifier,
+        idf_diff = self._tabulated_idf(
             'MaterialProperty:HeatAndMoistureTransfer:Diffusion',
             self.diff_rh,
             self.diff_resist,
@@ -110,8 +117,7 @@ class HygroMaterial(_EnergyMaterialOpaqueBase):
         )
         
         # Thermal conductivity
-        idf_conduct = tabulated_idf(
-            self.identifier,
+        idf_conduct = self._tabulated_idf(
             'MaterialProperty:HeatAndMoistureTransfer:ThermalConductivity',
             self.conductivity_w,
             self.conductivity,

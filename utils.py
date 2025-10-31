@@ -1,13 +1,6 @@
 from honeybee_energy.writer import generate_idf_string
-from hygro_material import HygroMaterial
-from moisture_source import MoistureSource
-from ladybug_rhino.grasshopper import give_warning
-import ghpythonlib as ghlib
-import ladybug.sql
-
-# Turn off the "old" tag
-c = ghlib.component._get_active_component()
-c.ToggleObsolete(False)
+from .hygro_material import HygroMaterial
+from .moisture_source import MoistureSource
 
 # Function to check if all materials in a construction are hygrothermal
 def construction_ishygro(construction):
@@ -16,22 +9,6 @@ def construction_ishygro(construction):
         if not (isinstance(user_data, dict) and "hygro_material" in user_data):
             return False
     return True
-
-# Function to create tabulated IDF for the moisture-dependent properties
-def tabulated_idf(mat_name, object_type, xs, ys, x_name, y_name):
-    # Add material name
-    values = [mat_name]
-    comments = ['Name']
-    
-    # Add number of data coordinates
-    values.append(len(xs))
-    comments.append('Number of data Coordinates')
-    
-    # Add x and y values
-    for i, tup in enumerate(zip(xs, ys)):
-        values.extend(tup)
-        comments.extend(['{} {}'.format(x_name, i+1), '{} {}'.format(y_name, i+1)])
-    return generate_idf_string(object_type, values, comments)
 
 # Function to convert an entire hygrothermal construction to IDF format
 def hygro_construction_to_idf(construction):
