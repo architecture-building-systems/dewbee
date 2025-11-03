@@ -7,7 +7,7 @@ from ladybug.datacollection import (
     MonthlyCollection
 )
 
-class HygroSQLiteResult(SQLiteResult):
+class MultiYearSQLiteResult(SQLiteResult):
     """Subclass of Ladybug's SQLiteResult to add the capability of reading multiple years."""
 
     def data_collections_by_output_name_and_year(self, output_name, year=1):
@@ -23,7 +23,7 @@ class HygroSQLiteResult(SQLiteResult):
             be an empty list if no output of the requested name was found in the
             file.
         """
-        conn = sqlite3.connect(self.file_path)
+        conn = sqlite3.connect(self.file_path, )
         try:
             # extract all indices in the ReportDataDictionary with the output_name
             c = conn.cursor()

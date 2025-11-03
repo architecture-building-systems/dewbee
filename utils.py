@@ -1,6 +1,7 @@
 from honeybee_energy.writer import generate_idf_string
 from .hygro_material import HygroMaterial
 from .moisture_source import MoistureSource
+import os
 
 # Function to check if all materials in a construction are hygrothermal
 def construction_ishygro(construction):
@@ -118,3 +119,61 @@ def generate_hygro_idf(model):
               "\nmethod will be used instead."
 
     return '\n\n'.join(idf_strings), msg
+
+# Function to edit an existing IDF file to modify warmup days and simulation years without using eppy
+def edit_idf(idf_path, warmup_days, years):
+    # ---- Input validation ----
+    if not isinstance(warmup_days, int) or warmup_days <= 0:
+        raise ValueError("warmup_days must be a positive integer. Got: {}".format(warmup_days))
+
+    if not isinstance(years, int) or years <= 0:
+        raise ValueError("years must be a positive integer. Got: {}".format(years))
+    # --------------------------
+    with open(idf_path, 'r') as f:
+        lines = f.readlines()
+
+    new_lines = []
+    inside_building = False
+    inside_runperiod = False
+
+    for line in lines:
+        stripped = line.strip().lower()
+
+        # Detect start of objects
+        if stripped.startswith("building,"):
+            inside_building = True
+        elif stripped.startswith("runperiod,"):
+            inside_runperiod = True
+
+        # Handle Building object
+        if inside_building and "maximum number of warmup days" in stripped:
+            # Replace the value before the comma
+            parts = line.split(',')
+            parts[0] = "  {}".format(warmup_days)   # New warmup days value
+            line = ",".join(parts)
+            inside_building = False
+
+        # Handle RunPeriod object
+        if inside_runperiod and "end year" in stripped and years > 1:
+            parts = line.split(',')
+            begin_year = None
+
+            # First we need the begin year (search one line above)
+            # We assume RunPeriod syntax consistency.
+            for prev_line in reversed(new_lines):
+                if "begin year" in prev_line.lower():
+                    begin_year = int(prev_line.split(',')[0].strip())
+                    break
+
+            if begin_year:
+                new_end_year = begin_year + (years - 1)
+                parts[0] = "  {}".format(new_end_year)
+                line = ",".join(parts)
+
+            inside_runperiod = False
+
+        new_lines.append(line)
+
+    with open(idf_path, 'w') as f:
+        f.writelines(new_lines)
+    return idf_path
