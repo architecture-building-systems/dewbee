@@ -1,6 +1,5 @@
 from honeybee_energy.writer import generate_idf_string
 from .hygro_material import HygroMaterial
-from .moisture_source import MoistureSource
 import os
 
 # Function to check if all materials in a construction are hygrothermal
@@ -48,24 +47,6 @@ def get_hygro_constructions(model):
     constructions = get_opaque_constructions(model)
     return [c for c in constructions if construction_ishygro(c)]
 
-# Function to get all MoistureSource objects in the model
-def get_moisture_sources(model):
-    """Return all MoistureSource objects in the model."""
-    moisture_sources = []
-    for room in model.rooms:
-        program_type = room.properties.energy.program_type
-        zone_identifier = room.identifier
-        # Fallback for program_type.user_data not being a dict (default is None)
-        if isinstance(program_type.user_data, dict):
-            data = program_type.user_data.get("moisture_source")
-            # Fallback for no moisture source defined
-            if data:
-                moisture_src = MoistureSource.from_dict(data)
-                moisture_src.zone_identifier = zone_identifier
-                moisture_sources.append(moisture_src)
-
-    return moisture_sources
-
 # Function to check if all opaque constructions used in the model are hygrothermal
 def model_ishygro(model):
     """Return True if every opaque construction is hygrothermal."""
@@ -75,14 +56,9 @@ def model_ishygro(model):
 def generate_hygro_idf(model):
     msg = None
     """Generate an IDF string to active EnegyPlus's HAMT algorithm and include 
-    all hygrothermal objects (constructions and moisture sources) from the model."""    
+    all hygrothermal objects (constructions) from the model. Note that moisture objects are directly included
+    in the model's IDF export, so they are not handled here."""    
     idf_strings = []
-    
-    # Generate IDF strings for moisture sources   
-    moisture_sources = get_moisture_sources(model)
-    if moisture_sources:
-        for ms in moisture_sources:
-            idf_strings.append(ms.to_idf(ms.zone_identifier))
 
     # Generate IDF strings for hygrothermal constructions
     hygro_constructions = get_hygro_constructions(model)
