@@ -1,3 +1,6 @@
+from honeybee.model import Model
+from honeybee.room import Room
+from honeybee.face import Face
 from honeybee_energy.writer import generate_idf_string
 from .hygro_material import HygroMaterial
 import os
@@ -33,13 +36,60 @@ def get_opaque_constructions(model):
     for room in model.rooms:
         for face in room.faces:
             constructions.append(face.properties.energy.construction)
-
+        # InternalMass surfaces
+        for mass in room.properties.energy.internal_masses:
+            constructions.append(mass.construction)
     # Orphaned faces
     for face in model.orphaned_faces:
         constructions.append(face.properties.energy.construction)
 
     # Remove duplicates
     return list(set(constructions))
+
+# Function to separate opaque faces into hygrothermal and non-hygrothermal
+def get_hygro_and_non_hygro_faces(hb_objs):
+    """Return two lists of opaque faces: (hygro_faces, non_hygro_faces).
+
+    Args:
+        hb_objs: A list of honeybee Models, Rooms, or Faces.
+
+    A face is considered hygrothermal if its construction passes
+    construction_ishygro().  Only opaque faces (room faces, orphaned
+    faces, and InternalMass surfaces) are considered.
+    """
+    # Collect all opaque faces from the input objects
+    faces = []
+    for hb_obj in hb_objs:
+        if isinstance(hb_obj, Model):
+            for room in hb_obj.rooms:
+                faces.extend(room.faces)
+                for mass in room.properties.energy.internal_masses:
+                    faces.append(mass)
+            faces.extend(hb_obj.orphaned_faces)
+        elif isinstance(hb_obj, Room):
+            faces.extend(hb_obj.faces)
+            for mass in hb_obj.properties.energy.internal_masses:
+                faces.append(mass)
+        elif isinstance(hb_obj, Face):
+            faces.append(hb_obj)
+        else:
+            msg = 'Expected Face, Room or Model. Got {}.'.format(type(hb_obj))
+            raise TypeError(msg)
+
+    # Separate into hygro and non-hygro
+    hygro_faces = []
+    non_hygro_faces = []
+    for face in faces:
+        construction = (
+            face.construction if hasattr(face, 'construction')
+            else face.properties.energy.construction
+        )
+        if construction_ishygro(construction):
+            hygro_faces.append(face)
+        else:
+            non_hygro_faces.append(face)
+
+    return hygro_faces, non_hygro_faces
 
 # Function to get only hygrothermal opaque constructions
 def get_hygro_constructions(model):
