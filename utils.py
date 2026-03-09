@@ -27,7 +27,7 @@ def hygro_construction_to_idf(construction):
 
     return '\n\n'.join(mat_idfs)
 
-# Function to get all unique opaque constructions in the HB model
+# Function to get all unique opaque constructions in the HB model of faces that can be simulated with HAMT (Any non-airboundary face and internal masses)
 def get_opaque_constructions(model):
     """Return a unique list of all opaque constructions in the model."""
     constructions = []
@@ -35,13 +35,11 @@ def get_opaque_constructions(model):
     # Room faces
     for room in model.rooms:
         for face in room.faces:
-            constructions.append(face.properties.energy.construction)
+            if str(face.type) != 'AirBoundary': 
+                constructions.append(face.properties.energy.construction)
         # InternalMass surfaces
         for mass in room.properties.energy.internal_masses:
             constructions.append(mass.construction)
-    # Orphaned faces
-    for face in model.orphaned_faces:
-        constructions.append(face.properties.energy.construction)
 
     # Remove duplicates
     return list(set(constructions))
@@ -116,25 +114,25 @@ def generate_hygro_idf(model):
         for c in hygro_constructions:
             idf_strings.append(hygro_construction_to_idf(c))
 
-        # Activate HAMT algorithm
-        # If the entire model is hygrothermal, we can just use the simpler object
-        if model_ishygro(model):
-            idf_algorithm = generate_idf_string(
-                'HeatBalanceAlgorithm',
-                ('CombinedHeatAndMoistureFiniteElement',),
-                ('Algorithm',)
-                )
+        # # Activate HAMT algorithm
+        # # If the entire model is hygrothermal, we can just use the simpler object
+        # if model_ishygro(model):
+        #     idf_algorithm = generate_idf_string(
+        #         'HeatBalanceAlgorithm',
+        #         ('CombinedHeatAndMoistureFiniteElement',),
+        #         ('Algorithm',)
+        #         )
             
-        # Otherwise, we need to define the algorithm per construction
-        else:
-            idf_algorithm = "\n\n".join([
-                generate_idf_string(
-                    'SurfaceProperty:HeatTransferAlgorithm:Construction',
-                    ("HAMT {}".format(c.identifier), 'CombinedHeatAndMoistureFiniteElement', c.identifier),
-                    ('Name', 'Algorithm', 'Construction Name')
-                    )
-                for c in hygro_constructions
-                ])
+        # # Otherwise, we need to define the algorithm per construction
+        # else:
+        idf_algorithm = "\n\n".join([
+            generate_idf_string(
+                'SurfaceProperty:HeatTransferAlgorithm:Construction',
+                ("HAMT {}".format(c.identifier), 'CombinedHeatAndMoistureFiniteElement', c.identifier),
+                ('Name', 'Algorithm', 'Construction Name')
+                )
+            for c in hygro_constructions
+            ])
         idf_strings.insert(0, idf_algorithm)
 
     # No hygrothermal constructions, so no need to activate HAMT
@@ -203,3 +201,20 @@ def edit_idf(idf_path, warmup_days, years):
     with open(idf_path, 'w') as f:
         f.writelines(new_lines)
     return idf_path
+
+def frange(start, stop, step):
+    x = start
+    vals = []
+    while x <= stop + 1e-9:   # avoid floating errors
+        vals.append(round(x, 2))
+        x += step
+    return vals
+
+# Space rh points to increase resolution near rh=1
+def rh_grid():
+    rh = (
+        frange(0.0, 0.5, 0.1) +
+        frange(0.55, 0.9, 0.05) +
+        frange(0.91, 1.0, 0.01)
+    )
+    return rh
