@@ -183,4 +183,4 @@ class HygroMaterial(_EnergyMaterialOpaqueBase):
         return new_obj
     
     def __repr__(self):
-        return 'HygroMaterial: {}'.format(self.identifier)
+        return self.to_idf()

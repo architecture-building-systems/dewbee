@@ -5,13 +5,14 @@ from honeybee_energy.writer import generate_idf_string
 from .hygro_material import HygroMaterial
 import os
 
+# Function to check if a material is hygrothermal
+def material_ishygro(material):
+    user_data = getattr(material, "user_data", None)
+    return isinstance(user_data, dict) and "hygro_material" in user_data
+
 # Function to check if all materials in a construction are hygrothermal
 def construction_ishygro(construction):
-    for mat in construction.unique_materials:
-        user_data = getattr(mat, "user_data", None)
-        if not (isinstance(user_data, dict) and "hygro_material" in user_data):
-            return False
-    return True
+    return all(material_ishygro(mat) for mat in construction.unique_materials)
 
 # Function to convert an entire hygrothermal construction to IDF format
 def hygro_construction_to_idf(construction):
@@ -37,6 +38,10 @@ def get_opaque_constructions(model):
         for face in room.faces:
             if str(face.type) != 'AirBoundary': 
                 constructions.append(face.properties.energy.construction)
+        # Opaque doors
+        for door in room.doors:
+            if not door.is_glass:
+                constructions.append(door.properties.energy.construction)
         # InternalMass surfaces
         for mass in room.properties.energy.internal_masses:
             constructions.append(mass.construction)
@@ -45,6 +50,21 @@ def get_opaque_constructions(model):
     return list(set(constructions))
 
 # Function to separate opaque faces into hygrothermal and non-hygrothermal
+def _collect_opaque_surfaces_from_room(room):
+    """Yield all opaque surfaces from a Room (faces, doors, internal masses).
+
+    AirBoundary faces and glass doors are excluded.
+    """
+    for face in room.faces:
+        if str(face.type) != 'AirBoundary':
+            yield face
+    for door in room.doors:
+        if not door.is_glass:
+            yield door
+    for mass in room.properties.energy.internal_masses:
+        yield mass
+
+
 def get_hygro_and_non_hygro_faces(hb_objs):
     """Return two lists of opaque faces: (hygro_faces, non_hygro_faces).
 
@@ -52,24 +72,21 @@ def get_hygro_and_non_hygro_faces(hb_objs):
         hb_objs: A list of honeybee Models, Rooms, or Faces.
 
     A face is considered hygrothermal if its construction passes
-    construction_ishygro().  Only opaque faces (room faces, orphaned
-    faces, and InternalMass surfaces) are considered.
+    construction_ishygro().  Only opaque surfaces (non-AirBoundary room
+    faces, opaque doors, orphaned faces, and InternalMass surfaces)
+    are considered.
     """
-    # Collect all opaque faces from the input objects
-    faces = []
+    # Collect all opaque surfaces from the input objects
+    surfaces = []
     for hb_obj in hb_objs:
         if isinstance(hb_obj, Model):
             for room in hb_obj.rooms:
-                faces.extend(room.faces)
-                for mass in room.properties.energy.internal_masses:
-                    faces.append(mass)
-            faces.extend(hb_obj.orphaned_faces)
+                surfaces.extend(_collect_opaque_surfaces_from_room(room))
+            surfaces.extend(hb_obj.orphaned_faces)
         elif isinstance(hb_obj, Room):
-            faces.extend(hb_obj.faces)
-            for mass in hb_obj.properties.energy.internal_masses:
-                faces.append(mass)
+            surfaces.extend(_collect_opaque_surfaces_from_room(hb_obj))
         elif isinstance(hb_obj, Face):
-            faces.append(hb_obj)
+            surfaces.append(hb_obj)
         else:
             msg = 'Expected Face, Room or Model. Got {}.'.format(type(hb_obj))
             raise TypeError(msg)
@@ -77,15 +94,15 @@ def get_hygro_and_non_hygro_faces(hb_objs):
     # Separate into hygro and non-hygro
     hygro_faces = []
     non_hygro_faces = []
-    for face in faces:
+    for surface in surfaces:
         construction = (
-            face.construction if hasattr(face, 'construction')
-            else face.properties.energy.construction
+            surface.construction if hasattr(surface, 'construction')
+            else surface.properties.energy.construction
         )
         if construction_ishygro(construction):
-            hygro_faces.append(face)
+            hygro_faces.append(surface)
         else:
-            non_hygro_faces.append(face)
+            non_hygro_faces.append(surface)
 
     return hygro_faces, non_hygro_faces
 
@@ -114,25 +131,25 @@ def generate_hygro_idf(model):
         for c in hygro_constructions:
             idf_strings.append(hygro_construction_to_idf(c))
 
-        # # Activate HAMT algorithm
-        # # If the entire model is hygrothermal, we can just use the simpler object
-        # if model_ishygro(model):
-        #     idf_algorithm = generate_idf_string(
-        #         'HeatBalanceAlgorithm',
-        #         ('CombinedHeatAndMoistureFiniteElement',),
-        #         ('Algorithm',)
-        #         )
+        # Activate HAMT algorithm
+        # If the entire model is hygrothermal, we can just use the simpler object
+        if model_ishygro(model):
+            idf_algorithm = generate_idf_string(
+                'HeatBalanceAlgorithm',
+                ('CombinedHeatAndMoistureFiniteElement',),
+                ('Algorithm',)
+                ) 
             
-        # # Otherwise, we need to define the algorithm per construction
-        # else:
-        idf_algorithm = "\n\n".join([
-            generate_idf_string(
-                'SurfaceProperty:HeatTransferAlgorithm:Construction',
-                ("HAMT {}".format(c.identifier), 'CombinedHeatAndMoistureFiniteElement', c.identifier),
-                ('Name', 'Algorithm', 'Construction Name')
-                )
-            for c in hygro_constructions
-            ])
+        # Otherwise, we need to define the algorithm per construction
+        else:
+            idf_algorithm = "\n\n".join([
+                generate_idf_string(
+                    'SurfaceProperty:HeatTransferAlgorithm:Construction',
+                    ("HAMT {}".format(c.identifier), 'CombinedHeatAndMoistureFiniteElement', c.identifier),
+                    ('Name', 'Algorithm', 'Construction Name')
+                    )
+                for c in hygro_constructions
+                ])
         idf_strings.insert(0, idf_algorithm)
 
     # No hygrothermal constructions, so no need to activate HAMT
