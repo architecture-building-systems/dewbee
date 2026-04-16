@@ -1,0 +1,48 @@
+"""
+Generate moisture dependent thermal conductivity using a linear relationship.
+conductivity = _conductivity_dry*(1+_conductivity_supplement*w/_bulk_density) 
+    Args:
+        _conductivity_dry: Number for the dry (10°C) thermal conductivity 
+        of the material [W/m-K]
+        _conductivity_supplement: Number for the linear supplement of thermal
+        conductivity [%/M.-%]
+        _porosity: A number between 0 and 1 for the porosity. 
+            _
+            This is the maximum fraction, by volume, of a material that can be
+            taken up with moisture. It is used to calculate the maximum point of 
+            conductivity_w.
+            
+        _density: A number for the dry density of the material [kg/m3]
+    Returns:
+        conductivity_w: A list of moisture contents for the thermal conductivities [kg/m3]
+
+        conductivity: A list of (moisture-dependent) thermal conductivities [W/m-K]
+"""
+
+ghenv.Component.Name = "DB Wet Thermal Conductivity"
+ghenv.Component.NickName = 'WetConductivity'
+ghenv.Component.Message = '0.0.1'
+ghenv.Component.Category = 'Dewbee'
+ghenv.Component.SubCategory = "1 :: Constructions"
+
+# Turn off the "old" tag
+import ghpythonlib as ghlib
+c = ghlib.component._get_active_component()
+c.ToggleObsolete(False)
+
+try:  # import ladybug_rhino dependencies
+    from ladybug_rhino.grasshopper import all_required_inputs
+except ImportError as e:
+    raise ImportError('\nFailed to import ladybug_rhino:\n\t{}'.format(e))
+
+# thermal conductivity of moist material
+def lambda_w (w, lambda_0, b, rho):
+    return lambda_0*(1+b*w/rho)
+
+if all_required_inputs(ghenv.Component):
+    w_max = _porosity*1000
+    n_steps = 5
+    step = w_max/n_steps
+    conductivity_w = [i*step for i in range(n_steps+1)]
+    conductivity = [lambda_w(w, _conductivity_dry, _conductivity_supplement, _density) 
+                    for w in conductivity_w]
