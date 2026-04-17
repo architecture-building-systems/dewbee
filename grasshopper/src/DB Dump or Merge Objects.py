@@ -27,8 +27,8 @@ If a single Honeybee Model is written, the file is overwritten as usual.
 
 ghenv.Component.Name = 'DB Dump or Merge Objects'
 ghenv.Component.NickName = 'DumpMergeObjects'
-ghenv.Component.Message = '0.0.1'
 ghenv.Component.Category = 'Dewbee'
+ghenv.Component.Message = '0.1.0'
 ghenv.Component.SubCategory = '0 :: Miscellaneous'
 
 import os

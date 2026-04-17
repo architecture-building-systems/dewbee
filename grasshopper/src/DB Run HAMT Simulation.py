@@ -91,7 +91,7 @@ to all remaining surfaces.
 
 ghenv.Component.Name = 'DB Run HAMT Simulation'
 ghenv.Component.NickName = 'RunHAMT'
-ghenv.Component.Message = '0.0.1'
+ghenv.Component.Message = '0.1.0'
 ghenv.Component.Category = 'Dewbee'
 ghenv.Component.SubCategory = "2 :: Simulation"
 

@@ -235,3 +235,28 @@ def rh_grid():
         frange(0.91, 1.0, 0.01)
     )
     return rh
+
+# Space moisture points geometrically to increase resolution near wf
+def moisture_grid(w_f, n):
+    return [w_f*(i/n)**2 for i in range(n+1)]
+
+# Suction liquid transport coefficient
+# Based on moisture content (w) and free water saturation (wf)
+def suction(A, w_f, w):
+    if w <= 0: # start with 0
+        return 0.0
+    value = 3.8*(A/w_f)**2*1000**(w/w_f - 1)
+    return max(value, 1e-15) # avoiding tiny values here
+
+def turn_off_old_tag(component):
+    """Turn off the old tag that displays on GHPython components.
+
+    Args:
+        component: The grasshopper component object, which can be accessed through
+            the ghenv.Component call within Grasshopper API.
+    """
+    try:  # try to turn off the OLD tag on the component
+        component.ToggleObsolete(False)
+    except Exception:
+        pass  # older version of Rhino that does not have the Obsolete method
+
