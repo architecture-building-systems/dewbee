@@ -21,15 +21,13 @@ ghenv.Component.Message = '0.1.0'
 ghenv.Component.Category = 'Dewbee'
 ghenv.Component.SubCategory = '0 :: Miscellaneous'
 
-# Turn off the "old" tag
-import ghpythonlib as ghlib
-c = ghlib.component._get_active_component()
-c.ToggleObsolete(False)
-
 # Import dewbee dependencies
-from dewbee import utils
-reload(utils)
-from dewbee.utils import get_hygro_and_non_hygro_faces
+try:
+    import dewbee.utils as utils
+    reload(utils)
+    from dewbee.utils import get_hygro_and_non_hygro_faces
+except Exception as e:
+    raise ImportError('Failed to import dewbee:\n\t{}'.format(e))
 
 from ladybug_rhino.grasshopper import all_required_inputs
 

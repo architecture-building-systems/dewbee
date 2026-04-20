@@ -44,28 +44,18 @@ ghenv.Component.Message = '0.1.0'
 ghenv.Component.Category = 'Dewbee'
 ghenv.Component.SubCategory = "1 :: Constructions"
 
-# Turn off the "old" tag
-import ghpythonlib as ghlib
-c = ghlib.component._get_active_component()
-c.ToggleObsolete(False)
+# Import dewbee dependencies
+try:
+    import dewbee.utils as utils
+    reload(utils)
+    from dewbee.utils import suction, moisture_grid
+except Exception as e:
+    raise ImportError('Failed to import dewbee:\n\t{}'.format(e))
 
 try:  # import ladybug_rhino dependencies
     from ladybug_rhino.grasshopper import all_required_inputs
 except ImportError as e:
     raise ImportError('\nFailed to import ladybug_rhino:\n\t{}'.format(e))
-
-# Suction liquid transport coefficient
-# Based on moisture content (w) and free water saturation (wf)
-def suction(A, w_f, w):
-    if w <= 0: # start with 0
-        return 0.0
-    value = 3.8*(A/w_f)**2*1000**(w/w_f - 1)
-    return max(value, 1e-15) # avoiding tiny values here
-    
-# Space moisture points geometrically to increase resolution near wf
-def moisture_grid(w_f, n):
-    return [w_f*(i/n)**2 for i in range(n+1)]
-
 
 if all_required_inputs(ghenv.Component):
     # Convert (kg/m2h1/2) to (kg/m2s1/2)

@@ -55,10 +55,13 @@ import os
 import subprocess
 import json
 
-# Turn off the "old" tag
-import ghpythonlib as ghlib
-c = ghlib.component._get_active_component()
-c.ToggleObsolete(False)
+# Import dewbee dependencies
+try:
+    import dewbee.multiyear_sql as multiyear_sql
+    reload(multiyear_sql)
+    from dewbee.multiyear_sql import MultiYearSQLiteResult
+except Exception as e:
+    raise ImportError('Failed to import dewbee:\n\t{}'.format(e))
 
 try:
     from ladybug.datacollection import HourlyContinuousCollection, \
@@ -75,11 +78,6 @@ try:
     from ladybug_rhino.grasshopper import all_required_inputs
 except ImportError as e:
     raise ImportError('\nFailed to import ladybug_rhino:\n\t{}'.format(e))
-
-# Import dewbee dependencies
-from dewbee import multiyear_sql
-reload(multiyear_sql)
-from dewbee.multiyear_sql import MultiYearSQLiteResult
 
 
 def subtract_loss_from_gain(gain_load, loss_load):

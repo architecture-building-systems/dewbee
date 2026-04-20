@@ -17,15 +17,17 @@ ghenv.Component.Message = '0.1.0'
 ghenv.Component.Category = 'Dewbee'
 ghenv.Component.SubCategory = "1 :: Constructions"
 
+
 # Import dewbee dependencies
-from dewbee import hygro_material
-from dewbee import utils
-reload(hygro_material)
-reload(utils)
-from dewbee.hygro_material import HygroMaterial
-from dewbee.utils import material_ishygro
-
-
+try:
+    import dewbee.utils as utils
+    import dewbee.hygro_material as hygro_material
+    reload(utils)
+    reload(hygro_material)
+    from dewbee.utils import material_ishygro
+    from dewbee.hygro_material import HygroMaterial
+except Exception as e:
+    raise ImportError('Failed to import dewbee:\n\t{}'.format(e))
 
 try:  # import the honeybee-energy dependencies
     from honeybee_energy.lib.materials import opaque_material_by_identifier

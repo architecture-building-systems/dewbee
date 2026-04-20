@@ -52,12 +52,15 @@ ghenv.Component.Category = 'Dewbee'
 ghenv.Component.SubCategory = "1 :: Constructions"
 
 # Import dewbee dependencies
-from dewbee import hygro_material
-from dewbee import utils
-reload(hygro_material)
-reload(utils)
-from dewbee.hygro_material import HygroMaterial
-from dewbee.utils import material_ishygro
+try:
+    import dewbee.utils as utils
+    import dewbee.hygro_material as hygro_material
+    reload(utils)
+    reload(hygro_material)
+    from dewbee.utils import material_ishygro
+    from dewbee.hygro_material import HygroMaterial
+except Exception as e:
+    raise ImportError('Failed to import dewbee:\n\t{}'.format(e))
 
 import re
 
@@ -71,11 +74,6 @@ try:  # import ladybug_rhino dependencies
     from ladybug_rhino.grasshopper import all_required_inputs, give_warning
 except ImportError as e:
     raise ImportError('\nFailed to import ladybug_rhino:\n\t{}'.format(e))
-try:
-    from ladybug.datatype.rvalue import RValue
-    from ladybug.datatype.uvalue import UValue
-except ImportError as e:
-    raise ImportError('\nFailed to import ladybug:\n\t{}'.format(e))
 
 
 if all_required_inputs(ghenv.Component):

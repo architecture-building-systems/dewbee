@@ -33,11 +33,6 @@ ghenv.Component.Message = '0.1.0'
 ghenv.Component.Category = 'Dewbee'
 ghenv.Component.SubCategory = "0 :: Miscellaneous"
 
-# Turn off the "old" tag
-import ghpythonlib as ghlib
-c = ghlib.component._get_active_component()
-c.ToggleObsolete(False)
-
 try:  # import the honeybee extension
     from honeybee.typing import clean_and_id_ep_string, clean_ep_string
 except ImportError as e:

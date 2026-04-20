@@ -1,1 +1,0 @@
-"""Dewbee Grasshopper User Objects."""

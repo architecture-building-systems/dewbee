@@ -127,18 +127,16 @@ ghenv.Component.Message = '0.1.0'
 ghenv.Component.Category = 'Dewbee'
 ghenv.Component.SubCategory = "0 :: Constructions"
 
-# Turn off the "old" tag
-import ghpythonlib as ghlib
-c = ghlib.component._get_active_component()
-c.ToggleObsolete(False)
-
 # Import dewbee dependencies
-from dewbee import hygro_material
-from dewbee import utils
-reload(hygro_material)
-reload(utils)
-from dewbee.hygro_material import HygroMaterial
-from dewbee.utils import rh_grid
+try:
+    import dewbee.utils as utils
+    import dewbee.hygro_material as hygro_material
+    reload(utils)
+    reload(hygro_material)
+    from dewbee.utils import rh_grid
+    from dewbee.hygro_material import HygroMaterial
+except Exception as e:
+    raise ImportError('Failed to import dewbee:\n\t{}'.format(e))
 
 try:  # import the honeybee-energy dependencies
     from honeybee_energy.material.opaque import EnergyMaterial

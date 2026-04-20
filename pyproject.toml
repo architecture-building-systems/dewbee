@@ -1,0 +1,31 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "dewbee"
+version = "0.1.0"
+description = "HAMT extension for Honeybee"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "GPL-3.0-or-later" }
+
+authors = [
+  { name = "Gustavo Zorzetto" }
+]
+
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+  "Operating System :: OS Independent"
+]
+
+dependencies = [
+  "honeybee-core>=1.64.31",
+  "honeybee-energy>=1.118.9"
+]
+
+[project.urls]
+Homepage = "https://github.com/architecture-building-systems/dewbee"
+Repository = "https://github.com/architecture-building-systems/dewbee"
+Issues = "https://github.com/architecture-building-systems/dewbee/issues"

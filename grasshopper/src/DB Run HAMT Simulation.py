@@ -100,15 +100,13 @@ import re
 import json
 import subprocess
 
-# Turn off the "old" tag
-import ghpythonlib as ghlib
-c = ghlib.component._get_active_component()
-c.ToggleObsolete(False)
-
 # Import dewbee dependencies
-from dewbee import utils
-reload(utils)
-from dewbee.utils import generate_hygro_idf, edit_idf
+try:
+    import dewbee.utils as utils
+    reload(utils)
+    from dewbee.utils import generate_hygro_idf, edit_idf
+except Exception as e:
+    raise ImportError('Failed to import dewbee:\n\t{}'.format(e))
 
 try:
     from ladybug.futil import preparedir, nukedir, copy_file_tree

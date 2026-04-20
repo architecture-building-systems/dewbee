@@ -238,7 +238,7 @@ def rh_grid():
 
 # Space moisture points geometrically to increase resolution near wf
 def moisture_grid(w_f, n):
-    return [w_f*(i/n)**2 for i in range(n+1)]
+    return [w_f*(float(i)/n)**2 for i in range(n+1)]
 
 # Suction liquid transport coefficient
 # Based on moisture content (w) and free water saturation (wf)
@@ -248,6 +248,23 @@ def suction(A, w_f, w):
     value = 3.8*(A/w_f)**2*1000**(w/w_f - 1)
     return max(value, 1e-15) # avoiding tiny values here
 
+# Function to generate simple sorption isotherm based on Kuenzel (1995)
+def gen_sorption_w(w_80, w_f, rh):
+    if w_80 <= 1 or w_80 >= w_f:
+        raise ValueError("w_80 should be larger than 1kg/m3 and smaller than {} kg/m3".format(w_f))
+    R = w_80/w_f
+    b = 0.8*(R-1)/(R-0.8)
+    return w_f*((b-1)*rh/(b-rh))
+
+# thermal conductivities of moist material assuming linear increase with moisture content
+def wet_conductivity (porosity, lambda_0, b, rho):
+    w_max = porosity*1000
+    n_steps = 5
+    step = w_max/n_steps
+    conductivity_w = ([i*step for i in range(n_steps+1)])
+    return conductivity_w, (lambda_0*(1+b*w/rho) for w in conductivity_w)
+
+# Turn off the "old" tag on the component (if it exists)
 def turn_off_old_tag(component):
     """Turn off the old tag that displays on GHPython components.
 

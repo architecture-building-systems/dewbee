@@ -25,27 +25,19 @@ ghenv.Component.Message = '0.1.0'
 ghenv.Component.Category = 'Dewbee'
 ghenv.Component.SubCategory = "1 :: Constructions"
 
-# Turn off the "old" tag
-import ghpythonlib as ghlib
-c = ghlib.component._get_active_component()
-c.ToggleObsolete(False)
-
 # Import dewbee dependencies
-from dewbee import utils
-reload(utils)
+try:
+    import dewbee.utils as utils
+    reload(utils)
+    from dewbee.utils import rh_grid, gen_sorption_w
+except Exception as e:
+    raise ImportError('Failed to import dewbee:\n\t{}'.format(e))
 
 try:  # import ladybug_rhino dependencies
     from ladybug_rhino.grasshopper import all_required_inputs
 except ImportError as e:
     raise ImportError('\nFailed to import ladybug_rhino:\n\t{}'.format(e))
 
-def gen_w(w_80, w_f, rh):
-    R = w_80/w_f
-    b = 0.8*(R-1)/(R-0.8)
-    return w_f*((b-1)*rh/(b-rh))
-
 if all_required_inputs(ghenv.Component):
-    if _w_80 <= 1 or _w_80 >= _w_f:
-        raise ValueError("_w_80 should be larger than 1kg/m3 and smaller than {} kg/m3".format(_w_f))
-    sorption_rh = utils.rh_grid()
-    sorption_w = [gen_w(_w_80, _w_f, rh) for rh in sorption_rh]
+    sorption_rh = rh_grid()
+    sorption_w = [gen_sorption_w(_w_80, _w_f, rh) for rh in sorption_rh]
