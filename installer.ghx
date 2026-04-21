@@ -49,10 +49,10 @@
             <chunk name="Projection">
               <items count="2">
                 <item name="Target" type_name="gh_drawing_point" type_code="30">
-                  <X>382</X>
-                  <Y>100</Y>
+                  <X>1171</X>
+                  <Y>690</Y>
                 </item>
-                <item name="Zoom" type_name="gh_single" type_code="5">2.0761254</item>
+                <item name="Zoom" type_name="gh_single" type_code="5">1.2750001</item>
               </items>
             </chunk>
             <chunk name="Views">
@@ -94,9 +94,9 @@
         </chunk>
         <chunk name="DefinitionObjects">
           <items count="1">
-            <item name="ObjectCount" type_name="gh_int32" type_code="3">7</item>
+            <item name="ObjectCount" type_name="gh_int32" type_code="3">5</item>
           </items>
-          <chunks count="7">
+          <chunks count="5">
             <chunk name="Object" index="0">
               <items count="3">
                 <item name="GUID" type_name="gh_guid" type_code="9">410755b1-224a-4c1e-a407-bf32fb45ea7e</item>
@@ -292,8 +292,8 @@ This version:
 . updates .ghuser files in local directory (components shown in GH's tab)
 -</item>
                     <item name="EditorLocation" type_name="gh_drawing_point" type_code="30">
-                      <X>1373</X>
-                      <Y>409</Y>
+                      <X>-440</X>
+                      <Y>390</Y>
                     </item>
                     <item name="EditorSize" type_name="gh_drawing_size" type_code="32">
                       <W>2092</W>
@@ -315,14 +315,14 @@ This version:
                     <chunk name="Attributes">
                       <items count="2">
                         <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                          <X>862</X>
-                          <Y>169</Y>
+                          <X>223</X>
+                          <Y>185</Y>
                           <W>59</W>
                           <H>28</H>
                         </item>
                         <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                          <X>907</X>
-                          <Y>183</Y>
+                          <X>268</X>
+                          <Y>199</Y>
                         </item>
                       </items>
                     </chunk>
@@ -351,14 +351,14 @@ This version:
                             <chunk name="Attributes">
                               <items count="2">
                                 <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                                  <X>864</X>
-                                  <Y>171</Y>
+                                  <X>225</X>
+                                  <Y>187</Y>
                                   <W>28</W>
                                   <H>24</H>
                                 </item>
                                 <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                                  <X>879.5</X>
-                                  <Y>183</Y>
+                                  <X>240.5</X>
+                                  <Y>199</Y>
                                 </item>
                               </items>
                             </chunk>
@@ -1125,14 +1125,14 @@ ladybug_tools\resources\standards
                     <chunk name="Attributes">
                       <items count="2">
                         <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                          <X>363</X>
-                          <Y>73</Y>
+                          <X>164</X>
+                          <Y>71</Y>
                           <W>118</W>
                           <H>28</H>
                         </item>
                         <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                          <X>420</X>
-                          <Y>87</Y>
+                          <X>221</X>
+                          <Y>85</Y>
                         </item>
                       </items>
                     </chunk>
@@ -1161,14 +1161,14 @@ ladybug_tools\resources\standards
                             <chunk name="Attributes">
                               <items count="2">
                                 <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                                  <X>365</X>
-                                  <Y>75</Y>
+                                  <X>166</X>
+                                  <Y>73</Y>
                                   <W>40</W>
                                   <H>24</H>
                                 </item>
                                 <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                                  <X>386.5</X>
-                                  <Y>87</Y>
+                                  <X>187.5</X>
+                                  <Y>85</Y>
                                 </item>
                               </items>
                             </chunk>
@@ -1187,14 +1187,14 @@ ladybug_tools\resources\standards
                             <chunk name="Attributes">
                               <items count="2">
                                 <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                                  <X>435</X>
-                                  <Y>75</Y>
+                                  <X>236</X>
+                                  <Y>73</Y>
                                   <W>44</W>
                                   <H>24</H>
                                 </item>
                                 <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                                  <X>457</X>
-                                  <Y>87</Y>
+                                  <X>258</X>
+                                  <Y>85</Y>
                                 </item>
                               </items>
                             </chunk>
@@ -1207,407 +1207,6 @@ ladybug_tools\resources\standards
               </chunks>
             </chunk>
             <chunk name="Object" index="2">
-              <items count="3">
-                <item name="GUID" type_name="gh_guid" type_code="9">410755b1-224a-4c1e-a407-bf32fb45ea7e</item>
-                <item name="Lib" type_name="gh_guid" type_code="9">00000000-0000-0000-0000-000000000000</item>
-                <item name="Name" type_name="gh_string" type_code="10">LB Installer</item>
-              </items>
-              <chunks count="1">
-                <chunk name="Container">
-                  <items count="12">
-                    <item name="CodeInput" type_name="gh_string" type_code="10">import os
-import io
-import subprocess
-import System.Net
-import System.Windows.Forms
-import zipfile
-import shutil
-from distutils import dir_util
-import Rhino
-from Rhino.RhinoApp import Version as RHINO_VERSION
-from Grasshopper.Folders import UserObjectFolders, DefaultAssemblyFolder
-from Grasshopper.Kernel import GH_RuntimeMessageLevel as Message
-
-CUSTOM_ENV = os.environ.copy()
-CUSTOM_ENV['PYTHONHOME'] = ''
-
-
-def turn_off_old_tag(component):
-    """Turn off the old tag that displays on GHPython components.
-
-    Args:
-        component: The grasshopper component object, which can be accessed through
-            the ghenv.Component call within Grasshopper API.
-    """
-    try:  # try to turn off the OLD tag on the component
-        component.ToggleObsolete(False)
-    except Exception:
-        pass  # older version of Rhino that does not have the Obsolete method
-
-
-def preparedir(target_dir, remove_content=True):
-    """Prepare a folder for files to be written into it.
-
-    This function creates the folder if it does not exist and removes the files in
-    the folder if the folder already exists.
-
-    This function has been copied from ladybug.futil.
-    """
-    if os.path.isdir(target_dir):
-        if remove_content:
-            nukedir(target_dir, False)
-        return True
-    else:
-        try:
-            os.makedirs(target_dir)
-            return True
-        except Exception as e:
-            print("Failed to create folder: %s\n%s" % (target_dir, e))
-            return False
-
-
-def nukedir(target_dir, rmdir=False):
-    """Delete all the files inside target_dir.
-
-    This function has been copied from ladybug.futil.
-    """
-    d = os.path.normpath(target_dir)
-    if not os.path.isdir(d):
-        return
-
-    files = os.listdir(d)
-    for f in files:
-        if f == '.' or f == '..':
-            continue
-        path = os.path.join(d, f)
-        if os.path.isdir(path):
-            nukedir(path)
-        else:
-            try:
-                os.remove(path)
-            except Exception:
-                print("Failed to remove %s" % path)
-
-    if rmdir:
-        try:
-            os.rmdir(d)
-        except Exception:
-            try:
-                dir_util.remove_tree(d)
-            except Exception:
-                print("Failed to remove %s" % d)
-
-
-def copy_file_tree(source_folder, dest_folder, overwrite=True):
-    """Copy an entire file tree from a source_folder to a dest_folder.
-
-    Args:
-        source_folder: The source folder containing the files and folders to
-            be copied.
-        dest_folder: The destination folder into which all the files and folders
-            of the source_folder will be copied.
-        overwrite: Boolean to note whether an existing folder with the same
-            name as the source_folder in the dest_folder directory should be
-            overwritten. Default: True.
-    """
-    # make the dest_folder if it does not exist
-    if not os.path.isdir(dest_folder):
-        os.mkdir(dest_folder)
-
-    # recursively copy each sub-folder and file
-    for f in os.listdir(source_folder):
-        # get the source and destination file paths
-        src_file_path = os.path.join(source_folder, f)
-        dst_file_path = os.path.join(dest_folder, f)
-
-        # if overwrite is True, delete any existing files
-        if overwrite:
-            if os.path.isfile(dst_file_path):
-                try:
-                    os.remove(dst_file_path)
-                except Exception:
-                    raise IOError("Failed to remove %s" % f)
-            elif os.path.isdir(dst_file_path):
-                nukedir(dst_file_path, True)
-
-        # copy the files and folders to their correct location
-        if os.path.isfile(src_file_path):
-            shutil.copyfile(src_file_path, dst_file_path)
-        elif os.path.isdir(src_file_path):
-            if not os.path.isdir(dst_file_path):
-                os.mkdir(dst_file_path)
-            copy_file_tree(src_file_path, dst_file_path, overwrite)
-
-preparedir(dir_target)
-copy_file_tree(dir_source, dir_target)</item>
-                    <item name="Description" type_name="gh_string" type_code="10">GhPython provides a Python script component</item>
-                    <item name="EditorLocation" type_name="gh_drawing_point" type_code="30">
-                      <X>546</X>
-                      <Y>1101</Y>
-                    </item>
-                    <item name="EditorSize" type_name="gh_drawing_size" type_code="32">
-                      <W>2720</W>
-                      <H>1079</H>
-                    </item>
-                    <item name="HideInput" type_name="gh_bool" type_code="1">true</item>
-                    <item name="HideOutput" type_name="gh_bool" type_code="1">false</item>
-                    <item name="InputIsPath" type_name="gh_bool" type_code="1">false</item>
-                    <item name="InstanceGuid" type_name="gh_guid" type_code="9">cc0e28f3-af87-4c57-9209-eb7b372b4f36</item>
-                    <item name="IsAdvancedMode" type_name="gh_bool" type_code="1">false</item>
-                    <item name="MarshalOutGuids" type_name="gh_bool" type_code="1">true</item>
-                    <item name="Name" type_name="gh_string" type_code="10">LB Installer</item>
-                    <item name="NickName" type_name="gh_string" type_code="10">LBInstall</item>
-                  </items>
-                  <chunks count="2">
-                    <chunk name="Attributes">
-                      <items count="2">
-                        <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                          <X>477</X>
-                          <Y>338</Y>
-                          <W>117</W>
-                          <H>44</H>
-                        </item>
-                        <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                          <X>551</X>
-                          <Y>360</Y>
-                        </item>
-                      </items>
-                    </chunk>
-                    <chunk name="ParameterData">
-                      <items count="6">
-                        <item name="InputCount" type_name="gh_int32" type_code="3">2</item>
-                        <item name="InputId" index="0" type_name="gh_guid" type_code="9">84fa917c-1ed8-4db3-8be1-7bdc4a6495a2</item>
-                        <item name="InputId" index="1" type_name="gh_guid" type_code="9">84fa917c-1ed8-4db3-8be1-7bdc4a6495a2</item>
-                        <item name="OutputCount" type_name="gh_int32" type_code="3">2</item>
-                        <item name="OutputId" index="0" type_name="gh_guid" type_code="9">3ede854e-c753-40eb-84cb-b48008f14fd4</item>
-                        <item name="OutputId" index="1" type_name="gh_guid" type_code="9">8ec86459-bf01-4409-baee-174d0d2b13d0</item>
-                      </items>
-                      <chunks count="4">
-                        <chunk name="InputParam" index="0">
-                          <items count="11">
-                            <item name="AllowTreeAccess" type_name="gh_bool" type_code="1">true</item>
-                            <item name="Description" type_name="gh_string" type_code="10">Script variable Python</item>
-                            <item name="InstanceGuid" type_name="gh_guid" type_code="9">70075c40-61f8-48d1-9692-6d7ea49316c5</item>
-                            <item name="Name" type_name="gh_string" type_code="10">dir_source</item>
-                            <item name="NickName" type_name="gh_string" type_code="10">dir_source</item>
-                            <item name="Optional" type_name="gh_bool" type_code="1">true</item>
-                            <item name="ScriptParamAccess" type_name="gh_int32" type_code="3">0</item>
-                            <item name="ShowTypeHints" type_name="gh_bool" type_code="1">true</item>
-                            <item name="Source" index="0" type_name="gh_guid" type_code="9">a5ea8bec-262d-412b-bcfc-c37c4b71be35</item>
-                            <item name="SourceCount" type_name="gh_int32" type_code="3">1</item>
-                            <item name="TypeHintID" type_name="gh_guid" type_code="9">87f87f55-5b71-41f4-8aea-21d494016f81</item>
-                          </items>
-                          <chunks count="1">
-                            <chunk name="Attributes">
-                              <items count="2">
-                                <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                                  <X>479</X>
-                                  <Y>340</Y>
-                                  <W>57</W>
-                                  <H>20</H>
-                                </item>
-                                <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                                  <X>509</X>
-                                  <Y>350</Y>
-                                </item>
-                              </items>
-                            </chunk>
-                          </chunks>
-                        </chunk>
-                        <chunk name="InputParam" index="1">
-                          <items count="11">
-                            <item name="AllowTreeAccess" type_name="gh_bool" type_code="1">true</item>
-                            <item name="Description" type_name="gh_string" type_code="10">Script input dir_target.</item>
-                            <item name="InstanceGuid" type_name="gh_guid" type_code="9">40506842-258a-487d-8cff-b3e4a78ffd44</item>
-                            <item name="Name" type_name="gh_string" type_code="10">x</item>
-                            <item name="NickName" type_name="gh_string" type_code="10">dir_target</item>
-                            <item name="Optional" type_name="gh_bool" type_code="1">true</item>
-                            <item name="ScriptParamAccess" type_name="gh_int32" type_code="3">0</item>
-                            <item name="ShowTypeHints" type_name="gh_bool" type_code="1">true</item>
-                            <item name="Source" index="0" type_name="gh_guid" type_code="9">d91650a4-684a-43e9-a420-9f401a5c2314</item>
-                            <item name="SourceCount" type_name="gh_int32" type_code="3">1</item>
-                            <item name="TypeHintID" type_name="gh_guid" type_code="9">87f87f55-5b71-41f4-8aea-21d494016f81</item>
-                          </items>
-                          <chunks count="1">
-                            <chunk name="Attributes">
-                              <items count="2">
-                                <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                                  <X>479</X>
-                                  <Y>360</Y>
-                                  <W>57</W>
-                                  <H>20</H>
-                                </item>
-                                <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                                  <X>509</X>
-                                  <Y>370</Y>
-                                </item>
-                              </items>
-                            </chunk>
-                          </chunks>
-                        </chunk>
-                        <chunk name="OutputParam" index="0">
-                          <items count="6">
-                            <item name="Description" type_name="gh_string" type_code="10">The execution information, as output and error streams</item>
-                            <item name="InstanceGuid" type_name="gh_guid" type_code="9">8d08aaf7-c41a-4062-b10f-b2b435668fef</item>
-                            <item name="Name" type_name="gh_string" type_code="10">out</item>
-                            <item name="NickName" type_name="gh_string" type_code="10">out</item>
-                            <item name="Optional" type_name="gh_bool" type_code="1">false</item>
-                            <item name="SourceCount" type_name="gh_int32" type_code="3">0</item>
-                          </items>
-                          <chunks count="1">
-                            <chunk name="Attributes">
-                              <items count="2">
-                                <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                                  <X>566</X>
-                                  <Y>340</Y>
-                                  <W>26</W>
-                                  <H>20</H>
-                                </item>
-                                <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                                  <X>579</X>
-                                  <Y>350</Y>
-                                </item>
-                              </items>
-                            </chunk>
-                          </chunks>
-                        </chunk>
-                        <chunk name="OutputParam" index="1">
-                          <items count="6">
-                            <item name="Description" type_name="gh_string" type_code="10">Script output a.</item>
-                            <item name="InstanceGuid" type_name="gh_guid" type_code="9">849d7bb9-7035-456d-a94f-ccfeb7488a01</item>
-                            <item name="Name" type_name="gh_string" type_code="10">a</item>
-                            <item name="NickName" type_name="gh_string" type_code="10">a</item>
-                            <item name="Optional" type_name="gh_bool" type_code="1">false</item>
-                            <item name="SourceCount" type_name="gh_int32" type_code="3">0</item>
-                          </items>
-                          <chunks count="1">
-                            <chunk name="Attributes">
-                              <items count="2">
-                                <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                                  <X>566</X>
-                                  <Y>360</Y>
-                                  <W>26</W>
-                                  <H>20</H>
-                                </item>
-                                <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                                  <X>579</X>
-                                  <Y>370</Y>
-                                </item>
-                              </items>
-                            </chunk>
-                          </chunks>
-                        </chunk>
-                      </chunks>
-                    </chunk>
-                  </chunks>
-                </chunk>
-              </chunks>
-            </chunk>
-            <chunk name="Object" index="3">
-              <items count="2">
-                <item name="GUID" type_name="gh_guid" type_code="9">59e0b89a-e487-49f8-bab8-b5bab16be14c</item>
-                <item name="Name" type_name="gh_string" type_code="10">Panel</item>
-              </items>
-              <chunks count="1">
-                <chunk name="Container">
-                  <items count="8">
-                    <item name="Description" type_name="gh_string" type_code="10">A panel for custom notes and text values</item>
-                    <item name="InstanceGuid" type_name="gh_guid" type_code="9">a5ea8bec-262d-412b-bcfc-c37c4b71be35</item>
-                    <item name="Name" type_name="gh_string" type_code="10">Panel</item>
-                    <item name="NickName" type_name="gh_string" type_code="10"></item>
-                    <item name="Optional" type_name="gh_bool" type_code="1">false</item>
-                    <item name="ScrollRatio" type_name="gh_double" type_code="6">0</item>
-                    <item name="SourceCount" type_name="gh_int32" type_code="3">0</item>
-                    <item name="UserText" type_name="gh_string" type_code="10">C:\Users\gzorzeto\Documents\GitHub_repos\dewbee_main\grasshopper\user_objects</item>
-                  </items>
-                  <chunks count="2">
-                    <chunk name="Attributes">
-                      <items count="5">
-                        <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                          <X>23</X>
-                          <Y>331</Y>
-                          <W>427</W>
-                          <H>30</H>
-                        </item>
-                        <item name="MarginLeft" type_name="gh_int32" type_code="3">0</item>
-                        <item name="MarginRight" type_name="gh_int32" type_code="3">0</item>
-                        <item name="MarginTop" type_name="gh_int32" type_code="3">0</item>
-                        <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                          <X>23.196594</X>
-                          <Y>331.48676</Y>
-                        </item>
-                      </items>
-                    </chunk>
-                    <chunk name="PanelProperties">
-                      <items count="7">
-                        <item name="Colour" type_name="gh_drawing_color" type_code="36">
-                          <ARGB>255;181;229;255</ARGB>
-                        </item>
-                        <item name="DrawIndices" type_name="gh_bool" type_code="1">true</item>
-                        <item name="DrawPaths" type_name="gh_bool" type_code="1">true</item>
-                        <item name="Multiline" type_name="gh_bool" type_code="1">true</item>
-                        <item name="SpecialCodes" type_name="gh_bool" type_code="1">false</item>
-                        <item name="Stream" type_name="gh_bool" type_code="1">false</item>
-                        <item name="Wrap" type_name="gh_bool" type_code="1">true</item>
-                      </items>
-                    </chunk>
-                  </chunks>
-                </chunk>
-              </chunks>
-            </chunk>
-            <chunk name="Object" index="4">
-              <items count="2">
-                <item name="GUID" type_name="gh_guid" type_code="9">59e0b89a-e487-49f8-bab8-b5bab16be14c</item>
-                <item name="Name" type_name="gh_string" type_code="10">Panel</item>
-              </items>
-              <chunks count="1">
-                <chunk name="Container">
-                  <items count="8">
-                    <item name="Description" type_name="gh_string" type_code="10">A panel for custom notes and text values</item>
-                    <item name="InstanceGuid" type_name="gh_guid" type_code="9">d91650a4-684a-43e9-a420-9f401a5c2314</item>
-                    <item name="Name" type_name="gh_string" type_code="10">Panel</item>
-                    <item name="NickName" type_name="gh_string" type_code="10"></item>
-                    <item name="Optional" type_name="gh_bool" type_code="1">false</item>
-                    <item name="ScrollRatio" type_name="gh_double" type_code="6">0</item>
-                    <item name="SourceCount" type_name="gh_int32" type_code="3">0</item>
-                    <item name="UserText" type_name="gh_string" type_code="10">C:\Users\gzorzeto\OneDrive - ETH Zurich\Desktop\dewbee_compos_target</item>
-                  </items>
-                  <chunks count="2">
-                    <chunk name="Attributes">
-                      <items count="5">
-                        <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                          <X>22</X>
-                          <Y>363</Y>
-                          <W>427</W>
-                          <H>30</H>
-                        </item>
-                        <item name="MarginLeft" type_name="gh_int32" type_code="3">0</item>
-                        <item name="MarginRight" type_name="gh_int32" type_code="3">0</item>
-                        <item name="MarginTop" type_name="gh_int32" type_code="3">0</item>
-                        <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                          <X>22.140793</X>
-                          <Y>363.24155</Y>
-                        </item>
-                      </items>
-                    </chunk>
-                    <chunk name="PanelProperties">
-                      <items count="7">
-                        <item name="Colour" type_name="gh_drawing_color" type_code="36">
-                          <ARGB>255;181;229;255</ARGB>
-                        </item>
-                        <item name="DrawIndices" type_name="gh_bool" type_code="1">true</item>
-                        <item name="DrawPaths" type_name="gh_bool" type_code="1">true</item>
-                        <item name="Multiline" type_name="gh_bool" type_code="1">true</item>
-                        <item name="SpecialCodes" type_name="gh_bool" type_code="1">false</item>
-                        <item name="Stream" type_name="gh_bool" type_code="1">false</item>
-                        <item name="Wrap" type_name="gh_bool" type_code="1">true</item>
-                      </items>
-                    </chunk>
-                  </chunks>
-                </chunk>
-              </chunks>
-            </chunk>
-            <chunk name="Object" index="5">
               <items count="2">
                 <item name="GUID" type_name="gh_guid" type_code="9">a8b97322-2d53-47cd-905e-b932c3ccd74e</item>
                 <item name="Name" type_name="gh_string" type_code="10">Button</item>
@@ -1628,8 +1227,8 @@ copy_file_tree(dir_source, dir_target)</item>
                     <chunk name="Attributes">
                       <items count="1">
                         <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                          <X>683</X>
-                          <Y>172</Y>
+                          <X>54</X>
+                          <Y>201</Y>
                           <W>103</W>
                           <H>22</H>
                         </item>
@@ -1639,7 +1238,619 @@ copy_file_tree(dir_source, dir_target)</item>
                 </chunk>
               </chunks>
             </chunk>
-            <chunk name="Object" index="6">
+            <chunk name="Object" index="3">
+              <items count="3">
+                <item name="GUID" type_name="gh_guid" type_code="9">410755b1-224a-4c1e-a407-bf32fb45ea7e</item>
+                <item name="Lib" type_name="gh_guid" type_code="9">00000000-0000-0000-0000-000000000000</item>
+                <item name="Name" type_name="gh_string" type_code="10">DB Installer</item>
+              </items>
+              <chunks count="1">
+                <chunk name="Container">
+                  <items count="12">
+                    <item name="CodeInput" type_name="gh_string" type_code="10"># Dewbee: Grasshopper installer component
+#
+# Installs the Dewbee Python package into the Ladybug Tools Python environment
+# and installs Dewbee .ghuser components into the Grasshopper UserObjects folder.
+#
+# Expected GitHub repo structure:
+#   dewbee_main/
+#       grasshopper/
+#           user_objects/
+#               *.ghuser
+#
+# Expected PyPI package:
+#   dewbee
+#
+# Inputs:
+#   _install: Set to True to install/update Dewbee.
+#   _dewbee_ver: Optional version string for the PyPI package (eg. "0.1.0").
+#                If empty, the latest version will be installed.
+#   _github_ref: Optional GitHub ref to download GH components from.
+#                Can be a branch name like "main" or a tag like "v0.1.0".
+#                If empty, "main" will be used.
+#
+# EM / adapted for Dewbee
+#
+
+ghenv.Component.Name = "DB Installer"
+ghenv.Component.NickName = "DBInstall"
+ghenv.Component.Message = "0.1.0"
+ghenv.Component.Category = "Dewbee"
+ghenv.Component.SubCategory = "0 :: Miscellaneous"
+ghenv.Component.AdditionalHelpFromDocStrings = "0"
+
+try:
+    ghenv.Component.ToggleObsolete(False)
+except Exception:
+    pass
+
+
+import os
+import shutil
+import zipfile
+import subprocess
+import System.Net
+import System.Windows.Forms
+import Rhino
+
+from Grasshopper.Folders import UserObjectFolders
+from Grasshopper.Kernel import GH_RuntimeMessageLevel as Message
+
+
+# -----------------------------------------------------------------------------
+# CONFIG
+# -----------------------------------------------------------------------------
+
+PYPI_PACKAGE = "dewbee"
+PYPI_IMPORT_NAME = "dewbee"
+
+GITHUB_OWNER = "architecture-building-systems"
+GITHUB_REPO = "dewbee_main"
+
+# relative path inside the downloaded repo zip
+REPO_GHUSER_SUBFOLDER = os.path.join("grasshopper", "user_objects")
+
+# target folder name inside Grasshopper UserObjects
+GHUSER_TARGET_FOLDER_NAME = "dewbee"
+
+CUSTOM_ENV = os.environ.copy()
+CUSTOM_ENV["PYTHONHOME"] = ""
+
+
+# -----------------------------------------------------------------------------
+# UI HELPERS
+# -----------------------------------------------------------------------------
+
+def give_warning(message):
+    ghenv.Component.AddRuntimeMessage(Message.Warning, str(message))
+
+
+def give_error(message):
+    ghenv.Component.AddRuntimeMessage(Message.Error, str(message))
+
+
+def give_popup_message(message, window_title=""):
+    icon = System.Windows.Forms.MessageBoxIcon.Information
+    buttons = System.Windows.Forms.MessageBoxButtons.OK
+    Rhino.UI.Dialogs.ShowMessageBox(str(message), window_title, buttons, icon)
+
+
+# -----------------------------------------------------------------------------
+# FILE HELPERS
+# -----------------------------------------------------------------------------
+
+def preparedir(target_dir, remove_content=False):
+    """Create folder if missing. Optionally clear content if it exists."""
+    if os.path.isdir(target_dir):
+        if remove_content:
+            nukedir(target_dir, rmdir=False)
+        return True
+    try:
+        os.makedirs(target_dir)
+        return True
+    except Exception as e:
+        raise IOError("Failed to create directory '{}': {}".format(target_dir, e))
+
+
+def nukedir(target_dir, rmdir=False):
+    """Delete contents of a directory."""
+    d = os.path.normpath(target_dir)
+    if not os.path.isdir(d):
+        return
+
+    for f in os.listdir(d):
+        if f in (".", ".."):
+            continue
+        path = os.path.join(d, f)
+        if os.path.isdir(path):
+            nukedir(path, rmdir=True)
+        else:
+            try:
+                os.remove(path)
+            except Exception as e:
+                print("Failed to remove file '{}': {}".format(path, e))
+
+    if rmdir:
+        try:
+            os.rmdir(d)
+        except Exception:
+            pass
+
+
+def copy_file_tree(source_folder, dest_folder, overwrite=True):
+    """Recursively copy a folder tree."""
+    if not os.path.isdir(source_folder):
+        raise IOError("Source folder does not exist: {}".format(source_folder))
+
+    if not os.path.isdir(dest_folder):
+        os.makedirs(dest_folder)
+
+    for name in os.listdir(source_folder):
+        src_path = os.path.join(source_folder, name)
+        dst_path = os.path.join(dest_folder, name)
+
+        if os.path.isfile(src_path):
+            if overwrite and os.path.isfile(dst_path):
+                os.remove(dst_path)
+            shutil.copyfile(src_path, dst_path)
+
+        elif os.path.isdir(src_path):
+            if overwrite and os.path.isdir(dst_path):
+                nukedir(dst_path, rmdir=True)
+            if not os.path.isdir(dst_path):
+                os.makedirs(dst_path)
+            copy_file_tree(src_path, dst_path, overwrite=overwrite)
+
+
+def remove_dist_info_files(directory, startswith_name=None):
+    """Remove .dist-info folders, optionally filtering by prefix."""
+    if not os.path.isdir(directory):
+        return
+
+    for name in os.listdir(directory):
+        if not name.endswith(".dist-info"):
+            continue
+        if startswith_name is not None:
+            if not name.lower().startswith(startswith_name.lower().replace("-", "_")):
+                continue
+        full_path = os.path.join(directory, name)
+        print("Removing dist-info folder: {}".format(full_path))
+        nukedir(full_path, rmdir=True)
+
+
+# -----------------------------------------------------------------------------
+# DOWNLOAD HELPERS
+# -----------------------------------------------------------------------------
+
+def download_file_by_name(url, target_folder, file_name, mkdir=False):
+    """Download a file to a target folder."""
+    if not os.path.isdir(target_folder):
+        if mkdir:
+            preparedir(target_folder)
+        else:
+            raise IOError("Target folder does not exist: {}".format(target_folder))
+
+    file_path = os.path.join(target_folder, file_name)
+
+    try:
+        System.Net.ServicePointManager.SecurityProtocol = \
+            System.Net.SecurityProtocolType.Tls12
+    except AttributeError:
+        if url.lower().startswith("https"):
+            print("This system may lack TLS 1.2 support for https downloads.")
+
+    client = System.Net.WebClient()
+    try:
+        client.DownloadFile(url, file_path)
+    except Exception as e:
+        raise Exception("Download failed:\n{}".format(e))
+
+    return file_path
+
+
+def unzip_file(source_file, dest_dir):
+    """Unzip a file to a target folder."""
+    if not os.path.isfile(source_file):
+        raise IOError("Zip file not found: {}".format(source_file))
+    preparedir(dest_dir)
+
+    with zipfile.ZipFile(source_file, "r") as zf:
+        zf.extractall(dest_dir)
+
+
+def build_github_zip_url(owner, repo, ref):
+    """
+    Build GitHub archive URL.
+    GitHub supports archive/refs/heads/&lt;branch&gt;.zip and archive/refs/tags/&lt;tag&gt;.zip.
+    We try tag-style if ref starts with 'v', otherwise branch-style.
+    """
+    if ref and ref.startswith("v"):
+        return "https://github.com/{}/{}/archive/refs/tags/{}.zip".format(owner, repo, ref)
+    return "https://github.com/{}/{}/archive/refs/heads/{}.zip".format(owner, repo, ref or "main")
+
+
+def expected_unzipped_repo_folder(base_dir, repo, ref):
+    """
+    GitHub usually extracts to:
+    - repo-branch
+    - repo-tag_without_prefix? No, usually repo-&lt;tag&gt;
+    """
+    return os.path.join(base_dir, "{}-{}".format(repo, ref or "main"))
+
+
+# -----------------------------------------------------------------------------
+# LBT / PYTHON HELPERS
+# -----------------------------------------------------------------------------
+
+def get_lbt_python():
+    """Get Ladybug Tools python executable and site-packages path."""
+    try:
+        from honeybee.config import folders as hb_folders
+    except Exception as e:
+        raise ImportError(
+            "Failed to import honeybee.config.folders.\n"
+            "Ladybug Tools / Honeybee must already be installed.\n{}".format(e)
+        )
+
+    py_exe = hb_folders.python_exe_path
+    py_site = hb_folders.python_package_path
+
+    if not py_exe or not os.path.isfile(py_exe):
+        raise IOError("Could not find Ladybug Tools python executable:\n{}".format(py_exe))
+    if not py_site or not os.path.isdir(py_site):
+        raise IOError("Could not find Ladybug Tools site-packages:\n{}".format(py_site))
+
+    return py_exe, py_site
+
+
+def run_pip_install(python_exe, package_name, version=None, target=None, env=None):
+    """Install or update a package with pip."""
+    if env is None:
+        env = os.environ
+
+    requirement = package_name if not version else "{}=={}".format(package_name, version)
+
+    cmds = [python_exe, "-m", "pip", "install", requirement, "--upgrade"]
+    if target:
+        cmds.extend(["--target", target])
+
+    print("- " * 30)
+    print("Running pip command:")
+    print(" ".join(cmds))
+
+    use_shell = True if os.name == "nt" else False
+    process = subprocess.Popen(
+        cmds,
+        shell=use_shell,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        env=env
+    )
+    stdout, stderr = process.communicate()
+
+    try:
+        stdout = stdout.decode("utf-8")
+    except Exception:
+        stdout = str(stdout)
+
+    try:
+        stderr = stderr.decode("utf-8")
+    except Exception:
+        stderr = str(stderr)
+
+    return process.returncode, stdout, stderr
+
+
+def package_dist_info_exists(site_packages, import_name, version=None):
+    """
+    Check whether a package appears installed by searching for:
+    dewbee-0.1.0.dist-info or at least dewbee-*.dist-info.
+    """
+    if not os.path.isdir(site_packages):
+        return False
+
+    prefix = import_name.replace("-", "_").lower() + "-"
+    suffix = ".dist-info"
+
+    for name in os.listdir(site_packages):
+        low = name.lower()
+        if low.startswith(prefix) and low.endswith(suffix):
+            if version is None:
+                return True
+            if low == "{}{}.dist-info".format(prefix, version.lower()):
+                return True
+    return False
+
+
+# -----------------------------------------------------------------------------
+# GH USER OBJECT INSTALL
+# -----------------------------------------------------------------------------
+
+def get_ghuser_target_folder():
+    if not UserObjectFolders or len(UserObjectFolders) == 0:
+        raise IOError("Could not find Grasshopper UserObjects directory.")
+    base = UserObjectFolders[0]
+    target = os.path.join(base, GHUSER_TARGET_FOLDER_NAME)
+    return target
+
+
+def install_ghuser_objects_from_repo_zip(owner, repo, ref, temp_root, gh_target_folder):
+    """
+    Download repo zip, extract, and copy grasshopper/user_objects/* to GH UserObjects/dewbee.
+    """
+    url = build_github_zip_url(owner, repo, ref)
+    zip_name = "{}_{}.zip".format(repo, ref or "main")
+    zip_path = None
+    extracted_repo_dir = None
+
+    print("- " * 30)
+    print("Downloading Grasshopper components from GitHub:")
+    print(url)
+
+    try:
+        zip_path = download_file_by_name(url, temp_root, zip_name, mkdir=True)
+        print("Downloaded zip to:\n{}".format(zip_path))
+
+        unzip_file(zip_path, temp_root)
+        extracted_repo_dir = expected_unzipped_repo_folder(temp_root, repo, ref or "main")
+
+        if not os.path.isdir(extracted_repo_dir):
+            # fallback: search for the extracted folder
+            candidates = []
+            for name in os.listdir(temp_root):
+                full = os.path.join(temp_root, name)
+                if os.path.isdir(full) and name.startswith(repo + "-"):
+                    candidates.append(full)
+            if len(candidates) == 1:
+                extracted_repo_dir = candidates[0]
+
+        if not os.path.isdir(extracted_repo_dir):
+            raise IOError("Could not locate extracted repo folder inside:\n{}".format(temp_root))
+
+        source_ghuser_folder = os.path.join(extracted_repo_dir, REPO_GHUSER_SUBFOLDER)
+        if not os.path.isdir(source_ghuser_folder):
+            raise IOError(
+                "Could not find expected GH user objects folder in repo:\n{}".format(source_ghuser_folder)
+            )
+
+        print("Copying .ghuser files from:\n{}\nTo:\n{}".format(source_ghuser_folder, gh_target_folder))
+        preparedir(gh_target_folder, remove_content=True)
+        copy_file_tree(source_ghuser_folder, gh_target_folder, overwrite=True)
+
+    finally:
+        try:
+            if zip_path and os.path.isfile(zip_path):
+                os.remove(zip_path)
+        except Exception:
+            pass
+
+        try:
+            if extracted_repo_dir and os.path.isdir(extracted_repo_dir):
+                nukedir(extracted_repo_dir, rmdir=True)
+        except Exception:
+            pass
+
+
+# -----------------------------------------------------------------------------
+# MAIN INSTALL
+# -----------------------------------------------------------------------------
+
+def install_dewbee(dewbee_version=None, github_ref=None):
+    py_exe, py_site = get_lbt_python()
+
+    print("Ladybug Tools Python executable:")
+    print(py_exe)
+    print("Ladybug Tools site-packages:")
+    print(py_site)
+
+    # 1) pip install dewbee into LBT Python
+    print("- " * 30)
+    print("Installing Dewbee Python package...")
+
+    returncode, stdout, stderr = run_pip_install(
+        python_exe=py_exe,
+        package_name=PYPI_PACKAGE,
+        version=dewbee_version,
+        target=None,  # install directly into LBT env
+        env=CUSTOM_ENV
+    )
+
+    print(stdout)
+    if stderr:
+        print(stderr)
+
+    if returncode != 0:
+        raise Exception("pip install failed for '{}'.\n{}".format(PYPI_PACKAGE, stderr))
+
+    if not package_dist_info_exists(py_site, PYPI_IMPORT_NAME, dewbee_version):
+        print("Warning: could not verify exact .dist-info folder for Dewbee.")
+        print("Proceeding anyway because some pip installs can still succeed with variant metadata names.")
+
+    # 2) install GH user objects from GitHub
+    home_folder = os.getenv("HOME") or os.path.expanduser("~")
+    temp_root = os.path.join(home_folder, "dewbee_installer_temp")
+    gh_target = get_ghuser_target_folder()
+
+    install_ghuser_objects_from_repo_zip(
+        owner=GITHUB_OWNER,
+        repo=GITHUB_REPO,
+        ref=github_ref or "main",
+        temp_root=temp_root,
+        gh_target_folder=gh_target
+    )
+
+    # cleanup temp folder root if empty / remaining
+    if os.path.isdir(temp_root):
+        try:
+            nukedir(temp_root, rmdir=True)
+        except Exception:
+            pass
+
+    # 3) success
+    success_lines = [
+        "Dewbee has been successfully installed.",
+        "Python package installed into Ladybug Tools Python.",
+        "Grasshopper user objects installed to:",
+        gh_target,
+        "",
+        "RESTART RHINO to load the new components and library."
+    ]
+
+    success_msg = "\n".join(success_lines)
+    print(success_msg)
+    give_popup_message(success_msg, "Dewbee Installation Successful")
+
+
+# -----------------------------------------------------------------------------
+# EXECUTION
+# -----------------------------------------------------------------------------
+
+if _install:
+    try:
+        install_dewbee(
+            dewbee_version=_dewbee_ver if _dewbee_ver else None,
+            github_ref=_github_ref if _github_ref else "main"
+        )
+    except Exception as e:
+        msg = "Dewbee installation failed:\n{}".format(e)
+        print(msg)
+        give_error(msg)
+else:
+    print("Set _install to True to install Dewbee.")
+    print("Optional:")
+    print("  _dewbee_ver  -&gt; specific PyPI version, eg. 0.1.0")
+    print("  _github_ref  -&gt; GitHub branch or tag, eg. main or v0.1.0")</item>
+                    <item name="Description" type_name="gh_string" type_code="10">GhPython provides a Python script component</item>
+                    <item name="EditorLocation" type_name="gh_drawing_point" type_code="30">
+                      <X>114</X>
+                      <Y>114</Y>
+                    </item>
+                    <item name="EditorSize" type_name="gh_drawing_size" type_code="32">
+                      <W>1123</W>
+                      <H>1214</H>
+                    </item>
+                    <item name="HideInput" type_name="gh_bool" type_code="1">true</item>
+                    <item name="HideOutput" type_name="gh_bool" type_code="1">false</item>
+                    <item name="InputIsPath" type_name="gh_bool" type_code="1">false</item>
+                    <item name="InstanceGuid" type_name="gh_guid" type_code="9">1bfc0a9f-6fd7-402e-a31a-39f40ce71a97</item>
+                    <item name="IsAdvancedMode" type_name="gh_bool" type_code="1">false</item>
+                    <item name="MarshalOutGuids" type_name="gh_bool" type_code="1">true</item>
+                    <item name="Name" type_name="gh_string" type_code="10">DB Installer</item>
+                    <item name="NickName" type_name="gh_string" type_code="10">DBInstall</item>
+                  </items>
+                  <chunks count="2">
+                    <chunk name="Attributes">
+                      <items count="2">
+                        <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
+                          <X>424</X>
+                          <Y>119</Y>
+                          <W>100</W>
+                          <H>44</H>
+                        </item>
+                        <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
+                          <X>481</X>
+                          <Y>141</Y>
+                        </item>
+                      </items>
+                    </chunk>
+                    <chunk name="ParameterData">
+                      <items count="5">
+                        <item name="InputCount" type_name="gh_int32" type_code="3">1</item>
+                        <item name="InputId" index="0" type_name="gh_guid" type_code="9">84fa917c-1ed8-4db3-8be1-7bdc4a6495a2</item>
+                        <item name="OutputCount" type_name="gh_int32" type_code="3">2</item>
+                        <item name="OutputId" index="0" type_name="gh_guid" type_code="9">3ede854e-c753-40eb-84cb-b48008f14fd4</item>
+                        <item name="OutputId" index="1" type_name="gh_guid" type_code="9">8ec86459-bf01-4409-baee-174d0d2b13d0</item>
+                      </items>
+                      <chunks count="3">
+                        <chunk name="InputParam" index="0">
+                          <items count="10">
+                            <item name="AllowTreeAccess" type_name="gh_bool" type_code="1">true</item>
+                            <item name="Description" type_name="gh_string" type_code="10">Script variable Python</item>
+                            <item name="InstanceGuid" type_name="gh_guid" type_code="9">34955e84-b2d8-4467-94d5-685a726e4db1</item>
+                            <item name="Name" type_name="gh_string" type_code="10">_install</item>
+                            <item name="NickName" type_name="gh_string" type_code="10">_install</item>
+                            <item name="Optional" type_name="gh_bool" type_code="1">true</item>
+                            <item name="ScriptParamAccess" type_name="gh_int32" type_code="3">0</item>
+                            <item name="ShowTypeHints" type_name="gh_bool" type_code="1">true</item>
+                            <item name="SourceCount" type_name="gh_int32" type_code="3">0</item>
+                            <item name="TypeHintID" type_name="gh_guid" type_code="9">87f87f55-5b71-41f4-8aea-21d494016f81</item>
+                          </items>
+                          <chunks count="1">
+                            <chunk name="Attributes">
+                              <items count="2">
+                                <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
+                                  <X>426</X>
+                                  <Y>121</Y>
+                                  <W>40</W>
+                                  <H>40</H>
+                                </item>
+                                <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
+                                  <X>447.5</X>
+                                  <Y>141</Y>
+                                </item>
+                              </items>
+                            </chunk>
+                          </chunks>
+                        </chunk>
+                        <chunk name="OutputParam" index="0">
+                          <items count="6">
+                            <item name="Description" type_name="gh_string" type_code="10">The execution information, as output and error streams</item>
+                            <item name="InstanceGuid" type_name="gh_guid" type_code="9">1be0c432-e9ab-4835-bbe7-7f5b2e634029</item>
+                            <item name="Name" type_name="gh_string" type_code="10">out</item>
+                            <item name="NickName" type_name="gh_string" type_code="10">out</item>
+                            <item name="Optional" type_name="gh_bool" type_code="1">false</item>
+                            <item name="SourceCount" type_name="gh_int32" type_code="3">0</item>
+                          </items>
+                          <chunks count="1">
+                            <chunk name="Attributes">
+                              <items count="2">
+                                <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
+                                  <X>496</X>
+                                  <Y>121</Y>
+                                  <W>26</W>
+                                  <H>20</H>
+                                </item>
+                                <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
+                                  <X>509</X>
+                                  <Y>131</Y>
+                                </item>
+                              </items>
+                            </chunk>
+                          </chunks>
+                        </chunk>
+                        <chunk name="OutputParam" index="1">
+                          <items count="6">
+                            <item name="Description" type_name="gh_string" type_code="10">Script output a.</item>
+                            <item name="InstanceGuid" type_name="gh_guid" type_code="9">b5f7d86c-0526-4fc5-8134-290b6b2edf4e</item>
+                            <item name="Name" type_name="gh_string" type_code="10">a</item>
+                            <item name="NickName" type_name="gh_string" type_code="10">a</item>
+                            <item name="Optional" type_name="gh_bool" type_code="1">false</item>
+                            <item name="SourceCount" type_name="gh_int32" type_code="3">0</item>
+                          </items>
+                          <chunks count="1">
+                            <chunk name="Attributes">
+                              <items count="2">
+                                <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
+                                  <X>496</X>
+                                  <Y>141</Y>
+                                  <W>26</W>
+                                  <H>20</H>
+                                </item>
+                                <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
+                                  <X>509</X>
+                                  <Y>151</Y>
+                                </item>
+                              </items>
+                            </chunk>
+                          </chunks>
+                        </chunk>
+                      </chunks>
+                    </chunk>
+                  </chunks>
+                </chunk>
+              </chunks>
+            </chunk>
+            <chunk name="Object" index="4">
               <items count="2">
                 <item name="GUID" type_name="gh_guid" type_code="9">c552a431-af5b-46a9-a8a4-0fcbc27ef596</item>
                 <item name="Name" type_name="gh_string" type_code="10">Group</item>
@@ -1649,14 +1860,14 @@ copy_file_tree(dir_source, dir_target)</item>
                   <items count="8">
                     <item name="Border" type_name="gh_int32" type_code="3">1</item>
                     <item name="Colour" type_name="gh_drawing_color" type_code="36">
-                      <ARGB>255;255;255;255</ARGB>
+                      <ARGB>255;255;0;0</ARGB>
                     </item>
                     <item name="Description" type_name="gh_string" type_code="10">A group of Grasshopper objects</item>
-                    <item name="ID" index="0" type_name="gh_guid" type_code="9">cc0e28f3-af87-4c57-9209-eb7b372b4f36</item>
+                    <item name="ID" index="0" type_name="gh_guid" type_code="9">1bfc0a9f-6fd7-402e-a31a-39f40ce71a97</item>
                     <item name="ID_Count" type_name="gh_int32" type_code="3">1</item>
-                    <item name="InstanceGuid" type_name="gh_guid" type_code="9">4d52d659-5dc7-4ac8-bb36-694f40432f45</item>
+                    <item name="InstanceGuid" type_name="gh_guid" type_code="9">1a6dd04c-6b2f-4f14-8d5c-122d44a11870</item>
                     <item name="Name" type_name="gh_string" type_code="10">Group</item>
-                    <item name="NickName" type_name="gh_string" type_code="10">Dewbee installer</item>
+                    <item name="NickName" type_name="gh_string" type_code="10"></item>
                   </items>
                   <chunks count="1">
                     <chunk name="Attributes" />
@@ -1671,7 +1882,7 @@ copy_file_tree(dir_source, dir_target)</item>
     <chunk name="Thumbnail">
       <items count="1">
         <item name="Thumbnail" type_name="gh_drawing_bitmap" type_code="37">
-          <bitmap length="4366">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</bitmap>
+          <bitmap length="1889">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</bitmap>
         </item>
       </items>
     </chunk>
