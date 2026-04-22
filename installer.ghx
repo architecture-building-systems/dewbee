@@ -49,8 +49,8 @@
             <chunk name="Projection">
               <items count="2">
                 <item name="Target" type_name="gh_drawing_point" type_code="30">
-                  <X>1171</X>
-                  <Y>690</Y>
+                  <X>810</X>
+                  <Y>413</Y>
                 </item>
                 <item name="Zoom" type_name="gh_single" type_code="5">1.2750001</item>
               </items>
@@ -94,1142 +94,32 @@
         </chunk>
         <chunk name="DefinitionObjects">
           <items count="1">
-            <item name="ObjectCount" type_name="gh_int32" type_code="3">5</item>
+            <item name="ObjectCount" type_name="gh_int32" type_code="3">14</item>
           </items>
-          <chunks count="5">
+          <chunks count="14">
             <chunk name="Object" index="0">
-              <items count="3">
-                <item name="GUID" type_name="gh_guid" type_code="9">410755b1-224a-4c1e-a407-bf32fb45ea7e</item>
-                <item name="Lib" type_name="gh_guid" type_code="9">00000000-0000-0000-0000-000000000000</item>
-                <item name="Name" type_name="gh_string" type_code="10">__DB Save Compos</item>
-              </items>
-              <chunks count="1">
-                <chunk name="Container">
-                  <items count="13">
-                    <item name="CodeInput" type_name="gh_string" type_code="10">"""
-Update the version of all ghuser objects available in Grasshopper\UserObjects\dewbee 
-based on dewbee.__version__. Then, save them to the repository as .py and .ghuser, 
-and update the local .ghuser files. Anything that has "DB" will be saved. 
-
-This version:
-. reads dewbee.__version__
-. updates ghenv.Component.Message in component code
-. cleans repo
-. writes updated .py files
-. writes updated .ghuser files by modifying the original user object
-. updates .ghuser files in local directory (components shown in GH's tab)
--
-
-    Args:
-        _run: RUN IT BABY!
-"""
-
-import os
-import Grasshopper.Kernel as ghK
-
-ghenv.Component.Name = '__DB Save Compos'
-ghenv.Component.NickName = 'SaveCompos'
-ghenv.Component.Message = 'dev'
-ghenv.Component.Category = 'Dewbee'
-ghenv.Component.SubCategory = "0 :: Miscellaneous"
-
-# Turn off the "old" tag
-try:
-    import ghpythonlib as ghlib
-    c = ghlib.component._get_active_component()
-    c.ToggleObsolete(False)
-except Exception:
-    pass
-
-# Read Dewbee version
-try:
-    import dewbee
-    reload(dewbee)
-    DEWBEE_VERSION = dewbee.__version__
-    ghenv.Component.Message = DEWBEE_VERSION
-except Exception as e:
-    raise ImportError("Failed to import dewbee.__version__:\n\t{}".format(e))
-
-# Import ladybug dependencies
-try:
-    from ladybug.futil import preparedir, copy_file_tree
-except Exception as e:
-    raise ImportError("Failed to import dewbee.__version__:\n\t{}".format(e))
-
-class NamespaceComponentsOntoCanvas(object):
-    def __init__(self, namespace, source_dir, ghdoc):
-        self.namespace = namespace
-        self.source_dir = source_dir
-        self.ghdoc = ghdoc
-        self.compos = []
-
-    def __enter__(self):
-        print("Adding {} components to canvas...".format(self.namespace))
-
-        for filename in os.listdir(self.source_dir):
-            if filename.startswith('.'):
-                continue
-            if filename.startswith('__'):
-                continue
-            if not filename.endswith('.ghuser'):
-                continue
-            if not filename.startswith(self.namespace):
-                continue
-
-            source_path = os.path.join(self.source_dir, filename)
-            uo = ghK.GH_UserObject(source_path)
-            compo = uo.InstantiateObject()
-
-            if compo is None:
-                print("Failed to instantiate: {}".format(filename))
-                continue
-
-            self.ghdoc.AddObject(compo, False)
-            self.compos.append((compo, uo, source_path))
-            print("Added: {}".format(filename))
-
-        return self
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        print("Cleaning canvas...")
-        for compo, _, _ in self.compos:
-            self.ghdoc.RemoveObject(compo, False)
-
-
-def update_component_version(components, version):
-    """Update the ghenv.Component.Message line for a list of components."""
-    new_components = []
-
-    for comp_obj in components:
-        try:
-            in_code = comp_obj.Code.split("\n")
-            code_length = len(in_code)
-            out_code = ""
-
-            for line_count, line in enumerate(in_code):
-                stripped = line.lstrip()
-                indent = line[:len(line) - len(stripped)]
-
-                if stripped.startswith("ghenv.Component.Message"):
-                    line = indent + "ghenv.Component.Message = '{}'".format(version)
-
-                if line_count != code_length - 1:
-                    out_code += line + "\n"
-                else:
-                    out_code += line
-
-            comp_obj.Code = out_code
-
-            try:
-                comp_obj.Message = version
-            except Exception:
-                pass
-
-            new_components.append(comp_obj)
-
-        except Exception as e:
-            print('Failed to update version in "{}": {}'.format(comp_obj.Name, e))
-
-    return new_components
-
-
-def write_py_code(gh_component, target_dir):
-    """Write the component code to the repo src folder."""
-    if not hasattr(gh_component, "Code"):
-        return
-
-    target_path = os.path.join(target_dir, gh_component.Name + ".py")
-    with open(target_path, "wb") as f:
-        f.write(gh_component.Code.encode("utf-8"))
-
-    print("Wrote code: {}".format(target_path))
-
-
-def write_ghuser(original_uo, gh_component, target_dir):
-    """Update the original user object with the modified component and save it."""
-    target_path = os.path.join(target_dir, gh_component.Name + ".ghuser")
-
-    original_uo.SetDataFromObject(gh_component)
-    original_uo.Path = target_path
-
-    ok = original_uo.SaveToFile()
-    if not ok:
-        raise IOError("Failed to save ghuser: {}".format(target_path))
-
-    print("Wrote ghuser: {}".format(target_path))
-
-
-if _run:
-    ghdoc = ghenv.Component.OnPingDocument()
-
-    local_ghuser = r"C:\Users\gzorzeto\AppData\Roaming\Grasshopper\UserObjects\dewbee"
-    repo_ghuser = r"C:\Users\gzorzeto\Documents\GitHub_repos\dewbee_main\grasshopper\user_objects"
-    repo_py = r"C:\Users\gzorzeto\Documents\GitHub_repos\dewbee_main\grasshopper\src"
-
-    preparedir(repo_ghuser)
-    preparedir(repo_py)
-
-    with NamespaceComponentsOntoCanvas("DB", local_ghuser, ghdoc) as compos:
-        comp_list = [compo for compo, _, _ in compos.compos]
-        update_component_version(comp_list, DEWBEE_VERSION)
-
-        for compo, uo, source_path in compos.compos:
-            write_py_code(compo, repo_py)
-            write_ghuser(uo, compo, repo_ghuser)
-    
-    # Update local ghuser folder
-    preparedir(local_ghuser)
-    copy_file_tree(repo_ghuser, local_ghuser)</item>
-                    <item name="Description" type_name="gh_string" type_code="10">Update the version of all ghuser objects available in Grasshopper\UserObjects\dewbee 
-based on dewbee.__version__. Then, save them to the repository as .py and .ghuser, 
-and update the local .ghuser files. Anything that has "DB" will be saved. 
-This version:
-. reads dewbee.__version__
-. updates ghenv.Component.Message in component code
-. cleans repo
-. writes updated .py files
-. writes updated .ghuser files by modifying the original user object
-. updates .ghuser files in local directory (components shown in GH's tab)
--</item>
-                    <item name="EditorLocation" type_name="gh_drawing_point" type_code="30">
-                      <X>-440</X>
-                      <Y>390</Y>
-                    </item>
-                    <item name="EditorSize" type_name="gh_drawing_size" type_code="32">
-                      <W>2092</W>
-                      <H>1270</H>
-                    </item>
-                    <item name="HideInput" type_name="gh_bool" type_code="1">true</item>
-                    <item name="HideOutput" type_name="gh_bool" type_code="1">true</item>
-                    <item name="IconOverride" type_name="gh_drawing_bitmap" type_code="37">
-                      <bitmap length="1276">iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAWJQAAFiUBSVIk8AAABJ5JREFUSEvtVGtQVGUY/vYOy0KsAsqAriCKYYPcDBXYFS+77LKgLSuXvDQW4ySZFZJ4mYaZYmySMQmilAFjtHIGBiRzhfICq5lCJKiQFGkEg1zEoAwmov2e5ju5mxypsT/98pl555zvfOc87/M+33teQh6BEAJA8MwQZqV8R7WmBrrNcOKnCn31YL22sn8B/92HwvOUeiV30FjTJbo9vuZu+fKy1vYlb50cC88uRdCG3fCJjMNcUwZ0Fd2f87+dFGkDdI75Gk1ZZbXla8t/vBiVbx1euPswgtbvgu+SeLj7+MFJIoaYEIgIgZAQuCo9sLT4qx/4XKQOEKd202DzFZpuPP1b2YoPr7c9mXvij9CXCzHb+Bw8A8Mgd3FxkLGrVEAgk4jgJJVwIRMSuHlMQ8z7DZ0O4sQLNN54drx0+QffdCzKrULw5r2YtSwZyhkBkImEHBkLCSGQiYUOssmCJZwyIwCxZa1XSfjBJomuqteqKbRCtSwZCjd3CAgBOzsW7N5OztTag62lQvIAOQsmwjskBtrKW7VEU1cn1lZ0HYgq+qI3bHsJQjOLsCAjD/M35mBeWhbmml5AQEI6VEtNmKFeDT/tWi78des4nxkZPwFLHmB8FsYzY/sdFm2j1GX9IH08pZ0uN7fQVFMD3Zz0NX0l7SZ9Ke0Gdhit49/HnxnvSm615SY12t5cdd52KDqvliqUnpCKJlrGEoRs2YekZrrOkeBfoCGE7JkeoR19zMP7EiEknRDixzZSvqVbwjLf4yxzJJCIuTNY9EYl1nbSID7Z/YhxdpZ3MDtYB4W9Wozw7BI8kf46ps2PZGdTptIQp9jiy12uU70gEwkcB+zuPROaQ5dv5IDlnhxuCuWU/qi8WsR/NgqDZRj644PQH78DQ81dGE4MIdC8lTXBa4aau8c95wRDeq8KVo0q1oz4ml+P8Envx3Slrz/iqm5xhLrKHmgrurnQHetDohUIzzrAyI5qy3suMsVMud1/VrG5ma7lk06AkJCdU1XzxiOySxFb0oyVH3dgxZF2qAvPIWjDLsicndvDdu57eskey6hUKOC8Z/+LXC5HzP66kXW91IvP+QCCM/JOuSo9zzq5ul1z9/Hvc/Wa2e0slVwghOQQQmRPNaKMtStTbVfP2llvGa7ic00KXVVvjamFJtxbKgghTva9tG5qiNpbA6lQCJlY5JhFi3MrkXwVK/5m+WfMmRW3ccxw8peP+Bvm6zRQe7RjaIoq8K8fTSbl1PtELMPKY32N/PcnhUQsOC2XK6B59/xYagedb39uaqMq/ae3b7Ipylkjk0AqEkAmFkNdUA/TFaqeyMTDph7IFe7uGaxcNnZ9F+uhq+5t1gDipDYaqq0e6GRDkO0x31n/s/uwzCIYz9oK+HwPIPHcSCRTwhTKFa6QCAjXknrLaI86v/53j4Bgbggyaxgx66DQrfkw1o5a1oAV9RBYbaVaveXnWnXBl/0x79Td0RxsaoirHjiszq8fmZeaBe8QNbyCFmK2MR3Rb59CQr2teFMTy/kf8SKlbjsApX29pgkzTQ10t/6T2xZdRc+ZVedshWtaED3xq/8ZfwIYb1B6pw9YbQAAAABJRU5ErkJggg==</bitmap>
-                    </item>
-                    <item name="InputIsPath" type_name="gh_bool" type_code="1">false</item>
-                    <item name="InstanceGuid" type_name="gh_guid" type_code="9">ff8f2150-79fe-47ea-b3e1-aa520e6b9454</item>
-                    <item name="IsAdvancedMode" type_name="gh_bool" type_code="1">false</item>
-                    <item name="MarshalOutGuids" type_name="gh_bool" type_code="1">true</item>
-                    <item name="Name" type_name="gh_string" type_code="10">__DB Save Compos</item>
-                    <item name="NickName" type_name="gh_string" type_code="10">SaveCompos</item>
-                  </items>
-                  <chunks count="2">
-                    <chunk name="Attributes">
-                      <items count="2">
-                        <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                          <X>223</X>
-                          <Y>185</Y>
-                          <W>59</W>
-                          <H>28</H>
-                        </item>
-                        <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                          <X>268</X>
-                          <Y>199</Y>
-                        </item>
-                      </items>
-                    </chunk>
-                    <chunk name="ParameterData">
-                      <items count="3">
-                        <item name="InputCount" type_name="gh_int32" type_code="3">1</item>
-                        <item name="InputId" index="0" type_name="gh_guid" type_code="9">84fa917c-1ed8-4db3-8be1-7bdc4a6495a2</item>
-                        <item name="OutputCount" type_name="gh_int32" type_code="3">0</item>
-                      </items>
-                      <chunks count="1">
-                        <chunk name="InputParam" index="0">
-                          <items count="11">
-                            <item name="AllowTreeAccess" type_name="gh_bool" type_code="1">true</item>
-                            <item name="Description" type_name="gh_string" type_code="10">RUN IT BABY!</item>
-                            <item name="InstanceGuid" type_name="gh_guid" type_code="9">50c5fe63-a2f5-4736-b2ee-eabae871f18f</item>
-                            <item name="Name" type_name="gh_string" type_code="10">_run</item>
-                            <item name="NickName" type_name="gh_string" type_code="10">_run</item>
-                            <item name="Optional" type_name="gh_bool" type_code="1">true</item>
-                            <item name="ScriptParamAccess" type_name="gh_int32" type_code="3">0</item>
-                            <item name="ShowTypeHints" type_name="gh_bool" type_code="1">true</item>
-                            <item name="Source" index="0" type_name="gh_guid" type_code="9">17455f18-1e87-49aa-b410-9a0aedaef761</item>
-                            <item name="SourceCount" type_name="gh_int32" type_code="3">1</item>
-                            <item name="TypeHintID" type_name="gh_guid" type_code="9">d60527f5-b5af-4ef6-8970-5f96fe412559</item>
-                          </items>
-                          <chunks count="1">
-                            <chunk name="Attributes">
-                              <items count="2">
-                                <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                                  <X>225</X>
-                                  <Y>187</Y>
-                                  <W>28</W>
-                                  <H>24</H>
-                                </item>
-                                <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                                  <X>240.5</X>
-                                  <Y>199</Y>
-                                </item>
-                              </items>
-                            </chunk>
-                          </chunks>
-                        </chunk>
-                      </chunks>
-                    </chunk>
-                  </chunks>
-                </chunk>
-              </chunks>
-            </chunk>
-            <chunk name="Object" index="1">
-              <items count="3">
-                <item name="GUID" type_name="gh_guid" type_code="9">410755b1-224a-4c1e-a407-bf32fb45ea7e</item>
-                <item name="Lib" type_name="gh_guid" type_code="9">00000000-0000-0000-0000-000000000000</item>
-                <item name="Name" type_name="gh_string" type_code="10">LB Installer</item>
-              </items>
-              <chunks count="1">
-                <chunk name="Container">
-                  <items count="13">
-                    <item name="CodeInput" type_name="gh_string" type_code="10"># Ladybug Tools: A Plugin for Environmental Analysis (AGPL)
-# This file is part of Ladybug Tools.
-#
-# Copyright (c) 2025, Ladybug Tools.
-# You should have received a copy of the GNU General Public License
-# along with Ladybug Tools; If not, see &lt;http://www.gnu.org/licenses/&gt;.
-# 
-# @license AGPL-3.0+ &lt;http://spdx.org/licenses/AGPL-3.0-or-later&gt;
-
-"""
-This component installs the Ladybug Tools core libraries to the ladybug_tools
-installation folder using the Python installation.
-_
-It also installs all of the grasshopper components to:
-C:\Users\%USERNAME%\AppData\Roaming\Grasshopper\UserObjects
-(or the equivalent location for UserObjects on Mac)
-_
-It also installs the lbt_grasshopper_samples to:
-ladybug_tools\resources\samples
-_
-It also installs standards to:
-ladybug_tools\resources\standards
--
-
-    Args:
-        _install: Set to True to install Ladybug Tools on your machine.
-
-    Returns:
-        Vviiiiiz!: !!!
-"""
-
-ghenv.Component.Name = 'LB Installer'
-ghenv.Component.NickName = 'LBInstall'
-ghenv.Component.Message = '1.10.0'
-ghenv.Component.Category = 'Ladybug'
-ghenv.Component.SubCategory = '5 :: Version'
-ghenv.Component.AdditionalHelpFromDocStrings = '0'
-
-import os
-import io
-import subprocess
-import System.Net
-import System.Windows.Forms
-import zipfile
-import shutil
-from distutils import dir_util
-import Rhino
-from Rhino.RhinoApp import Version as RHINO_VERSION
-from Grasshopper.Folders import UserObjectFolders, DefaultAssemblyFolder
-from Grasshopper.Kernel import GH_RuntimeMessageLevel as Message
-
-CUSTOM_ENV = os.environ.copy()
-CUSTOM_ENV['PYTHONHOME'] = ''
-
-
-def turn_off_old_tag(component):
-    """Turn off the old tag that displays on GHPython components.
-
-    Args:
-        component: The grasshopper component object, which can be accessed through
-            the ghenv.Component call within Grasshopper API.
-    """
-    try:  # try to turn off the OLD tag on the component
-        component.ToggleObsolete(False)
-    except Exception:
-        pass  # older version of Rhino that does not have the Obsolete method
-
-
-def preparedir(target_dir, remove_content=True):
-    """Prepare a folder for files to be written into it.
-
-    This function creates the folder if it does not exist and removes the files in
-    the folder if the folder already exists.
-
-    This function has been copied from ladybug.futil.
-    """
-    if os.path.isdir(target_dir):
-        if remove_content:
-            nukedir(target_dir, False)
-        return True
-    else:
-        try:
-            os.makedirs(target_dir)
-            return True
-        except Exception as e:
-            print("Failed to create folder: %s\n%s" % (target_dir, e))
-            return False
-
-
-def nukedir(target_dir, rmdir=False):
-    """Delete all the files inside target_dir.
-
-    This function has been copied from ladybug.futil.
-    """
-    d = os.path.normpath(target_dir)
-    if not os.path.isdir(d):
-        return
-
-    files = os.listdir(d)
-    for f in files:
-        if f == '.' or f == '..':
-            continue
-        path = os.path.join(d, f)
-        if os.path.isdir(path):
-            nukedir(path)
-        else:
-            try:
-                os.remove(path)
-            except Exception:
-                print("Failed to remove %s" % path)
-
-    if rmdir:
-        try:
-            os.rmdir(d)
-        except Exception:
-            try:
-                dir_util.remove_tree(d)
-            except Exception:
-                print("Failed to remove %s" % d)
-
-
-def copy_file_tree(source_folder, dest_folder, overwrite=True):
-    """Copy an entire file tree from a source_folder to a dest_folder.
-
-    Args:
-        source_folder: The source folder containing the files and folders to
-            be copied.
-        dest_folder: The destination folder into which all the files and folders
-            of the source_folder will be copied.
-        overwrite: Boolean to note whether an existing folder with the same
-            name as the source_folder in the dest_folder directory should be
-            overwritten. Default: True.
-    """
-    # make the dest_folder if it does not exist
-    if not os.path.isdir(dest_folder):
-        os.mkdir(dest_folder)
-
-    # recursively copy each sub-folder and file
-    for f in os.listdir(source_folder):
-        # get the source and destination file paths
-        src_file_path = os.path.join(source_folder, f)
-        dst_file_path = os.path.join(dest_folder, f)
-
-        # if overwrite is True, delete any existing files
-        if overwrite:
-            if os.path.isfile(dst_file_path):
-                try:
-                    os.remove(dst_file_path)
-                except Exception:
-                    raise IOError("Failed to remove %s" % f)
-            elif os.path.isdir(dst_file_path):
-                nukedir(dst_file_path, True)
-
-        # copy the files and folders to their correct location
-        if os.path.isfile(src_file_path):
-            shutil.copyfile(src_file_path, dst_file_path)
-        elif os.path.isdir(src_file_path):
-            if not os.path.isdir(dst_file_path):
-                os.mkdir(dst_file_path)
-            copy_file_tree(src_file_path, dst_file_path, overwrite)
-
-
-def download_file_by_name(url, target_folder, file_name, mkdir=False):
-    """Download a file to a directory.
-
-    This function has been copied from ladybug_rhino.download.
-
-    Args:
-        url: A string to a valid URL.
-        target_folder: Target folder for download (e.g. c:/ladybug)
-        file_name: File name (e.g. testPts.zip).
-        mkdir: Set to True to create the directory if doesn't exist (Default: False)
-    """
-    # create the target directory.
-    if not os.path.isdir(target_folder):
-        if mkdir:
-            preparedir(target_folder)
-        else:
-            created = preparedir(target_folder, False)
-            if not created:
-                raise ValueError("Failed to find %s." % target_folder)
-    file_path = os.path.join(target_folder, file_name)
-
-    # set the security protocol to the most recent version
-    try:
-        # TLS 1.2 is needed to download over https
-        System.Net.ServicePointManager.SecurityProtocol = \
-            System.Net.SecurityProtocolType.Tls12
-    except AttributeError:
-        # TLS 1.2 is not provided by MacOS .NET
-        if url.lower().startswith('https'):
-            print ('This system lacks the necessary security'
-                   ' libraries to download over https.')
-
-    # attempt to download the file
-    client = System.Net.WebClient()
-    try:
-        client.DownloadFile(url, file_path)
-    except Exception as e:
-        raise Exception(' Download failed with the error:\n{}'.format(e))
-
-
-def unzip_file(source_file, dest_dir=None, mkdir=False):
-    """Unzip a compressed file.
-
-    This function has been copied from ladybug.futil.
-
-    Args:
-        source_file: Full path to a valid compressed file (e.g. c:/ladybug/testPts.zip)
-        dest_dir: Target folder to extract to (e.g. c:/ladybug).
-            Default is set to the same directory as the source file.
-        mkdir: Set to True to create the directory if doesn't exist (Default: False)
-    """
-    # set default dest_dir and create it if need be.
-    if dest_dir is None:
-        dest_dir, fname = os.path.split(source_file)
-    elif not os.path.isdir(dest_dir):
-        if mkdir:
-            preparedir(dest_dir)
-        else:
-            created = preparedir(dest_dir, False)
-            if not created:
-                raise ValueError("Failed to find %s." % dest_dir)
-
-    # extract files to destination
-    with zipfile.ZipFile(source_file) as zf:
-        for member in zf.infolist():
-            words = member.filename.split('\\')
-            for word in words[:-1]:
-                drive, word = os.path.splitdrive(word)
-                head, word = os.path.split(word)
-                if word in (os.curdir, os.pardir, ''):
-                    continue
-                dest_dir = os.path.join(dest_dir, word)
-            zf.extract(member, dest_dir)
-
-
-def give_warning(message):
-    """Give a warning message (turning the component orange).
-
-    Args:
-        message: Text string for the warning message.
-    """
-    ghenv.Component.AddRuntimeMessage(Message.Warning, message)
-
-
-def give_popup_message(message, window_title=''):
-    """Give a Windows popup message with an OK button.
-
-    Useful in cases where you really need the user to pay attention to the message.
-
-    Args:
-        message: Text string for the popup message.
-        window_title: Text string for the title of the popup window. (Default: "").
-    """
-    icon = System.Windows.Forms.MessageBoxIcon.Information
-    buttons = System.Windows.Forms.MessageBoxButtons.OK
-    Rhino.UI.Dialogs.ShowMessageBox(message, window_title, buttons, icon)
-
-
-def get_python_exe():
-    """Get the path to the Python installed in the ladybug_tools folder.
-
-    Will be None if Python is not installed.
-    """
-    home_folder = os.getenv('HOME') or os.path.expanduser('~')
-    py_install = os.path.join(home_folder, 'ladybug_tools', 'python')
-    py_exe_file = os.path.join(py_install, 'python.exe') if os.name == 'nt' else \
-        os.path.join(py_install, 'bin', 'python3')
-    py_site_pack = os.path.join(py_install, 'Lib', 'site-packages') if os.name == 'nt' else \
-        os.path.join(py_install, 'lib', 'python3.10', 'site-packages')
-    if os.path.isfile(py_exe_file):
-        return py_exe_file, py_site_pack
-    return None, None
-
-
-def get_samples_directory():
-    """Get the directory where the samples are installed."""
-    home_folder = os.getenv('HOME') or os.path.expanduser('~')
-    sample_folder = os.path.join(home_folder, 'ladybug_tools', 'resources', 'samples')
-    if not os.path.isdir(sample_folder):
-        os.makedirs(sample_folder)
-    return sample_folder
-
-
-def get_gem_directory():
-    """Get the directory where measures distributed with Ladybug Tools are installed."""
-    home_folder = os.getenv('HOME') or os.path.expanduser('~')
-    measure_folder = os.path.join(home_folder, 'ladybug_tools', 'resources', 'measures')
-    if not os.path.isdir(measure_folder):
-        os.makedirs(measure_folder)
-    return measure_folder
-
-
-def get_standards_directory():
-    """Get the directory where Honeybee standards are installed."""
-    home_folder = os.getenv('HOME') or os.path.expanduser('~')
-    hb_folder = os.path.join(home_folder, 'ladybug_tools', 'resources', 'standards')
-    if not os.path.isdir(hb_folder):
-        os.makedirs(hb_folder)
-    return hb_folder
-
-
-def remove_dist_info_files(directory):
-    """Remove all of the PyPI .dist-info folders from a given directory.
-    
-    Args:
-        directory: A directory containing .dist-info folders to delete.
-    """
-    for fold in os.listdir(directory):
-        if fold.endswith('.dist-info'):
-            nukedir(os.path.join(directory, fold), rmdir=True)
-
-
-def write_iron_python_batch_file(python_exe):
-    """Write a batch file to have Rhino search for libraries in ladybug_tools.
-
-    Args:
-        python_exe: The path to the Python executable to be used for installation.
-    """
-    # Get environemnt variables
-    home_folder = os.getenv('HOME') or os.path.expanduser('~')
-    directory = os.path.join(home_folder, 'ladybug_tools')
-    working_drive = python_exe[:2]
-
-    # Write the batch file to call the Python executable.
-    batch = '{}\n"{}" -m ladybug_rhino set-python-search\nPAUSE'.format(
-        working_drive, python_exe)
-    batch_file = os.path.join(directory, 'set_python_path.bat')
-    with open(batch_file, 'wb') as outf:
-        outf.write(batch)
-    print('Writing set_python_path batch File to:\n{}\n '.format(batch_file))
-
-
-def find_installed_rhino_scripts():
-    """Get the path to the current user's Rhino scripts folder if it exists."""
-    RHINO_VERSIONS = ('6.0', '7.0')
-    installed_scripts = []
-    home_folder = os.getenv('HOME') or os.path.expanduser('~')
-    if os.name == 'nt':  # we are on Windows
-        for ver in RHINO_VERSIONS:
-            scripts_folder = os.path.join(home_folder, 'AppData', 'Roaming', 'McNeel',
-                                          'Rhinoceros', ver, 'scripts')
-            if os.path.isdir(scripts_folder):
-                installed_scripts.append(scripts_folder)
-    else:  # we are on Mac
-        for ver in RHINO_VERSIONS:
-            scripts_folder = os.path.join(home_folder, 'Library', 'Application Support',
-                                          'McNeel', 'Rhinoceros', ver, 'scripts')
-            if os.path.isdir(scripts_folder):
-                installed_scripts.append(scripts_folder)
-    return installed_scripts
-
-
-def copy_packages_to_rhino_scripts(python_package_dir, directory=None):
-    """Copy Ladybug tools packages into a directory.
-
-    Args:
-        python_package_dir: The path to a directory that contains the Ladybug
-            Tools core libraries.
-        directory: The directory into which the packages will be copied. If None,
-            the function will search for all installed copies of the current user's
-            Rhino scripts folder.
-    """
-    folders = find_installed_rhino_scripts() if directory is None else [directory]
-    for fold in folders:
-        for pkg in PACKAGES:
-            lib_folder = os.path.join(python_package_dir, pkg)
-            dest_folder = os.path.join(fold, pkg)
-            if os.path.isdir(lib_folder):
-                copy_file_tree(lib_folder, dest_folder, True)
-
-
-def clean_rhino_scripts(directory=None):
-    """Remove installed Ladybug Tools packages from the old library directory.
-
-    This function is usually run in order to avoid potential namespace conflicts.
-
-    Args:
-        directory: The directory to be cleaned. If None, the function will
-            search for all installed copies of the current user's
-            Rhino scripts folder.
-     """
-    folders = find_installed_rhino_scripts() if directory is None else [directory]
-    for fold in folders:
-        for pkg in PACKAGES:
-            lib_folder = os.path.join(fold, pkg)
-            if os.path.isdir(lib_folder):
-                nukedir(lib_folder)
-
-
-def update_libraries_pip(python_exe, package_name, version=None, target=None):
-    """Update Python libraries using pip.
-
-    Args:
-        python_exe: The path to the Python executable to be used for installation.
-        package_name: The name of the PyPI package to install
-        version: An optional string for the version of the package to install.
-        target: An optional target directory into which the package will be installed.
-        """
-    # build up the command using the inputs
-    if version is not None:
-        package_name = '{}=={}'.format(package_name, version)
-    cmds = [python_exe, '-m', 'pip', 'install', package_name]
-    if target is not None:
-        cmds.extend(['--target', target, '--upgrade'])
-
-    # execute the command and print any errors
-    print('Installing {} via pip using\n{}'.format(package_name, python_exe))
-    use_shell = True if os.name == 'nt' else False
-    process = subprocess.Popen(
-        cmds, shell=use_shell, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-        env=CUSTOM_ENV)
-    output = process.communicate()
-    stdout, stderr = output
-    return stderr
-
-
-def download_repo_github(repo, target_directory, version=None):
-    """Download a repo of a particular version from from github.
-
-    Args:
-        repo: The name of a repo to be downloaded (eg. 'lbt-grasshopper').
-        target_directory: the directory where the library should be downloaded to.
-        version: The version of the repository to download. If None, the most
-            recent version will be downloaded. (Default: None)
-        """
-    # download files
-    if version is None:
-        url = "https://github.com/ladybug-tools/{}/archive/master.zip".format(repo)
-    else:
-        url = "https://github.com/ladybug-tools/{}/archive/refs/tags/v{}.zip".format(repo, version)
-    zip_file = os.path.join(target_directory, '%s.zip' % repo)
-    print 'Downloading "{}"  github repository to: {}'.format(repo, target_directory)
-    download_file_by_name(url, target_directory, zip_file)
-
-    #unzip the file
-    unzip_file(zip_file, target_directory)
-
-    # try to clean up the downloaded zip file
-    try:
-        os.remove(zip_file)
-    except:
-        print 'Failed to remove downloaded zip file: {}.'.format(zip_file)
-
-    # return the directory where the unzipped files live
-    if version is None:
-        return os.path.join(target_directory, '{}-master'.format(repo))
-    else:
-        return os.path.join(target_directory, '{}-{}'.format(repo, version))
-
-
-def setup_resource_folders(overwrite=False):
-    """Set up user resource folders in their respective locations.
-
-    Args:
-        overwrite: Boolean to note whether the user resources should only be set
-            up if they do not exist, in which case existing resources will be
-            preserved, or should they be overwritten.
-    """
-    # first check if there's an environment variable available for APPDATA
-    app_folder = os.getenv('APPDATA')
-    if app_folder is not None:
-        resource_folder = os.path.join(app_folder, 'ladybug_tools')
-        # set up user standards
-        lib_folder = os.path.join(resource_folder, 'standards')
-        for sub_f in STANDARDS_SUBFOLDERS:
-            sub_lib_folder = os.path.join(lib_folder, sub_f)
-            if not os.path.isdir(sub_lib_folder) or overwrite:
-                preparedir(sub_lib_folder)
-        # set up the user weather
-        epw_folder = os.path.join(resource_folder, 'weather')
-        if not os.path.isdir(epw_folder) or overwrite:
-            if os.path.isdir(epw_folder):
-                nukedir(epw_folder, rmdir=True)  # delete all sub-folders
-            preparedir(epw_folder)
-        # set up the user measures folder
-        measure_folder = os.path.join(resource_folder, 'measures')
-        if not os.path.isdir(measure_folder) or overwrite:
-            if os.path.isdir(measure_folder):
-                nukedir(measure_folder, rmdir=True)  # delete all sub-folders
-            preparedir(measure_folder)
-        return resource_folder
-
-
-def update_requirements_version(uo_folder, lbt_version):
-    """Update the version of lbt_grasshopper in the user object requirements.txt file.
-
-    Args:
-        uo_folder: The directory where the user objects currently exist.
-        lbt_version: The version of LBT-grasshopper to be updated in the
-            requirements.txt file.
-    """
-    req_file = os.path.join(uo_folder, 'requirements.txt')
-    all_rows = []
-    if os.path.isfile(req_file):
-        with open(req_file) as rf:
-            for row in rf:
-                if row.startswith('lbt-grasshopper=='):
-                    all_rows.append('lbt-grasshopper=={}\n'.format(lbt_version))
-                else:
-                    all_rows.append(row)
-    else:
-        all_rows.append('lbt-grasshopper=={}\n'.format(lbt_version))
-    with open(req_file, 'w') as rf:
-        rf.write(''.join(all_rows))
-
-
-# this PACKAGES valirable is a temporary workaround for Mac
-PACKAGES = (
-    'ladybug_rhino', 'ladybug_geometry', 'ladybug_geometry_polyskel',
-    'ladybug', 'ladybug_display', 'ladybug_radiance', 'ladybug_comfort',
-    'honeybee', 'honeybee_standards', 'honeybee_display', 'honeybee_energy',
-    'honeybee_doe2', 'honeybee_radiance', 'honeybee_radiance_folder',
-    'honeybee_radiance_command', 'honeybee_radiance_postprocess',
-    'dragonfly', 'dragonfly_energy', 'dragonfly_doe2', 'dragonfly_radiance',
-    'dragonfly_uwg', 'dragonfly_display', 'fairyfly', 'fairyfly_therm',
-    'lbt_recipes', 'pollination_handlers'
-)
-# this STANDARDS_SUBFOLDERS variable is used to create user resource subfolders
-STANDARDS_SUBFOLDERS = (
-    'constructions', 'constructionsets', 'schedules', 'programtypes',
-    'modifiers', 'modifiersets'
-)
-
-# versions of the Ladybug Tools libraries and resources to install
-lbt_dragonfly = '0.12.360'
-fairyfly_therm = '0.10.0'
-lbt_recipes = '0.27.1'
-ladybug_rhino = '1.44.9'
-lbt_grasshopper = '1.10.6'
-ladybug_grasshopper_dotnet = '1.3.7'
-lbt_grasshopper_samples = '1.10.0'
-honeybee_openstudio_gem = '2.38.23'
-lbt_measures = '0.3.2'
-honeybee_standards = '2.0.7'
-honeybee_energy_standards = '2.3.0'
-
-
-turn_off_old_tag(ghenv.Component)
-if _install:
-    # ensure that Python has been installed in the ladybug_tools folder
-    home_folder = os.getenv('HOME') or os.path.expanduser('~')
-    try:
-        home_folder.decode('ascii')
-    except UnicodeDecodeError:
-        msg = 'Your username folder "{}" contains non-ASCII characters\n' \
-            'While the latest version of Ladybug Tools supports most non-ASCII ' \
-            'characters, there are some characters that can still cause issues.\n' \
-            'To avoid all poential problems, you can create a new username with ' \
-            'non-ASCII characters and install Ladybug Tools from that'.format(home_folder)
-        print(msg)
-        give_warning(msg)
-    py_exe, py_lib = get_python_exe()
-    assert py_exe is not None, \
-        'No Python instalation was found at: {}.\nThis is a requirement in ' \
-        'order to contine with installation'.format(
-            os.path.join(home_folder, 'ladybug_tools', 'python'))
-
-    # install the core libraries
-    print('Installing Ladybug Tools core Python libraries.')
-    stderr = update_libraries_pip(py_exe, 'lbt-dragonfly', lbt_dragonfly)
-    if os.path.isdir(os.path.join(py_lib, 'lbt_dragonfly-{}.dist-info'.format(lbt_dragonfly))):
-        print('Ladybug Tools core Python libraries successfully installed!\n ')
-    else:
-        give_warning(stderr)
-        print (stderr)
-
-    # install fairyfly-therm library
-    print('Installing Fairyfly Python libraries.')
-    stderr = update_libraries_pip(py_exe, 'fairyfly-therm', fairyfly_therm)
-    if os.path.isdir(os.path.join(py_lib, 'fairyfly_therm-{}.dist-info'.format(fairyfly_therm))):
-        print('Fairyfly Python libraries successfully installed!\n ')
-    else:
-        give_warning(stderr)
-        print (stderr)
-
-    # install the ladybug tools recipes
-    print('Installing Ladybug Tools recipes.')
-    stderr = update_libraries_pip(py_exe, 'lbt-recipes', lbt_recipes)
-    if os.path.isdir(os.path.join(py_lib, 'lbt_recipes-{}.dist-info'.format(lbt_recipes))):
-        print('Ladybug Tools recipes successfully installed!\n ')
-    else:
-        give_warning(stderr)
-        print(stderr)
-
-    # install the library needed for interaction with Rhino
-    print('Installing ladybug-rhino Python library.')
-    stderr = update_libraries_pip(py_exe, 'ladybug-rhino', ladybug_rhino)
-    if os.path.isdir(os.path.join(py_lib, 'ladybug_rhino-{}.dist-info'.format(ladybug_rhino))):
-        print('Ladybug-rhino Python library successfully installed!\n ')
-    else:
-        give_warning(stderr)
-        print(stderr)
-
-    # set Rhino's IronPython to look for the libraries
-    clean_rhino_scripts()  # always ensure there isn't a duplicate set of libraries
-    set_via_rh_common = False
-    if RHINO_VERSION.Major &gt;= 7:  # use the new method McNeel added for us
-        from System import Array
-        try:
-            py_paths = list(Rhino.Runtime.PythonScript.SearchPaths)
-            if py_lib not in py_paths:
-                py_paths.append(py_lib)
-                cs_array = Array[str](py_paths)
-                Rhino.Runtime.PythonScript.SearchPaths = cs_array
-            print ('Successfully set Python search path to: {}'.format(py_lib))
-            set_via_rh_common = True
-        except Exception:  # something happened to stop us from extending the path
-            pass
-    if os.name == 'nt':  # on Windows, write the .bat file to be run once Rhino is closed
-        try:
-            write_iron_python_batch_file(py_exe)
-        except Exception:  # non-ASCII character in username
-            pass  # let's hope the .bat file is not needed
-    if not set_via_rh_common and os.name != 'nt':
-        # we have to copy all of the files to the scripts folder on Mac
-        copy_packages_to_rhino_scripts(py_lib)
-
-    # install the grasshopper components
-    print 'Installing Ladybug Tools Grasshopper components.'
-    uo_folder = UserObjectFolders[0]
-    stderr = update_libraries_pip(py_exe, 'lbt-grasshopper', lbt_grasshopper, uo_folder)
-    if os.path.isdir(os.path.join(uo_folder, 'lbt_grasshopper-{}.dist-info'.format(lbt_grasshopper))):
-        print 'Ladybug Tools Grasshopper components successfully installed!\n '
-        remove_dist_info_files(uo_folder)  # remove the dist-info files
-    else:
-        give_warning(stderr)
-        print stderr
-    update_requirements_version(uo_folder, lbt_grasshopper)
-
-    # install the .gha Grasshopper components
-    gha_folder = DefaultAssemblyFolder
-    gha_location = os.path.join(gha_folder, 'ladybug_grasshopper_dotnet')
-    if os.path.isdir(gha_location):
-        msg = '.gha files already exist in your Components folder and cannot be ' \
-            'deleted while Grasshopper is open.\nClose Grasshopper, delete the ' \
-            '.gha files at\n{}\nand rerun this installer component.\nOr simply keep '\
-            'using the old .gha component if you do not need the latest ' \
-            '.gha component features.\n '.format(gha_location)
-        print msg
-    else:
-        stderr = update_libraries_pip(py_exe, 'ladybug-grasshopper-dotnet',
-                                      ladybug_grasshopper_dotnet, gha_folder)
-        package_dir = os.path.join(
-            gha_folder, 'ladybug_grasshopper_dotnet-{}.dist-info'.format(ladybug_grasshopper_dotnet))
-        if os.path.isdir(package_dir):
-            print 'Ladybug Tools .gha Grasshopper components successfully installed!\n '
-            remove_dist_info_files(gha_folder)  # remove the dist-info files
-        else:
-            give_warning(stderr)
-            print stderr
-
-    # install the lbt grasshopper samples
-    print 'Installing LBT Grasshopper Samples version {}.'.format(lbt_grasshopper_samples)
-    sample_dir = get_samples_directory()
-    base_folder = download_repo_github('lbt-grasshopper-samples', sample_dir, lbt_grasshopper_samples)
-    source_folder = os.path.join(base_folder, 'samples')
-    print 'Copying samples code to {}\n '.format(sample_dir)
-    copy_file_tree(source_folder, sample_dir)
-    nukedir(base_folder, True)
-
-    # install the honeybee-openstudio ruby gem
-    print 'Installing Honeybee-OpenStudio gem version {}.'.format(honeybee_openstudio_gem)
-    gem_dir = get_gem_directory()
-    base_folder = download_repo_github('honeybee-openstudio-gem', gem_dir, honeybee_openstudio_gem)
-    source_folder = os.path.join(base_folder, 'lib')
-    lib_folder = os.path.join(gem_dir, 'honeybee_openstudio_gem', 'lib')
-    print 'Copying "honeybee_openstudio_gem" source code to {}\n '.format(lib_folder)
-    copy_file_tree(source_folder, lib_folder)
-    nukedir(base_folder, True)
-
-    # install the lbt-measures ruby gem
-    print ('Installing Ladybug Tools Measures version {}.'.format(lbt_measures))
-    gem_dir = get_gem_directory()
-    base_folder = download_repo_github('lbt-measures', gem_dir, lbt_measures)
-    source_folder = os.path.join(base_folder, 'lib')
-    print ('Copying "lbt_measures" source code to {}\n '.format(gem_dir))
-    copy_file_tree(source_folder, gem_dir)
-    nukedir(base_folder, True)
-
-    # install the honeybee-energy-standards package
-    print 'Installing Honeybee energy standards.'
-    stand_dir = get_standards_directory()
-    if os.path.isdir(os.path.join(stand_dir, 'honeybee_energy_standards')):
-        nukedir(os.path.join(stand_dir, 'honeybee_energy_standards'), True)
-    stderr = update_libraries_pip(py_exe, 'honeybee-energy-standards', honeybee_energy_standards, stand_dir)
-    if os.path.isdir(os.path.join(stand_dir, 'honeybee_energy_standards-{}.dist-info'.format(honeybee_energy_standards))):
-        print 'Honeybee energy standards successfully installed!\n '
-        remove_dist_info_files(stand_dir)  # remove the dist-info files
-    else:
-        give_warning(stderr)
-        print stderr
-
-    # set up the user standards folders
-    print 'Setting up user standards.'
-    if os.path.isdir(os.path.join(stand_dir, 'honeybee_standards')):
-        nukedir(os.path.join(stand_dir, 'honeybee_standards'), True)
-    setup_resource_folders()
-
-    # give a success message
-    maj_ver = '.'.join(lbt_grasshopper.split('.')[:-1])
-    success_msg = 'Ladybug Tools {} has been successfully installed'.format(maj_ver)
-    restart_msg = 'RESTART RHINO to load the new components + library.'
-    for msg in (success_msg, restart_msg):
-        print (msg)
-    give_popup_message('\n'.join([success_msg, restart_msg]), 'Installation Successful!')
-else:  # give a message to the user about what to do
-    print 'Make sure you are connected to the internet and set _install to True!'</item>
-                    <item name="Description" type_name="gh_string" type_code="10">This component installs the Ladybug Tools core libraries to the ladybug_tools
-installation folder using the Python installation.
-_
-It also installs all of the grasshopper components to:
-C:\Users\%USERNAME%\AppData\Roaming\Grasshopper\UserObjects
-(or the equivalent location for UserObjects on Mac)
-_
-It also installs the lbt_grasshopper_samples to:
-ladybug_tools\resources\samples
-_
-It also installs standards to:
-ladybug_tools\resources\standards
--</item>
-                    <item name="EditorLocation" type_name="gh_drawing_point" type_code="30">
-                      <X>611</X>
-                      <Y>47</Y>
-                    </item>
-                    <item name="EditorSize" type_name="gh_drawing_size" type_code="32">
-                      <W>863</W>
-                      <H>1034</H>
-                    </item>
-                    <item name="HideInput" type_name="gh_bool" type_code="1">true</item>
-                    <item name="HideOutput" type_name="gh_bool" type_code="1">false</item>
-                    <item name="IconOverride" type_name="gh_drawing_bitmap" type_code="37">
-                      <bitmap length="1011">iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAWJQAAFiUBSVIk8AAAA5VJREFUSEvllVuIFXUcx7//c+bc5uycmTlnzpnLmTkzey67qyhspBAJlnRBg0Ch9KWLtBIWEbWFlF0Q2aeEaqNQQxIpfYiooAsaZNHLEvlgkAVmZT2ki1TgWmQp3/jPXlr+rETWQ9AH/g/zv3x/v//v8h/g/0YGwK3q5OUixTrzvgMAawFMAFgOoDpv7bJ4FMDvAF4A8C6AcxCCuUyGECCAHwC8BuAa9eBfcSWAhwGMA6AQghsMkwcaTR72Y25v+Pw66nBfI+AKvSwNybEDwBoAI6rYQnw6c+hcVdN4MIg51Rog4yH+GPa43fX5tOPyWLOfJ6IOi9ksNSHk/ikAiSq2EJtlaIYKRY7YVV5d0lnLany8Wudv8SCvMs3U62UlPTW63wu5seawpmly/klVbCGuE0Jc+KTZz731YDYE1LMZHg873Ob6fKRa54Sf8Luoy7G6x1WGwaXlMjNCXATQVQVV3l9dNshkEb8JOxwultKk3lDuS0M17jbJZDHfciPeaFT4VdjhHsfnIb/FRYWidOYpVXA+svR+3t9o8pfWAHc7Pp+pe/w47Odtps09jSZfDWJ+Hrbnbnas2eb5eDB16H6rKueOqqKzFACsFAI8HMS8uc+YExm1ajwedbmsXOY6y+ZYw+NDVYejVYcfBDGLWpYf+jFfrPuz5esB0FQDmwC8nROC90x7MjcyGcG9jYAP2k4arttNi2+4Te6r+9zpeLyrz+R4zeXdpi33y955WeZSNSA794qMEJxoJlz1Z41zU8XmqajH5SWdlXwuTeiRIOFU1ONOx09DdCEe5O7pG5wGYAAQqgGJDuDM847Hi8kQt9oOn625PBL2c41pzRlcb1ocsWp8ru5zsa5zqa7T1XKM83m5/pEqqvJKks9zo2nzfGuAp6MutzkNfha2uUL2hKZxh+PxTS/iTUaFB/yI8gmZF9IHVEGVYbkxKRT4XhDzWsPgl2Gbp8Iud7kBd/kR7zBt3lmxeCLq8nqjwg2WTTObleJnAFiq4EI8FuRyXGfbXFIq8WiQ8HU3ZKtY4JgX8KfWACfDLtka5Bdhm8O6zrJ8BIFbVKFLsRrApDy0pVbnZNRL6/wlt0lL09Jkn20N8GTY4WazKjtYim9RRS5FFsBWAC0AowDOhvk877NrXCK7eibWK8t9tKffn28BrFdF/g4xgCdmquN7AL8COAngIIB7AZjqgX9CD8A7APLqwr9Faea3+d/hDwmVadxzjFeNAAAAAElFTkSuQmCC</bitmap>
-                    </item>
-                    <item name="InputIsPath" type_name="gh_bool" type_code="1">false</item>
-                    <item name="InstanceGuid" type_name="gh_guid" type_code="9">ef0281ae-e34b-407c-bdf7-5fe8c6ce4699</item>
-                    <item name="IsAdvancedMode" type_name="gh_bool" type_code="1">false</item>
-                    <item name="MarshalOutGuids" type_name="gh_bool" type_code="1">true</item>
-                    <item name="Name" type_name="gh_string" type_code="10">LB Installer</item>
-                    <item name="NickName" type_name="gh_string" type_code="10">LBInstall</item>
-                  </items>
-                  <chunks count="2">
-                    <chunk name="Attributes">
-                      <items count="2">
-                        <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                          <X>164</X>
-                          <Y>71</Y>
-                          <W>118</W>
-                          <H>28</H>
-                        </item>
-                        <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                          <X>221</X>
-                          <Y>85</Y>
-                        </item>
-                      </items>
-                    </chunk>
-                    <chunk name="ParameterData">
-                      <items count="4">
-                        <item name="InputCount" type_name="gh_int32" type_code="3">1</item>
-                        <item name="InputId" index="0" type_name="gh_guid" type_code="9">84fa917c-1ed8-4db3-8be1-7bdc4a6495a2</item>
-                        <item name="OutputCount" type_name="gh_int32" type_code="3">1</item>
-                        <item name="OutputId" index="0" type_name="gh_guid" type_code="9">3ede854e-c753-40eb-84cb-b48008f14fd4</item>
-                      </items>
-                      <chunks count="2">
-                        <chunk name="InputParam" index="0">
-                          <items count="10">
-                            <item name="AllowTreeAccess" type_name="gh_bool" type_code="1">true</item>
-                            <item name="Description" type_name="gh_string" type_code="10">Set to True to install Ladybug Tools on your machine.</item>
-                            <item name="InstanceGuid" type_name="gh_guid" type_code="9">6a2b97c2-60f3-4a51-949b-3b92d9485682</item>
-                            <item name="Name" type_name="gh_string" type_code="10">_install</item>
-                            <item name="NickName" type_name="gh_string" type_code="10">_install</item>
-                            <item name="Optional" type_name="gh_bool" type_code="1">true</item>
-                            <item name="ScriptParamAccess" type_name="gh_int32" type_code="3">0</item>
-                            <item name="ShowTypeHints" type_name="gh_bool" type_code="1">true</item>
-                            <item name="SourceCount" type_name="gh_int32" type_code="3">0</item>
-                            <item name="TypeHintID" type_name="gh_guid" type_code="9">d60527f5-b5af-4ef6-8970-5f96fe412559</item>
-                          </items>
-                          <chunks count="1">
-                            <chunk name="Attributes">
-                              <items count="2">
-                                <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                                  <X>166</X>
-                                  <Y>73</Y>
-                                  <W>40</W>
-                                  <H>24</H>
-                                </item>
-                                <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                                  <X>187.5</X>
-                                  <Y>85</Y>
-                                </item>
-                              </items>
-                            </chunk>
-                          </chunks>
-                        </chunk>
-                        <chunk name="OutputParam" index="0">
-                          <items count="6">
-                            <item name="Description" type_name="gh_string" type_code="10">!!!</item>
-                            <item name="InstanceGuid" type_name="gh_guid" type_code="9">5b503100-9223-4ab6-ba51-b7113d6b3af7</item>
-                            <item name="Name" type_name="gh_string" type_code="10">out</item>
-                            <item name="NickName" type_name="gh_string" type_code="10">Vviiiiiz!</item>
-                            <item name="Optional" type_name="gh_bool" type_code="1">false</item>
-                            <item name="SourceCount" type_name="gh_int32" type_code="3">0</item>
-                          </items>
-                          <chunks count="1">
-                            <chunk name="Attributes">
-                              <items count="2">
-                                <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                                  <X>236</X>
-                                  <Y>73</Y>
-                                  <W>44</W>
-                                  <H>24</H>
-                                </item>
-                                <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                                  <X>258</X>
-                                  <Y>85</Y>
-                                </item>
-                              </items>
-                            </chunk>
-                          </chunks>
-                        </chunk>
-                      </chunks>
-                    </chunk>
-                  </chunks>
-                </chunk>
-              </chunks>
-            </chunk>
-            <chunk name="Object" index="2">
               <items count="2">
-                <item name="GUID" type_name="gh_guid" type_code="9">a8b97322-2d53-47cd-905e-b932c3ccd74e</item>
-                <item name="Name" type_name="gh_string" type_code="10">Button</item>
+                <item name="GUID" type_name="gh_guid" type_code="9">2e78987b-9dfb-42a2-8b76-3923ac8bd91a</item>
+                <item name="Name" type_name="gh_string" type_code="10">Boolean Toggle</item>
               </items>
               <chunks count="1">
                 <chunk name="Container">
-                  <items count="8">
-                    <item name="Description" type_name="gh_string" type_code="10">Button object with two values</item>
-                    <item name="ExpressionNormal" type_name="gh_string" type_code="10">False</item>
-                    <item name="ExpressionPressed" type_name="gh_string" type_code="10">True</item>
-                    <item name="InstanceGuid" type_name="gh_guid" type_code="9">17455f18-1e87-49aa-b410-9a0aedaef761</item>
-                    <item name="Name" type_name="gh_string" type_code="10">Button</item>
-                    <item name="NickName" type_name="gh_string" type_code="10">Button</item>
+                  <items count="7">
+                    <item name="Description" type_name="gh_string" type_code="10">Boolean (true/false) toggle</item>
+                    <item name="InstanceGuid" type_name="gh_guid" type_code="9">c59b4461-6679-48f0-86bb-7e2489bcebde</item>
+                    <item name="Name" type_name="gh_string" type_code="10">Boolean Toggle</item>
+                    <item name="NickName" type_name="gh_string" type_code="10">Toggle</item>
                     <item name="Optional" type_name="gh_bool" type_code="1">false</item>
                     <item name="SourceCount" type_name="gh_int32" type_code="3">0</item>
+                    <item name="ToggleValue" type_name="gh_bool" type_code="1">false</item>
                   </items>
                   <chunks count="1">
                     <chunk name="Attributes">
                       <items count="1">
                         <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                          <X>54</X>
-                          <Y>201</Y>
-                          <W>103</W>
+                          <X>139</X>
+                          <Y>1942</Y>
+                          <W>104</W>
                           <H>22</H>
                         </item>
                       </items>
@@ -1238,46 +128,1299 @@ ladybug_tools\resources\standards
                 </chunk>
               </chunks>
             </chunk>
-            <chunk name="Object" index="3">
-              <items count="3">
-                <item name="GUID" type_name="gh_guid" type_code="9">410755b1-224a-4c1e-a407-bf32fb45ea7e</item>
-                <item name="Lib" type_name="gh_guid" type_code="9">00000000-0000-0000-0000-000000000000</item>
-                <item name="Name" type_name="gh_string" type_code="10">DB Installer</item>
+            <chunk name="Object" index="1">
+              <items count="2">
+                <item name="GUID" type_name="gh_guid" type_code="9">c552a431-af5b-46a9-a8a4-0fcbc27ef596</item>
+                <item name="Name" type_name="gh_string" type_code="10">Group</item>
               </items>
               <chunks count="1">
                 <chunk name="Container">
-                  <items count="12">
-                    <item name="CodeInput" type_name="gh_string" type_code="10"># Dewbee: Grasshopper installer component
-#
-# Installs the Dewbee Python package into the Ladybug Tools Python environment
-# and installs Dewbee .ghuser components into the Grasshopper UserObjects folder.
-#
-# Expected GitHub repo structure:
-#   dewbee_main/
-#       grasshopper/
-#           user_objects/
-#               *.ghuser
-#
-# Expected PyPI package:
-#   dewbee
-#
-# Inputs:
-#   _install: Set to True to install/update Dewbee.
-#   _dewbee_ver: Optional version string for the PyPI package (eg. "0.1.0").
-#                If empty, the latest version will be installed.
-#   _github_ref: Optional GitHub ref to download GH components from.
-#                Can be a branch name like "main" or a tag like "v0.1.0".
-#                If empty, "main" will be used.
-#
-# EM / adapted for Dewbee
-#
+                  <items count="21">
+                    <item name="Border" type_name="gh_int32" type_code="3">1</item>
+                    <item name="Colour" type_name="gh_drawing_color" type_code="36">
+                      <ARGB>150;255;255;255</ARGB>
+                    </item>
+                    <item name="Description" type_name="gh_string" type_code="10">A group of Grasshopper objects</item>
+                    <item name="ID" index="0" type_name="gh_guid" type_code="9">fb03312f-b0af-49ca-a47a-14249e9ae03f</item>
+                    <item name="ID" index="1" type_name="gh_guid" type_code="9">c59b4461-6679-48f0-86bb-7e2489bcebde</item>
+                    <item name="ID" index="2" type_name="gh_guid" type_code="9">33dfe672-93e9-46d6-b85b-7ec75e35b8e3</item>
+                    <item name="ID" index="3" type_name="gh_guid" type_code="9">6808d75a-f9e6-454d-8af8-3517ba92dc44</item>
+                    <item name="ID" index="4" type_name="gh_guid" type_code="9">be86a574-7125-49dd-b637-1942871ec9fc</item>
+                    <item name="ID" index="5" type_name="gh_guid" type_code="9">2ecb6469-6ee6-4a56-bb59-df6e1435872c</item>
+                    <item name="ID" index="6" type_name="gh_guid" type_code="9">62940114-cf70-4708-8ef1-786f9453704f</item>
+                    <item name="ID" index="7" type_name="gh_guid" type_code="9">cb0dab97-7851-4cb0-969f-2802b7727eee</item>
+                    <item name="ID" index="8" type_name="gh_guid" type_code="9">d7c30a6a-1ada-43fe-b666-7e998da0e5ed</item>
+                    <item name="ID" index="9" type_name="gh_guid" type_code="9">5547f64a-7d1d-40b3-90ae-ec769d861055</item>
+                    <item name="ID" index="10" type_name="gh_guid" type_code="9">659d30ad-8859-471c-9f22-aefbb20c4681</item>
+                    <item name="ID" index="11" type_name="gh_guid" type_code="9">3e2ad00b-e1a3-4ad1-9430-a37d816431d0</item>
+                    <item name="ID" index="12" type_name="gh_guid" type_code="9">f3be9691-81ac-44ee-ae0e-b0091808e9b3</item>
+                    <item name="ID" index="13" type_name="gh_guid" type_code="9">111a15a3-a3e9-4125-9094-8d0849dec584</item>
+                    <item name="ID_Count" type_name="gh_int32" type_code="3">14</item>
+                    <item name="InstanceGuid" type_name="gh_guid" type_code="9">ac190662-81f7-46f5-8879-d7602d2227fb</item>
+                    <item name="Name" type_name="gh_string" type_code="10">Group</item>
+                    <item name="NickName" type_name="gh_string" type_code="10"></item>
+                  </items>
+                  <chunks count="1">
+                    <chunk name="Attributes" />
+                  </chunks>
+                </chunk>
+              </chunks>
+            </chunk>
+            <chunk name="Object" index="2">
+              <items count="2">
+                <item name="GUID" type_name="gh_guid" type_code="9">59e0b89a-e487-49f8-bab8-b5bab16be14c</item>
+                <item name="Name" type_name="gh_string" type_code="10">Panel</item>
+              </items>
+              <chunks count="1">
+                <chunk name="Container">
+                  <items count="9">
+                    <item name="Description" type_name="gh_string" type_code="10">A panel for custom notes and text values</item>
+                    <item name="InstanceGuid" type_name="gh_guid" type_code="9">33dfe672-93e9-46d6-b85b-7ec75e35b8e3</item>
+                    <item name="Name" type_name="gh_string" type_code="10">Panel</item>
+                    <item name="NickName" type_name="gh_string" type_code="10"></item>
+                    <item name="Optional" type_name="gh_bool" type_code="1">false</item>
+                    <item name="ScrollRatio" type_name="gh_double" type_code="6">0</item>
+                    <item name="Source" index="0" type_name="gh_guid" type_code="9">0107fa46-870a-4b2e-af43-414b4fded43c</item>
+                    <item name="SourceCount" type_name="gh_int32" type_code="3">1</item>
+                    <item name="UserText" type_name="gh_string" type_code="10">Double click to edit panel content…</item>
+                  </items>
+                  <chunks count="2">
+                    <chunk name="Attributes">
+                      <items count="5">
+                        <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
+                          <X>567</X>
+                          <Y>1739</Y>
+                          <W>800</W>
+                          <H>451</H>
+                        </item>
+                        <item name="MarginLeft" type_name="gh_int32" type_code="3">0</item>
+                        <item name="MarginRight" type_name="gh_int32" type_code="3">0</item>
+                        <item name="MarginTop" type_name="gh_int32" type_code="3">0</item>
+                        <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
+                          <X>567.63635</X>
+                          <Y>1739.3801</Y>
+                        </item>
+                      </items>
+                    </chunk>
+                    <chunk name="PanelProperties">
+                      <items count="7">
+                        <item name="Colour" type_name="gh_drawing_color" type_code="36">
+                          <ARGB>255;255;255;255</ARGB>
+                        </item>
+                        <item name="DrawIndices" type_name="gh_bool" type_code="1">true</item>
+                        <item name="DrawPaths" type_name="gh_bool" type_code="1">true</item>
+                        <item name="Multiline" type_name="gh_bool" type_code="1">true</item>
+                        <item name="SpecialCodes" type_name="gh_bool" type_code="1">false</item>
+                        <item name="Stream" type_name="gh_bool" type_code="1">false</item>
+                        <item name="Wrap" type_name="gh_bool" type_code="1">true</item>
+                      </items>
+                    </chunk>
+                  </chunks>
+                </chunk>
+              </chunks>
+            </chunk>
+            <chunk name="Object" index="3">
+              <items count="2">
+                <item name="GUID" type_name="gh_guid" type_code="9">7f5c6c55-f846-4a08-9c9a-cfdc285cc6fe</item>
+                <item name="Name" type_name="gh_string" type_code="10">Scribble</item>
+              </items>
+              <chunks count="1">
+                <chunk name="Container">
+                  <items count="13">
+                    <item name="Bold" type_name="gh_bool" type_code="1">false</item>
+                    <item name="Ca" type_name="gh_drawing_pointf" type_code="31">
+                      <X>116.36369</X>
+                      <Y>1450.1069</Y>
+                    </item>
+                    <item name="Cb" type_name="gh_drawing_pointf" type_code="31">
+                      <X>671.80804</X>
+                      <Y>1450.1069</Y>
+                    </item>
+                    <item name="Cc" type_name="gh_drawing_pointf" type_code="31">
+                      <X>671.80804</X>
+                      <Y>1496.4692</Y>
+                    </item>
+                    <item name="Cd" type_name="gh_drawing_pointf" type_code="31">
+                      <X>116.36369</X>
+                      <Y>1496.4692</Y>
+                    </item>
+                    <item name="Description" type_name="gh_string" type_code="10">A quick note</item>
+                    <item name="Font" type_name="gh_string" type_code="10">Microsoft Sans Serif</item>
+                    <item name="InstanceGuid" type_name="gh_guid" type_code="9">d7c30a6a-1ada-43fe-b666-7e998da0e5ed</item>
+                    <item name="Italic" type_name="gh_bool" type_code="1">false</item>
+                    <item name="Name" type_name="gh_string" type_code="10">Scribble</item>
+                    <item name="NickName" type_name="gh_string" type_code="10">Scribble</item>
+                    <item name="Size" type_name="gh_single" type_code="5">50</item>
+                    <item name="Text" type_name="gh_string" type_code="10">APR 07, 2026 [v1.18.15]</item>
+                  </items>
+                  <chunks count="1">
+                    <chunk name="Attributes">
+                      <items count="2">
+                        <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
+                          <X>111.36369</X>
+                          <Y>1445.1069</Y>
+                          <W>565.44434</W>
+                          <H>56.362305</H>
+                        </item>
+                        <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
+                          <X>116.36369</X>
+                          <Y>1450.1069</Y>
+                        </item>
+                      </items>
+                    </chunk>
+                  </chunks>
+                </chunk>
+              </chunks>
+            </chunk>
+            <chunk name="Object" index="4">
+              <items count="2">
+                <item name="GUID" type_name="gh_guid" type_code="9">7f5c6c55-f846-4a08-9c9a-cfdc285cc6fe</item>
+                <item name="Name" type_name="gh_string" type_code="10">Scribble</item>
+              </items>
+              <chunks count="1">
+                <chunk name="Container">
+                  <items count="13">
+                    <item name="Bold" type_name="gh_bool" type_code="1">false</item>
+                    <item name="Ca" type_name="gh_drawing_pointf" type_code="31">
+                      <X>116.927246</X>
+                      <Y>1522.995</Y>
+                    </item>
+                    <item name="Cb" type_name="gh_drawing_pointf" type_code="31">
+                      <X>949.2075</X>
+                      <Y>1522.995</Y>
+                    </item>
+                    <item name="Cc" type_name="gh_drawing_pointf" type_code="31">
+                      <X>949.2075</X>
+                      <Y>1672.702</Y>
+                    </item>
+                    <item name="Cd" type_name="gh_drawing_pointf" type_code="31">
+                      <X>116.927246</X>
+                      <Y>1672.702</Y>
+                    </item>
+                    <item name="Description" type_name="gh_string" type_code="10">A quick note</item>
+                    <item name="Font" type_name="gh_string" type_code="10">Microsoft Sans Serif</item>
+                    <item name="InstanceGuid" type_name="gh_guid" type_code="9">6808d75a-f9e6-454d-8af8-3517ba92dc44</item>
+                    <item name="Italic" type_name="gh_bool" type_code="1">false</item>
+                    <item name="Name" type_name="gh_string" type_code="10">Scribble</item>
+                    <item name="NickName" type_name="gh_string" type_code="10">Scribble</item>
+                    <item name="Size" type_name="gh_single" type_code="5">15</item>
+                    <item name="Text" type_name="gh_string" type_code="10">This installer will add new libraries to the Ladybug Tools python interpreter which is installed on your computer. 
+Specifically, it will:
+- Download and add a new ‘Honeybee-PH’ plugin to your Ladybug Tools installation.
+- Download and add a new ‘PHX’ plugin to your Ladybug Tools installation.
+- Download and add a new library for read/write to excel (XLWings) to your Ladybug Tools installation.
+- Download and add new Grasshopper Components to your Grasshopper ‘User Objects’ folder which will then be available
+for use in your Grasshopper environment
 
-ghenv.Component.Name = "DB Installer"
-ghenv.Component.NickName = "DBInstall"
-ghenv.Component.Message = "0.1.0"
+NOTE: The Honeybee-PH Plugin is currently compatible with Ladybug Tools version v1.8.0 or newer only.</item>
+                  </items>
+                  <chunks count="1">
+                    <chunk name="Attributes">
+                      <items count="2">
+                        <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
+                          <X>111.927246</X>
+                          <Y>1517.995</Y>
+                          <W>842.2803</W>
+                          <H>159.70703</H>
+                        </item>
+                        <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
+                          <X>116.927246</X>
+                          <Y>1522.995</Y>
+                        </item>
+                      </items>
+                    </chunk>
+                  </chunks>
+                </chunk>
+              </chunks>
+            </chunk>
+            <chunk name="Object" index="5">
+              <items count="2">
+                <item name="GUID" type_name="gh_guid" type_code="9">c552a431-af5b-46a9-a8a4-0fcbc27ef596</item>
+                <item name="Name" type_name="gh_string" type_code="10">Group</item>
+              </items>
+              <chunks count="1">
+                <chunk name="Container">
+                  <items count="8">
+                    <item name="Border" type_name="gh_int32" type_code="3">3</item>
+                    <item name="Colour" type_name="gh_drawing_color" type_code="36">
+                      <ARGB>150;255;125;125</ARGB>
+                    </item>
+                    <item name="Description" type_name="gh_string" type_code="10">A group of Grasshopper objects</item>
+                    <item name="ID" index="0" type_name="gh_guid" type_code="9">c59b4461-6679-48f0-86bb-7e2489bcebde</item>
+                    <item name="ID_Count" type_name="gh_int32" type_code="3">1</item>
+                    <item name="InstanceGuid" type_name="gh_guid" type_code="9">fdc74d15-9642-434f-92a2-75be10fe9d17</item>
+                    <item name="Name" type_name="gh_string" type_code="10">Group</item>
+                    <item name="NickName" type_name="gh_string" type_code="10">Set me to 'True' to download and install</item>
+                  </items>
+                  <chunks count="1">
+                    <chunk name="Attributes" />
+                  </chunks>
+                </chunk>
+              </chunks>
+            </chunk>
+            <chunk name="Object" index="6">
+              <items count="2">
+                <item name="GUID" type_name="gh_guid" type_code="9">7f5c6c55-f846-4a08-9c9a-cfdc285cc6fe</item>
+                <item name="Name" type_name="gh_string" type_code="10">Scribble</item>
+              </items>
+              <chunks count="1">
+                <chunk name="Container">
+                  <items count="13">
+                    <item name="Bold" type_name="gh_bool" type_code="1">false</item>
+                    <item name="Ca" type_name="gh_drawing_pointf" type_code="31">
+                      <X>118.06093</X>
+                      <Y>2214.991</Y>
+                    </item>
+                    <item name="Cb" type_name="gh_drawing_pointf" type_code="31">
+                      <X>939.98474</X>
+                      <Y>2214.991</Y>
+                    </item>
+                    <item name="Cc" type_name="gh_drawing_pointf" type_code="31">
+                      <X>939.98474</X>
+                      <Y>2263.0159</Y>
+                    </item>
+                    <item name="Cd" type_name="gh_drawing_pointf" type_code="31">
+                      <X>118.06093</X>
+                      <Y>2263.0159</Y>
+                    </item>
+                    <item name="Description" type_name="gh_string" type_code="10">A quick note</item>
+                    <item name="Font" type_name="gh_string" type_code="10">Microsoft Sans Serif</item>
+                    <item name="InstanceGuid" type_name="gh_guid" type_code="9">be86a574-7125-49dd-b637-1942871ec9fc</item>
+                    <item name="Italic" type_name="gh_bool" type_code="1">false</item>
+                    <item name="Name" type_name="gh_string" type_code="10">Scribble</item>
+                    <item name="NickName" type_name="gh_string" type_code="10">Scribble</item>
+                    <item name="Size" type_name="gh_single" type_code="5">15</item>
+                    <item name="Text" type_name="gh_string" type_code="10">Once installed, please reboot Rhino for the new plugins to become available. 
+After install, you no longer need this .GH file, and can safely discard it.
+If you run this again in the future, this installer will overwrite any existing Honeybee-PH installation with the latest version.</item>
+                  </items>
+                  <chunks count="1">
+                    <chunk name="Attributes">
+                      <items count="2">
+                        <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
+                          <X>113.06093</X>
+                          <Y>2209.991</Y>
+                          <W>831.9238</W>
+                          <H>58.024902</H>
+                        </item>
+                        <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
+                          <X>118.06093</X>
+                          <Y>2214.991</Y>
+                        </item>
+                      </items>
+                    </chunk>
+                  </chunks>
+                </chunk>
+              </chunks>
+            </chunk>
+            <chunk name="Object" index="7">
+              <items count="2">
+                <item name="GUID" type_name="gh_guid" type_code="9">7f5c6c55-f846-4a08-9c9a-cfdc285cc6fe</item>
+                <item name="Name" type_name="gh_string" type_code="10">Scribble</item>
+              </items>
+              <chunks count="1">
+                <chunk name="Container">
+                  <items count="13">
+                    <item name="Bold" type_name="gh_bool" type_code="1">true</item>
+                    <item name="Ca" type_name="gh_drawing_pointf" type_code="31">
+                      <X>122.240204</X>
+                      <Y>1693.381</Y>
+                    </item>
+                    <item name="Cb" type_name="gh_drawing_pointf" type_code="31">
+                      <X>1680.0405</X>
+                      <Y>1693.381</Y>
+                    </item>
+                    <item name="Cc" type_name="gh_drawing_pointf" type_code="31">
+                      <X>1680.0405</X>
+                      <Y>1716.8429</Y>
+                    </item>
+                    <item name="Cd" type_name="gh_drawing_pointf" type_code="31">
+                      <X>122.240204</X>
+                      <Y>1716.8429</Y>
+                    </item>
+                    <item name="Description" type_name="gh_string" type_code="10">A quick note</item>
+                    <item name="Font" type_name="gh_string" type_code="10">Arial</item>
+                    <item name="InstanceGuid" type_name="gh_guid" type_code="9">3e2ad00b-e1a3-4ad1-9430-a37d816431d0</item>
+                    <item name="Italic" type_name="gh_bool" type_code="1">false</item>
+                    <item name="Name" type_name="gh_string" type_code="10">Scribble</item>
+                    <item name="NickName" type_name="gh_string" type_code="10">Scribble</item>
+                    <item name="Size" type_name="gh_single" type_code="5">25</item>
+                    <item name="Text" type_name="gh_string" type_code="10">Please update your Ladybug Tools version using the “LB Versioner” grasshopper component  BEFORE installing Honeybee-PH</item>
+                  </items>
+                  <chunks count="1">
+                    <chunk name="Attributes">
+                      <items count="2">
+                        <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
+                          <X>117.240204</X>
+                          <Y>1688.381</Y>
+                          <W>1567.8003</W>
+                          <H>33.461914</H>
+                        </item>
+                        <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
+                          <X>122.240204</X>
+                          <Y>1693.381</Y>
+                        </item>
+                      </items>
+                    </chunk>
+                  </chunks>
+                </chunk>
+              </chunks>
+            </chunk>
+            <chunk name="Object" index="8">
+              <items count="3">
+                <item name="GUID" type_name="gh_guid" type_code="9">410755b1-224a-4c1e-a407-bf32fb45ea7e</item>
+                <item name="Lib" type_name="gh_guid" type_code="9">00000000-0000-0000-0000-000000000000</item>
+                <item name="Name" type_name="gh_string" type_code="10">HBPH Installer</item>
+              </items>
+              <chunks count="1">
+                <chunk name="Container">
+                  <items count="13">
+                    <item name="CodeInput" type_name="gh_string" type_code="10">#
+# Honeybee-PH: A Plugin for adding Passive-House data to LadybugTools Honeybee-Energy Models
+# 
+# This component is part of the PH-Tools toolkit &lt;https://github.com/PH-Tools&gt;.
+# 
+# Copyright (c) 2022, PH-Tools and bldgtyp, llc &lt;phtools@bldgtyp.com&gt; 
+# Honeybee-PH is free software; you can redistribute it and/or modify 
+# it under the terms of the GNU General Public License as published 
+# by the Free Software Foundation; either version 3 of the License, 
+# or (at your option) any later version. 
+# 
+# Honeybee-PH is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of 
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+# GNU General Public License for more details.
+# 
+# For a copy of the GNU General Public License
+# see &lt;https://github.com/PH-Tools/honeybee_ph/blob/main/LICENSE&gt;.
+# 
+# @license GPL-3.0+ &lt;http://spdx.org/licenses/GPL-3.0+&gt;
+#
+"""
+This component installs/updates all of the 'Honeybee-PH' plugin libraries for Ladybug Tools.
+Please make sure that you have Ladybug-Tools with Honeybee-Energy ALREADY fully installed BEFORE
+proceeding with this installation. Make sure you are connected to the internet in 
+order to download the latest version of the plugin libraries and components.
+-
+This tool will download and install several new libraries into the Ladybug-Tools
+python interpreter, and will download and install new Grasshopper components which
+will be added to your Rhino / Grasshopper installation.
+-
+EM January 9, 2026
+    Args:
+        _install: (bool) Set to True to install Honeybee-PH on your computer.
+        
+        _hbph_ver: (str): The Version number of the Honeybee-PH package to install from PyPi.
+            Note that if you leave this input empty, the latest version will be installed. For 
+            more details on honeybee-ph version, see https://pypi.org/project/honeybee-ph/
+       
+        _phx_ver: (str): The Version number of the PHX package to install from PyPi.
+            Note that if you leave this input empty, the latest version will be installed. For 
+            more details on honeybee-ph version, see https://pypi.org/project/PHX/
+"""
+
+COMPONENT = ghenv.Component # type: ignore
+COMPONENT.Name = 'HBPH Installer'
+COMPONENT.NickName = 'HBPHInstall'
+COMPONENT.Message = 'JAN_09_2026'
+COMPONENT.Category = 'Honeybee-PH'
+COMPONENT.SubCategory = '00 | Utils'
+COMPONENT.AdditionalHelpFromDocStrings = '0'
+
+try:
+    COMPONENT.ToggleObsolete(False)
+except AttributeError:
+    pass # Rhino 7
+    
+import os
+import sys
+import json
+import subprocess
+
+try:
+    import ctypes
+except:
+    pass # MacOs
+
+try:
+    from typing import Optional, Tuple
+except ImportError:
+    pass # IronPython 2.7
+
+try:
+    from exceptions import IOError # type: ignore
+except ImportError:
+    pass # IronPython 2.7
+
+try:
+    import Rhino # type: ignore
+except ImportError:
+    pass # Outside Rhino/Grasshopper
+
+try:
+    from Grasshopper.Folders import UserObjectFolders # type: ignore
+    from Grasshopper.Kernel import GH_RuntimeMessageLevel as Message # type: ignore
+except ImportError:
+    pass # Outside Rhino/Grasshopper
+
+try:
+    #from ladybug_rhino.versioning import change
+    from ladybug_rhino import grasshopper as lbt_gh
+    from ladybug_rhino.config import folders as lbr_folders
+    lbr_loaded = True
+except ImportError as e:
+    lbr_loaded = False
+    msg =   '\nFailed to import ladybug_rhino:\n'\
+            'Please make sure Ladybug and Honeybee are installed properly before proceeding.\n\t{}'.format(e)
+    raise ImportError(msg)
+
+try:
+    from ladybug import futil
+except ImportError as e:
+    msg =   '\nFailed to import ladybug.futil:\n'\
+            'Please make sure Ladybug and Honeybee are installed properly before proceeding.\n\t{}'.format(e)
+    raise ImportError(msg)
+
+try:
+    from honeybee.config import folders as hb_folders
+except ImportError as e:
+    msg =   '\nFailed to import honeybee.config.folders:\n'\
+            'Please make sure Ladybug and Honeybee are installed properly before proceeding.\n\t{}'.format(e)
+    raise ImportError(msg)
+
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# -- Required Versions
+MIN_VER_RHINO = (8, 27)
+MIN_VER_LBT_GH = (1, 9, 1)
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# -- System Check
+
+
+def is_windows_user_admin():
+    # type: () -&gt; bool
+    """For Windows only, return True if the user opened Rhino 'As Administrator' and False if not."""
+    if (os.name != 'nt'): # In case used on MacOs
+        return True
+    
+    try:
+        mode = ctypes.windll.shell32.IsUserAnAdmin() != 0
+    except Exception as e:
+        raise Exception(e)
+    
+    if mode != 0:
+        return True
+    else:
+        return False
+
+def user_system_meets_min_rhino_version(_min_version_allowed):
+    # type: (Tuple[int, int]) -&gt; bool
+    """Return True if the current Rhino version meets the minimum compatibility requirements.
+    
+    Arguments:
+    ----------
+        * _min_version_allowed (Tuple[int, int]): The Minimum Rhino version compatible
+            with Honeybee-PH. 
+    
+    Returns:
+    --------
+        * (bool)
+    """
+    
+    # -- Only check against Major / Minor version
+    rh_min_version_allowed = (_min_version_allowed[0], _min_version_allowed[1])
+    rh_version_found = (Rhino.RhinoApp.Version.Major, Rhino.RhinoApp.Version.Minor)
+    
+    # ---------------------------------------------------------------------------
+    print ("Rhino version: {}.{}".format(Rhino.RhinoApp.Version.Major, Rhino.RhinoApp.Version.Minor))
+
+    if rh_version_found &lt; rh_min_version_allowed:
+        return False
+    else:
+        return True
+
+def user_system_meets_min_LBT_version(_min_version_allowed):
+    # type: (Tuple[int, int, int]) -&gt; bool
+    """Return True if the installed LBT Grasshopper version meets the minimum compatibility requirements.
+    
+    Arguments:
+    ----------
+        * _min_version_allowed (Tuple[int, int]): The Minimum Ladybug Grasshopper version compatible
+            with Honeybee-PH. 
+    
+    Returns:
+    --------
+        * (bool)
+    """
+    # ---------------------------------------------------------------------------
+    lbt_gh = lbr_folders.lbt_grasshopper_version
+    if not lbt_gh:
+        msg = (
+            "Error: Please make sure that you have Ladybug Tools and Honeybee installed "
+            "before proceeding with the installation. \n"
+            "Cannot determine the Ladybug Tools version installed? \n"
+            " - ladybug_rhino.config.lbt_grasshopper_version={} \n".format(lbt_gh)
+            )
+        print msg
+        raise Exception(msg)
+    
+    # ---------------------------------------------------------------------------
+    print("Ladybug-Tools-Grasshopper version: {}.{}.{}".format(*lbt_gh))
+    
+    # ---------------------------------------------------------------------------
+    if lbt_gh &lt; _min_version_allowed:
+        return False
+    else:
+        return True
+
+def check_system_setup():
+    # type: () -&gt; None
+    """Provide messages related to System compatibility."""
+    
+    print "Rhino running in 'Admin' mode:", is_windows_user_admin()
+    if not is_windows_user_admin():
+        msg = " Error: This Honeybee-PH installer will only work if Rhino is started in 'Admin' mode.\n"\
+                "To proceed with the installation: \n"\
+                "Please close Rhino and re-open it by 'right-clicking' on the Rhino application, and selecting 'Run as Administrator'.\n"\
+                "Once you are in 'admin' mode, please re-open this installer and you will be able to continue with the Honeybee-PH Installation."
+        raise Exception(msg)
+    
+    if not user_system_meets_min_rhino_version(MIN_VER_RHINO):
+        msg = "Error: Honeybee-PH requires Rhino version: "\
+            "{}.{} or better. Please update Rhino before proceeding. "\
+            "Got version: {}.{}".format(
+                MIN_VER_RHINO[0],
+                MIN_VER_RHINO[1],
+                Rhino.RhinoApp.Version.Major,
+                Rhino.RhinoApp.Version.Minor,
+            )
+        print(msg)
+        raise Exception(msg)
+    
+    if not user_system_meets_min_LBT_version(MIN_VER_LBT_GH):
+        msg = "Error: Honeybee-PH requires Ladybug-Tools version: "\
+            "{}.{} or better. Please update Ladybug-Tools before proceeding. "\
+            "Got version: {}.{}".format(
+                MIN_VER_LBT_GH[0],
+                MIN_VER_LBT_GH[1],
+                lbr_folders.lbt_grasshopper_version[0],
+                lbr_folders.lbt_grasshopper_version[1],
+            )
+        print(msg)
+        raise Exception(msg)
+    
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    print "Ladybug Tools Python .exe:", hb_folders.python_exe_path
+    print "Ladybug Tools Python packages:", hb_folders.python_package_path
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# -- PIP Install
+
+
+def run_pip_command(python_exe, package_name, version=None, target=None, _env=None):
+    # type: (str, str, str, str, dict | None) -&gt; str, str
+    """Update or Install Python libraries using pip within a python subprocess.
+    
+    Args:
+        * python_exe (str): The path to the Python executable to be used for installation.
+        
+        * package_name (str): The name of the PyPI package to install
+        
+        * version (str): An optional string for the version of the package to install.
+        
+        * target (str): An optional target directory into which the package will be installed.
+        
+        * _env (Optional[Dict]): The OS Environment to be used for the Pip-Install
+    Returns:
+        * stdout (bytes):
+
+        * stderr (bytes): 
+    """
+    
+    # Set the environment for pip install to fix Rhino-8 issues
+    if _env == None:
+        _env = os.environ
+        
+    # build up the command using the inputs
+    if version is not None:
+            package_name = '{}&gt;={}'.format(package_name, version)
+    
+    cmds = [python_exe, '-m', 'pip', 'install', package_name]
+    
+    if version is None:
+        cmds.append('-U')
+    
+    if target is not None:
+        cmds.extend(['--target', target, '--upgrade'])
+
+    # execute the command and print any errors
+    print('Installing "{}" via pip'.format(package_name))
+    
+    use_shell = True if os.name == 'nt' else False
+    
+    # Use the ENV passed in to fix any Rhino-8 issues
+    process = subprocess.Popen(
+        cmds, shell=use_shell, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=_env)
+    
+    output = process.communicate()
+    
+    stdout, stderr = output
+    return stdout, stderr
+
+def update_pip(python_exe, _env=None):
+    # type: (str, Optional[Dict]) -&gt; str
+    """Update 'Pip' to avoid seeing those error.
+    
+    Args:
+        * python_exe (str): The path to the Python executable to be used for installation.
+        
+        * _env (Optional[Dict]): The OS Environment to be used for the Pip-Install
+    
+    Returns:
+        error_msg (str)
+    """
+    
+    # Set the environment for pip install to fix Rhino-8 issues
+    if _env == None:
+        _env = os.environ
+        
+    # build up the command using the inputs
+    cmds = [python_exe, '-m', 'pip', 'install', '--upgrade', 'pip']
+    
+    # execute the command and print any errors
+    print('Updating Pip...')
+    
+    use_shell = True if os.name == 'nt' else False
+    
+    try:
+        # Use the ENV passed in to fix any Rhino-8 issues
+        process = subprocess.Popen(
+            cmds, shell=use_shell, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=_env)
+        
+        output = process.communicate()
+        
+        stdout, stderr = output
+        error_msg = 'Command: {} may have failed for some reason'.format(cmds)
+    except Exception as e:
+        error_msg = e
+
+    return error_msg
+
+def get_package_name_and_version(package):
+    # type: (str) -&gt; tuple[str, str]
+    if "&gt;=" in package:
+        delimiter = "&gt;="
+    elif "&lt;=" in package:
+        delimiter = "&lt;="
+    elif "==" in package:
+        delimiter = "=="
+    else:
+        raise Exception("Error: {} format invalid. Please provide a version number".format(package))
+
+    return package.split(delimiter)
+
+def parse_version_tuple(version_str):
+    # type: (str) -&gt; tuple
+    """Parse a version string like '1.32.9' into a tuple of ints for comparison."""
+    try:
+        return tuple(int(x) for x in version_str.split('.'))
+    except (ValueError, AttributeError):
+        return (0,)
+
+def find_installed_dist_info(_package_install_folder_name, _min_version, _site_packages_path):
+    # type: (str, str, str) -&gt; Optional[str]
+    """Find a dist-info folder for the package with version &gt;= _min_version.
+
+    Returns the folder name if found, or None.
+    """
+    min_ver = parse_version_tuple(_min_version)
+    prefix = "{}-".format(_package_install_folder_name.lower())
+    suffix = ".dist-info"
+
+    for entry in os.listdir(_site_packages_path):
+        if entry.lower().startswith(prefix) and entry.lower().endswith(suffix):
+            version_str = entry[len(prefix):-len(suffix)]
+            installed_ver = parse_version_tuple(version_str)
+            if installed_ver &gt;= min_ver:
+                return entry
+    return None
+
+def pip_install(_package, _lbt_python_exe_path, _lbt_python_package_path, _package_install_folder_name=None, _env=None):
+    # type: (str, str, str, Optional[str], Optional[Dict]) -&gt; None
+    """PIP install a specified package from PyPi to the Ladybug Tools Python.
+    
+    Arguments:
+    ----------
+        * _package(str): The name of the package to install from PyPi
+   
+        * _lbt_python_exe_path (str): The path to the Ladybug Tools python installation.
+        
+        * _lbt_python_package_path (str): The path to the Ladybug Tools python site-packages directory.
+        
+        * _package_install_folder_name (Optional[str]): An optional folder name for
+            the package once it is installed. This is used to verify installation went
+            correctly. Note that in many cases the install folder name will be 
+            different than the package name (ie: "honeybee-ph" --&gt; "honeybee_ph"). If None
+            is supplied, will try and automatically create the folder name by just replacing all
+            hyphens with underscores.
+        
+        * _env (Optional[Dict]): The OS Environment to use for the Pip-Install. This should have
+            "PYTHONHOME" set to: "" in order to avoid the Rhino Python-3 install issues.
+    Returns:
+    --------
+        * None
+    """
+    
+    # Set the environment for pip install to fix Rhino-8 issues
+    if _env == None:
+        _env = os.environ
+    
+    package_name, package_version = get_package_name_and_version(_package)
+    
+    if not _package_install_folder_name:
+        _package_install_folder_name = package_name.replace("-", "_")
+
+    print '- '*50 
+    print 'Installing Python package: "{}" (v{}) to: {}'.format(package_name, package_version, _lbt_python_package_path) 
+    print "  _package_name=", package_name
+    print "  _package_version=", package_version
+    print "  _lbt_python_exe_path=", _lbt_python_exe_path
+    print "  _lbt_python_package_path=", _lbt_python_package_path
+    print "  _package_install_folder_name=", _package_install_folder_name
+    print "  _env['PYTHONHOME']=", _env['PYTHONHOME'] 
+    
+    stdout, stderr = run_pip_command(_lbt_python_exe_path, package_name, package_version, _env=_env)
+
+    found_dist = find_installed_dist_info(_package_install_folder_name, package_version, _lbt_python_package_path)
+    if found_dist:
+        print("Package '{}' (&gt;={}) successfully installed to: {} [found: {}]".format(package_name, package_version, _lbt_python_package_path, found_dist))
+    else:
+        print("ERROR: Package '{}' (&gt;={}) failed to install to: {}".format(package_name, package_version, _lbt_python_package_path))
+        print("ERROR: Could not find any {}-*.dist-info with version &gt;= {} in {}".format(_package_install_folder_name, package_version, _lbt_python_package_path))
+        print("ERROR: {}".format(str(stderr)))
+        print("ERROR: {}".format(str(stdout)))
+
+        msg = "ERROR: Failed to install {} &gt;={}".format(package_name, package_version)
+        COMPONENT.AddRuntimeMessage(Message.Error, msg)
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# -- GitHub
+
+
+def copy_repo_contents_to_site_packages(_source_directory, _target_directory, _branch):
+    # type: (str, str, str) -&gt; None
+    """Copy a directory's contents to the Ladybug Tools site-packages directory.
+    
+    Arguments:
+    ----------
+        * _source_directory (str): The full path to the directory to copy the contents of.
+        
+        * _target_directory (str): The full path to the directory to copy to.
+    
+    Returns:
+    --------
+        * None
+    """
+    
+    directories_to_exclude = {'.github', 'tests', 'docs', 'diagrams',} 
+    for _dir in os.listdir(_source_directory):
+        src_dir = os.path.join(_source_directory, _dir)
+        
+        if _dir in directories_to_exclude: # don't copy any of these to site-packages
+            continue
+        
+        if not os.path.isdir(src_dir): # If the target folder doesn't exist already
+            continue
+        
+        print('Copying "{}" to:: {}'.format(_dir, _target_directory))
+        futil.copy_file_tree(src_dir, os.path.join(_target_directory, _dir))
+
+def get_files_from_github_repo(_github_repo_name, _target_directory, _branch='main'):
+    # type: (str, str, str) -&gt; None
+    """Download, unzip and copy files from a GitHub repo into a target directory.
+    
+    Arguments:
+    ----------
+        * _github_repo_name (str): The name of the GitHub repo to download.
+        
+        * _target_directory (str): The full path of the directory to put the
+            downloaded files in.
+            
+        * _branch (str): default='main' The target branch name to download.
+    
+    Returns:
+    --------
+        * None
+    """
+
+    # -------------------------------------------------------------------------
+    # -- Setup all the file and directory paths
+    github_url = "https://github.com/PH-Tools/{}/archive/refs/heads/{}.zip".format(_github_repo_name, _branch)
+    directory_to_download_to = hb_folders.python_package_path
+    name_of_zipfile_to_download = '{}.zip'.format(_github_repo_name)
+    downloaded_zip_file_path = os.path.join(directory_to_download_to, name_of_zipfile_to_download)
+    temp_unzip_directory = os.path.join(directory_to_download_to, "{}-{}".format(_github_repo_name, _branch))
+    
+    # -------------------------------------------------------------------------
+    #-- Try and download the Github Repo as a .zip file
+    try:
+        print("- "*25)
+        print("Downloading:: {}\nto:: {}".format(github_url, downloaded_zip_file_path))
+        futil.download_file_by_name(github_url, directory_to_download_to, name_of_zipfile_to_download, mkdir=True)
+    except IOError as e:
+        msg = (
+            "There was an error downloading the {} package to your computer.\n"
+            "If you have Ladybug Tools installed in you 'ProgramFiles' directory, (ie: if you "
+            "are using Pollination instead of the Food4Rhino LBT installer) you may \n"
+            "need to run Rhino 'as administrator' in order to "
+            "install to this directory?\n{}".format(_github_repo_name, e)
+            )
+        raise IOError(msg)
+    except Exception as e:
+        msg = "There was a error downloading {} to {}.\n{}".format(github_url, downloaded_zip_file_path, e)
+        raise Exception(msg)
+    print("{} downloaded successfully to {}".format(github_url, downloaded_zip_file_path))
+    
+    # -------------------------------------------------------------------------
+    # -- Try and unzip the downloaded file
+    try:
+        print("Unzipping:: {}\nto:: {}".format(downloaded_zip_file_path, temp_unzip_directory))
+        futil.unzip_file(downloaded_zip_file_path, directory_to_download_to, mkdir=True)
+    except Exception as e:
+        msg = "There was an error unzipping: {} to {}.\n{}".format(downloaded_zip_file_path, temp_unzip_directory, e)
+        raise Exception(msg)
+    print("{} successfully unzipped to {}".format(downloaded_zip_file_path, temp_unzip_directory))
+
+    # -------------------------------------------------------------------------
+    # -- Copy the unzipped files/folders over to the Ladybug site-packages folder
+    try:
+        print("Copying {} to {}".format(temp_unzip_directory, _target_directory))
+        copy_repo_contents_to_site_packages(temp_unzip_directory, _target_directory, _branch)
+    except Exception as e:
+        print("There was an error copying {} to {}\n{}".format(temp_unzip_directory, _target_directory, e))
+    print("{} successfully copied to {}".format(temp_unzip_directory, _target_directory))
+
+    # -------------------------------------------------------------------------
+    # -- Cleanup: Remove the downloaded folder and zip file
+    print("Removing directory: {}".format(temp_unzip_directory))
+    futil.nukedir(temp_unzip_directory, True)
+
+    print("Removing downloaded file: {}".format(downloaded_zip_file_path))
+    os.remove(downloaded_zip_file_path)
+
+def copy_grasshopper_components_to_UserObjects(_repo_name, _download_directory, _target_directory):
+    # type: (str, str, str) -&gt; None
+    """Copy all of the GH-User objects from the source dir over the Grasshopper UserObjects directory. 
+
+    This is used when downloading from the "honeybee_grasshopper_ph" github repo, since the .ghuser objects 
+    are nested down in the unzipped directory. This function should get called after download and unzip from 
+    the "honeybee_grasshopper_ph" github repo.
+    
+    Arguments:
+    ---------- 
+        * _repo_name (str): The name of the honeybee_grasshopper_ph repo.
+        
+        * _download_directory (str): The path to the download directory.
+        
+        * _target_directory (str): The Grasshopper UserObjects directory to copy to .ghuser files to.
+    
+    Returns:
+    --------
+        * None
+    """
+    
+    repo_download_directory = os.path.join(_download_directory, _repo_name)
+    hbph_gh_source_folder = os.path.join(repo_download_directory, 'user_objects')
+    
+    if not os.path.isdir(hbph_gh_source_folder):
+        msg = (
+            "Cannot find the Grasshopper Component directory: {}? Please be sure"
+            "you downloaded and unzipped the '{}' GitHub repo before trying to copy to"
+            "the Grasshopper UserObjects directory".format(hbph_gh_source_folder, _repo_name)
+        )
+        print(msg)
+        return
+    
+    target = os.path.join(_target_directory[0], _repo_name)
+    
+    # -- Clean out any existing files in the target directory.
+    if os.path.exists(target):
+        for file_name in os.listdir(target):
+            file_path = os.path.join(target, file_name)
+            try:
+                if os.path.isfile(file_path):
+                    os.unlink(file_path)
+                elif os.path.isdir(file_path):
+                    shutil.rmtree(file_path)
+            except Exception as e:
+                print("Error deleting file or directory: {}".format(e))
+
+    print('- '*25)
+    print('Copying downloaded Grasshopper Components from::\n{} to::\n{}'.format(hbph_gh_source_folder, target))
+    
+    futil.copy_file_tree(hbph_gh_source_folder, target, overwrite=True)
+    
+    print("Cleaning up and removing download directory: {}".format(repo_download_directory))
+    futil.nukedir(repo_download_directory, True)
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# -- Main
+
+
+def install_honeybee_ph(
+    _requirements,
+    _hbph_gh_branch,
+    _lbt_python_exe_path,
+    _lbt_python_package_path,
+    _env=None
+):
+    # type: (list[str], Optional[str], str, str, Optional[Dict]) -&gt; None
+    """Install Honeybee-PH and PHX Packages from PIP, then download Grasshopper components from Github.
+    
+    Arguments:
+    ----------
+        * _requirements (list[str]): A list of pacakges to pip-install from PyPi
+    
+        * _hbph_gh_branch (Optional[str]): The name of the 'honeybee_grasshopper_ph' Github branch to
+            install. If None is supplied, 'main' will be used.
+        
+        * _lbt_python_exe_path (str): The path to the Ladybug Tools python.exe
+        
+        * _lbt_python_package_path (str): The path to the Ladybug Tools python site-packages directory.
+        
+        * _env: The os.environ dict to use for pip-install
+    
+    Returns:
+    --------
+        * None
+    """
+    
+    # Set the environment for pip install to fix Rhino-8 issues
+    if _env == None:
+        _env = os.environ
+    
+    # -------------------------------------------------------------------------
+    # Install all of the required pacakges
+    for package in _requirements:
+        update_pip(_lbt_python_exe_path, _env=_env)
+        pip_install(
+            _package=package, 
+            _lbt_python_exe_path=_lbt_python_exe_path,
+            _lbt_python_package_path=_lbt_python_package_path,
+            _package_install_folder_name=None,
+            _env=_env
+        )
+    
+    # -------------------------------------------------------------------------
+    # -- Install the Honeybee-PH Grasshopper Components and Libraries from GitHub
+    get_files_from_github_repo(
+        _github_repo_name='honeybee_grasshopper_ph',
+        _target_directory=_lbt_python_package_path,
+        _branch=_hbph_gh_branch or 'main'
+    )
+    copy_grasshopper_components_to_UserObjects(
+        _repo_name='honeybee_grasshopper_ph',
+        _download_directory=_lbt_python_package_path,
+        _target_directory=UserObjectFolders
+    )
+    
+    # -------------------------------------------------------------------------
+    # -- Install the Honeybee-PH+ Grasshopper Components and Libraries from GitHub
+    get_files_from_github_repo(
+        _github_repo_name='honeybee_grasshopper_ph_plus',
+        _target_directory=_lbt_python_package_path,
+        _branch=_hbph_gh_branch or 'main'
+    )
+    copy_grasshopper_components_to_UserObjects(
+        _repo_name='honeybee_grasshopper_ph_plus',
+        _download_directory=_lbt_python_package_path,
+        _target_directory=UserObjectFolders
+    )
+
+    # -------------------------------------------------------------------------
+    # -- Install the PH-GH-Component-IO Library from GitHub
+    get_files_from_github_repo(
+        _github_repo_name='PH_GH_Component_IO',
+        _target_directory=_lbt_python_package_path,
+        _branch='main'
+    )
+
+    # -------------------------------------------------------------------------
+    # Give a success message
+    print "- " * 50
+    msg = 'Honeybee-PH has been successfully installed!\n'\
+        'Please RESTART RHINO to being using the new components + libraries.'
+    print(msg)
+    lbt_gh.give_popup_message(msg, 'Installation Successful!')
+    
+    return None
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+# -- Required for Rhino 8, otherwise the new py3.9 hijacks the pip install
+CUSTOM_ENV = os.environ.copy()
+CUSTOM_ENV['PYTHONHOME'] = ''
+
+check_system_setup()
+
+if _install:
+    install_honeybee_ph(
+        _requirements,
+        _hbph_gh_branch=None,
+        _lbt_python_exe_path=hb_folders.python_exe_path,
+        _lbt_python_package_path=hb_folders.python_package_path,
+        _env=CUSTOM_ENV
+    )
+else:
+    msg = 'Please:\n'\
+    '- Be sure you have already installed Ladybug Tools.\n'\
+    '- Are connected to the internet.\n'\
+    '- Set _install to "True" to install Honeybee-PH and all its dependencies on this system.'   
+    print(msg)</item>
+                    <item name="Description" type_name="gh_string" type_code="10">This component installs/updates all of the 'Honeybee-PH' plugin libraries for Ladybug Tools.
+Please make sure that you have Ladybug-Tools with Honeybee-Energy ALREADY fully installed BEFORE
+proceeding with this installation. Make sure you are connected to the internet in 
+order to download the latest version of the plugin libraries and components.
+-
+This tool will download and install several new libraries into the Ladybug-Tools
+python interpreter, and will download and install new Grasshopper components which
+will be added to your Rhino / Grasshopper installation.
+-
+EM January 9, 2026</item>
+                    <item name="EditorLocation" type_name="gh_drawing_point" type_code="30">
+                      <X>945</X>
+                      <Y>62</Y>
+                    </item>
+                    <item name="EditorSize" type_name="gh_drawing_size" type_code="32">
+                      <W>1327</W>
+                      <H>1481</H>
+                    </item>
+                    <item name="Hidden" type_name="gh_bool" type_code="1">true</item>
+                    <item name="HideInput" type_name="gh_bool" type_code="1">true</item>
+                    <item name="HideOutput" type_name="gh_bool" type_code="1">false</item>
+                    <item name="InputIsPath" type_name="gh_bool" type_code="1">false</item>
+                    <item name="InstanceGuid" type_name="gh_guid" type_code="9">111a15a3-a3e9-4125-9094-8d0849dec584</item>
+                    <item name="IsAdvancedMode" type_name="gh_bool" type_code="1">false</item>
+                    <item name="MarshalOutGuids" type_name="gh_bool" type_code="1">true</item>
+                    <item name="Name" type_name="gh_string" type_code="10">HBPH Installer</item>
+                    <item name="NickName" type_name="gh_string" type_code="10">HBPHInstall</item>
+                  </items>
+                  <chunks count="2">
+                    <chunk name="Attributes">
+                      <items count="2">
+                        <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
+                          <X>386</X>
+                          <Y>1941</Y>
+                          <W>136</W>
+                          <H>44</H>
+                        </item>
+                        <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
+                          <X>479</X>
+                          <Y>1963</Y>
+                        </item>
+                      </items>
+                    </chunk>
+                    <chunk name="ParameterData">
+                      <items count="5">
+                        <item name="InputCount" type_name="gh_int32" type_code="3">2</item>
+                        <item name="InputId" index="0" type_name="gh_guid" type_code="9">84fa917c-1ed8-4db3-8be1-7bdc4a6495a2</item>
+                        <item name="InputId" index="1" type_name="gh_guid" type_code="9">84fa917c-1ed8-4db3-8be1-7bdc4a6495a2</item>
+                        <item name="OutputCount" type_name="gh_int32" type_code="3">1</item>
+                        <item name="OutputId" index="0" type_name="gh_guid" type_code="9">3ede854e-c753-40eb-84cb-b48008f14fd4</item>
+                      </items>
+                      <chunks count="3">
+                        <chunk name="InputParam" index="0">
+                          <items count="11">
+                            <item name="AllowTreeAccess" type_name="gh_bool" type_code="1">true</item>
+                            <item name="Description" type_name="gh_string" type_code="10">(bool) Set to True to install Honeybee-PH on your computer.</item>
+                            <item name="InstanceGuid" type_name="gh_guid" type_code="9">7a432702-265d-41e8-b741-1c958f280501</item>
+                            <item name="Name" type_name="gh_string" type_code="10">_install</item>
+                            <item name="NickName" type_name="gh_string" type_code="10">_install</item>
+                            <item name="Optional" type_name="gh_bool" type_code="1">true</item>
+                            <item name="ScriptParamAccess" type_name="gh_int32" type_code="3">0</item>
+                            <item name="ShowTypeHints" type_name="gh_bool" type_code="1">true</item>
+                            <item name="Source" index="0" type_name="gh_guid" type_code="9">c59b4461-6679-48f0-86bb-7e2489bcebde</item>
+                            <item name="SourceCount" type_name="gh_int32" type_code="3">1</item>
+                            <item name="TypeHintID" type_name="gh_guid" type_code="9">d60527f5-b5af-4ef6-8970-5f96fe412559</item>
+                          </items>
+                          <chunks count="1">
+                            <chunk name="Attributes">
+                              <items count="2">
+                                <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
+                                  <X>388</X>
+                                  <Y>1943</Y>
+                                  <W>76</W>
+                                  <H>20</H>
+                                </item>
+                                <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
+                                  <X>427.5</X>
+                                  <Y>1953</Y>
+                                </item>
+                              </items>
+                            </chunk>
+                          </chunks>
+                        </chunk>
+                        <chunk name="InputParam" index="1">
+                          <items count="12">
+                            <item name="Access" type_name="gh_int32" type_code="3">1</item>
+                            <item name="AllowTreeAccess" type_name="gh_bool" type_code="1">true</item>
+                            <item name="Description" type_name="gh_string" type_code="10">Script variable HBPHInstall</item>
+                            <item name="InstanceGuid" type_name="gh_guid" type_code="9">8f17cf23-427b-4e4f-ab87-2e29bc60dfe5</item>
+                            <item name="Name" type_name="gh_string" type_code="10">_requirements</item>
+                            <item name="NickName" type_name="gh_string" type_code="10">_requirements</item>
+                            <item name="Optional" type_name="gh_bool" type_code="1">true</item>
+                            <item name="ScriptParamAccess" type_name="gh_int32" type_code="3">1</item>
+                            <item name="ShowTypeHints" type_name="gh_bool" type_code="1">true</item>
+                            <item name="Source" index="0" type_name="gh_guid" type_code="9">f3be9691-81ac-44ee-ae0e-b0091808e9b3</item>
+                            <item name="SourceCount" type_name="gh_int32" type_code="3">1</item>
+                            <item name="TypeHintID" type_name="gh_guid" type_code="9">37261734-eec7-4f50-b6a8-b8d1f3c4396b</item>
+                          </items>
+                          <chunks count="1">
+                            <chunk name="Attributes">
+                              <items count="2">
+                                <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
+                                  <X>388</X>
+                                  <Y>1963</Y>
+                                  <W>76</W>
+                                  <H>20</H>
+                                </item>
+                                <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
+                                  <X>427.5</X>
+                                  <Y>1973</Y>
+                                </item>
+                              </items>
+                            </chunk>
+                          </chunks>
+                        </chunk>
+                        <chunk name="OutputParam" index="0">
+                          <items count="6">
+                            <item name="Description" type_name="gh_string" type_code="10">The execution information, as output and error streams</item>
+                            <item name="InstanceGuid" type_name="gh_guid" type_code="9">0107fa46-870a-4b2e-af43-414b4fded43c</item>
+                            <item name="Name" type_name="gh_string" type_code="10">out</item>
+                            <item name="NickName" type_name="gh_string" type_code="10">out</item>
+                            <item name="Optional" type_name="gh_bool" type_code="1">false</item>
+                            <item name="SourceCount" type_name="gh_int32" type_code="3">0</item>
+                          </items>
+                          <chunks count="1">
+                            <chunk name="Attributes">
+                              <items count="2">
+                                <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
+                                  <X>494</X>
+                                  <Y>1943</Y>
+                                  <W>26</W>
+                                  <H>40</H>
+                                </item>
+                                <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
+                                  <X>507</X>
+                                  <Y>1963</Y>
+                                </item>
+                              </items>
+                            </chunk>
+                          </chunks>
+                        </chunk>
+                      </chunks>
+                    </chunk>
+                  </chunks>
+                </chunk>
+              </chunks>
+            </chunk>
+            <chunk name="Object" index="9">
+              <items count="2">
+                <item name="GUID" type_name="gh_guid" type_code="9">59e0b89a-e487-49f8-bab8-b5bab16be14c</item>
+                <item name="Name" type_name="gh_string" type_code="10">Panel</item>
+              </items>
+              <chunks count="1">
+                <chunk name="Container">
+                  <items count="8">
+                    <item name="Description" type_name="gh_string" type_code="10">A panel for custom notes and text values</item>
+                    <item name="InstanceGuid" type_name="gh_guid" type_code="9">f3be9691-81ac-44ee-ae0e-b0091808e9b3</item>
+                    <item name="Name" type_name="gh_string" type_code="10">Panel</item>
+                    <item name="NickName" type_name="gh_string" type_code="10">requirements</item>
+                    <item name="Optional" type_name="gh_bool" type_code="1">false</item>
+                    <item name="ScrollRatio" type_name="gh_double" type_code="6">0</item>
+                    <item name="SourceCount" type_name="gh_int32" type_code="3">0</item>
+                    <item name="UserText" type_name="gh_string" type_code="10">plotly&gt;=5.24.1
+ladybug-rhino&gt;=1.44.9
+honeybee-ph&gt;=1.32.9
+PHX&gt;=1.56.18</item>
+                  </items>
+                  <chunks count="2">
+                    <chunk name="Attributes">
+                      <items count="5">
+                        <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
+                          <X>131</X>
+                          <Y>2031</Y>
+                          <W>195</W>
+                          <H>135</H>
+                        </item>
+                        <item name="MarginLeft" type_name="gh_int32" type_code="3">0</item>
+                        <item name="MarginRight" type_name="gh_int32" type_code="3">0</item>
+                        <item name="MarginTop" type_name="gh_int32" type_code="3">0</item>
+                        <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
+                          <X>131.6311</X>
+                          <Y>2031.7051</Y>
+                        </item>
+                      </items>
+                    </chunk>
+                    <chunk name="PanelProperties">
+                      <items count="7">
+                        <item name="Colour" type_name="gh_drawing_color" type_code="36">
+                          <ARGB>255;255;255;255</ARGB>
+                        </item>
+                        <item name="DrawIndices" type_name="gh_bool" type_code="1">true</item>
+                        <item name="DrawPaths" type_name="gh_bool" type_code="1">true</item>
+                        <item name="Multiline" type_name="gh_bool" type_code="1">false</item>
+                        <item name="SpecialCodes" type_name="gh_bool" type_code="1">false</item>
+                        <item name="Stream" type_name="gh_bool" type_code="1">false</item>
+                        <item name="Wrap" type_name="gh_bool" type_code="1">true</item>
+                      </items>
+                    </chunk>
+                  </chunks>
+                </chunk>
+              </chunks>
+            </chunk>
+            <chunk name="Object" index="10">
+              <items count="3">
+                <item name="GUID" type_name="gh_guid" type_code="9">410755b1-224a-4c1e-a407-bf32fb45ea7e</item>
+                <item name="Lib" type_name="gh_guid" type_code="9">00000000-0000-0000-0000-000000000000</item>
+                <item name="Name" type_name="gh_string" type_code="10">DB Installer and Updater</item>
+              </items>
+              <chunks count="1">
+                <chunk name="Container">
+                  <items count="13">
+                    <item name="CodeInput" type_name="gh_string" type_code="10">"""
+Install or update Dewbee. Please update your Ladybug Tools version using the
+"LB Versioner" grasshopper component BEFORE installing dewbee.
+
+When _run is "True", it installs or updates the Dewbee Python package into the Ladybug Tools Python environment,
+installs Dewbee .ghuser components into the Grasshopper UserObjects folder, and Dewbee material
+library into the custom constructions folder.
+
+Only works with Rhino 8.0 and LBT version 1.10 or higher.
+-
+
+    Args:
+       _run: Set to True to install or update Dewbee.
+       _dewbee_ver: Optional version string for dewbee package (format: "0.1.0").
+                    If empty, the latest version will be installed.
+       _github_ref: Optional GitHub ref to download GH components from.
+                    Can be a branch name like "main" or a tag like "v0.1.0".
+                    If empty, the latest released version will be used.
+"""
+
+ghenv.Component.Name = "DB Installer and Updater"
+ghenv.Component.NickName = "DBInstallUpdate"
+ghenv.Component.Message = '0.1.0'
 ghenv.Component.Category = "Dewbee"
 ghenv.Component.SubCategory = "0 :: Miscellaneous"
-ghenv.Component.AdditionalHelpFromDocStrings = "0"
 
 try:
     ghenv.Component.ToggleObsolete(False)
@@ -1292,20 +1435,49 @@ import subprocess
 import System.Net
 import System.Windows.Forms
 import Rhino
-
 from Grasshopper.Folders import UserObjectFolders
+ 
 from Grasshopper.Kernel import GH_RuntimeMessageLevel as Message
+
+# Import ladybug dependencies
+try:
+    from ladybug.futil import preparedir, nukedir, copy_file_tree, download_file_by_name, unzip_file
+except Exception as e:
+    raise ImportError("Failed to import ladybug.futil utilities:\n\t{}".format(e))
+
+# Get Ladybug Tools python executable and site-packages path, as well as standards dir.
+try:
+    from honeybee.config import folders as hb_folders
+except Exception as e:
+    raise ImportError(
+        "Failed to import honeybee.config.folders.\n"
+        "Ladybug Tools / Honeybee must already be installed.\n{}".format(e)
+    )
+
 
 
 # -----------------------------------------------------------------------------
 # CONFIG
 # -----------------------------------------------------------------------------
 
+PY_EXE = hb_folders.python_exe_path
+PY_SITE = hb_folders.python_package_path
+CONSTRUCTIONS_DIR = os.path.join(hb_folders.default_standards_folder, "constructions")
+
+if not PY_EXE or not os.path.isfile(PY_EXE):
+    raise IOError("Could not find Ladybug Tools python executable:\n{}".format(PY_EXE))
+if not PY_SITE or not os.path.isdir(PY_SITE):
+    raise IOError("Could not find Ladybug Tools site-packages:\n{}".format(PY_SITE))
+if not CONSTRUCTIONS_DIR or not os.path.isdir(CONSTRUCTIONS_DIR):
+    raise IOError("Could not find Ladybug Tools custom constructions:\n{}".format(CONSTRUCTIONS_DIR))
+
 PYPI_PACKAGE = "dewbee"
 PYPI_IMPORT_NAME = "dewbee"
 
 GITHUB_OWNER = "architecture-building-systems"
-GITHUB_REPO = "dewbee_main"
+GITHUB_REPO = "dewbee"
+# Erase this line if user inputs _github_ref
+_github_ref = None
 
 # relative path inside the downloaded repo zip
 REPO_GHUSER_SUBFOLDER = os.path.join("grasshopper", "user_objects")
@@ -1315,7 +1487,6 @@ GHUSER_TARGET_FOLDER_NAME = "dewbee"
 
 CUSTOM_ENV = os.environ.copy()
 CUSTOM_ENV["PYTHONHOME"] = ""
-
 
 # -----------------------------------------------------------------------------
 # UI HELPERS
@@ -1338,70 +1509,6 @@ def give_popup_message(message, window_title=""):
 # -----------------------------------------------------------------------------
 # FILE HELPERS
 # -----------------------------------------------------------------------------
-
-def preparedir(target_dir, remove_content=False):
-    """Create folder if missing. Optionally clear content if it exists."""
-    if os.path.isdir(target_dir):
-        if remove_content:
-            nukedir(target_dir, rmdir=False)
-        return True
-    try:
-        os.makedirs(target_dir)
-        return True
-    except Exception as e:
-        raise IOError("Failed to create directory '{}': {}".format(target_dir, e))
-
-
-def nukedir(target_dir, rmdir=False):
-    """Delete contents of a directory."""
-    d = os.path.normpath(target_dir)
-    if not os.path.isdir(d):
-        return
-
-    for f in os.listdir(d):
-        if f in (".", ".."):
-            continue
-        path = os.path.join(d, f)
-        if os.path.isdir(path):
-            nukedir(path, rmdir=True)
-        else:
-            try:
-                os.remove(path)
-            except Exception as e:
-                print("Failed to remove file '{}': {}".format(path, e))
-
-    if rmdir:
-        try:
-            os.rmdir(d)
-        except Exception:
-            pass
-
-
-def copy_file_tree(source_folder, dest_folder, overwrite=True):
-    """Recursively copy a folder tree."""
-    if not os.path.isdir(source_folder):
-        raise IOError("Source folder does not exist: {}".format(source_folder))
-
-    if not os.path.isdir(dest_folder):
-        os.makedirs(dest_folder)
-
-    for name in os.listdir(source_folder):
-        src_path = os.path.join(source_folder, name)
-        dst_path = os.path.join(dest_folder, name)
-
-        if os.path.isfile(src_path):
-            if overwrite and os.path.isfile(dst_path):
-                os.remove(dst_path)
-            shutil.copyfile(src_path, dst_path)
-
-        elif os.path.isdir(src_path):
-            if overwrite and os.path.isdir(dst_path):
-                nukedir(dst_path, rmdir=True)
-            if not os.path.isdir(dst_path):
-                os.makedirs(dst_path)
-            copy_file_tree(src_path, dst_path, overwrite=overwrite)
-
-
 def remove_dist_info_files(directory, startswith_name=None):
     """Remove .dist-info folders, optionally filtering by prefix."""
     if not os.path.isdir(directory):
@@ -1422,42 +1529,6 @@ def remove_dist_info_files(directory, startswith_name=None):
 # DOWNLOAD HELPERS
 # -----------------------------------------------------------------------------
 
-def download_file_by_name(url, target_folder, file_name, mkdir=False):
-    """Download a file to a target folder."""
-    if not os.path.isdir(target_folder):
-        if mkdir:
-            preparedir(target_folder)
-        else:
-            raise IOError("Target folder does not exist: {}".format(target_folder))
-
-    file_path = os.path.join(target_folder, file_name)
-
-    try:
-        System.Net.ServicePointManager.SecurityProtocol = \
-            System.Net.SecurityProtocolType.Tls12
-    except AttributeError:
-        if url.lower().startswith("https"):
-            print("This system may lack TLS 1.2 support for https downloads.")
-
-    client = System.Net.WebClient()
-    try:
-        client.DownloadFile(url, file_path)
-    except Exception as e:
-        raise Exception("Download failed:\n{}".format(e))
-
-    return file_path
-
-
-def unzip_file(source_file, dest_dir):
-    """Unzip a file to a target folder."""
-    if not os.path.isfile(source_file):
-        raise IOError("Zip file not found: {}".format(source_file))
-    preparedir(dest_dir)
-
-    with zipfile.ZipFile(source_file, "r") as zf:
-        zf.extractall(dest_dir)
-
-
 def build_github_zip_url(owner, repo, ref):
     """
     Build GitHub archive URL.
@@ -1477,31 +1548,48 @@ def expected_unzipped_repo_folder(base_dir, repo, ref):
     """
     return os.path.join(base_dir, "{}-{}".format(repo, ref or "main"))
 
+def download_and_extract_repo(owner, repo, ref, temp_root):
+    """Download repo zip and return extracted repo directory."""
+    url = build_github_zip_url(owner, repo, ref)
+    zip_name = "{}_{}.zip".format(repo, ref or "main")
+    zip_path = os.path.join(temp_root, zip_name)
+
+    print("- " * 30)
+    print("Downloading repo from GitHub:")
+    print(url)
+
+    preparedir(temp_root, remove_content=True)
+
+    # This function downloads the file but does not return the path
+    download_file_by_name(url, temp_root, zip_name, mkdir=True)
+
+    if not os.path.isfile(zip_path):
+        raise IOError("Zip file was not downloaded successfully:\n{}".format(zip_path))
+
+    print("Downloaded zip to:")
+    print(zip_path)
+
+    unzip_file(zip_path, temp_root)
+
+    extracted_repo_dir = expected_unzipped_repo_folder(temp_root, repo, ref or "main")
+
+    if not os.path.isdir(extracted_repo_dir):
+        candidates = []
+        for name in os.listdir(temp_root):
+            full = os.path.join(temp_root, name)
+            if os.path.isdir(full) and name.startswith(repo + "-"):
+                candidates.append(full)
+        if len(candidates) == 1:
+            extracted_repo_dir = candidates[0]
+
+    if not os.path.isdir(extracted_repo_dir):
+        raise IOError("Could not locate extracted repo folder inside:\n{}".format(temp_root))
+
+    return zip_path, extracted_repo_dir
 
 # -----------------------------------------------------------------------------
 # LBT / PYTHON HELPERS
 # -----------------------------------------------------------------------------
-
-def get_lbt_python():
-    """Get Ladybug Tools python executable and site-packages path."""
-    try:
-        from honeybee.config import folders as hb_folders
-    except Exception as e:
-        raise ImportError(
-            "Failed to import honeybee.config.folders.\n"
-            "Ladybug Tools / Honeybee must already be installed.\n{}".format(e)
-        )
-
-    py_exe = hb_folders.python_exe_path
-    py_site = hb_folders.python_package_path
-
-    if not py_exe or not os.path.isfile(py_exe):
-        raise IOError("Could not find Ladybug Tools python executable:\n{}".format(py_exe))
-    if not py_site or not os.path.isdir(py_site):
-        raise IOError("Could not find Ladybug Tools site-packages:\n{}".format(py_site))
-
-    return py_exe, py_site
-
 
 def run_pip_install(python_exe, package_name, version=None, target=None, env=None):
     """Install or update a package with pip."""
@@ -1510,7 +1598,7 @@ def run_pip_install(python_exe, package_name, version=None, target=None, env=Non
 
     requirement = package_name if not version else "{}=={}".format(package_name, version)
 
-    cmds = [python_exe, "-m", "pip", "install", requirement, "--upgrade"]
+    cmds = [python_exe, "-m", "pip", "install", requirement, "--no-deps", "--no-user", "--upgrade"]
     if target:
         cmds.extend(["--target", target])
 
@@ -1540,27 +1628,27 @@ def run_pip_install(python_exe, package_name, version=None, target=None, env=Non
 
     return process.returncode, stdout, stderr
 
+def is_windows_user_admin():
+    if os.name != "nt":
+        return True
 
-def package_dist_info_exists(site_packages, import_name, version=None):
-    """
-    Check whether a package appears installed by searching for:
-    dewbee-0.1.0.dist-info or at least dewbee-*.dist-info.
-    """
-    if not os.path.isdir(site_packages):
+    try:
+        import ctypes
+        return ctypes.windll.shell32.IsUserAnAdmin() != 0
+    except Exception:
         return False
 
-    prefix = import_name.replace("-", "_").lower() + "-"
-    suffix = ".dist-info"
-
-    for name in os.listdir(site_packages):
-        low = name.lower()
-        if low.startswith(prefix) and low.endswith(suffix):
-            if version is None:
-                return True
-            if low == "{}{}.dist-info".format(prefix, version.lower()):
-                return True
-    return False
-
+def ensure_admin():
+    if os.name == "nt" and not is_windows_user_admin():
+        msg = (
+            "Dewbee installer needs administrator privileges to write into:\n"
+            "C:\\Program Files\\ladybug_tools\\python\\Lib\\site-packages\n\n"
+            "Please close Rhino, right-click Rhino, choose 'Run as administrator', "
+            "then run the installer again."
+        )
+        give_error(msg)
+        give_popup_message(msg, "Administrator privileges required")
+        raise Exception(msg)
 
 # -----------------------------------------------------------------------------
 # GH USER OBJECT INSTALL
@@ -1573,49 +1661,149 @@ def get_ghuser_target_folder():
     target = os.path.join(base, GHUSER_TARGET_FOLDER_NAME)
     return target
 
+def install_ghuser_objects_from_repo(extracted_repo_dir, gh_target_folder):
+    """Copy grasshopper/user_objects/* to GH UserObjects/dewbee."""
+    source_ghuser_folder = os.path.join(extracted_repo_dir, REPO_GHUSER_SUBFOLDER)
 
-def install_ghuser_objects_from_repo_zip(owner, repo, ref, temp_root, gh_target_folder):
-    """
-    Download repo zip, extract, and copy grasshopper/user_objects/* to GH UserObjects/dewbee.
-    """
-    url = build_github_zip_url(owner, repo, ref)
-    zip_name = "{}_{}.zip".format(repo, ref or "main")
+    if not os.path.isdir(source_ghuser_folder):
+        raise IOError(
+            "Could not find expected GH user objects folder in repo:\n{}".format(source_ghuser_folder)
+        )
+
+    print("Copying .ghuser files from:\n{}\nTo:\n{}".format(source_ghuser_folder, gh_target_folder))
+    preparedir(gh_target_folder, remove_content=True)
+    copy_file_tree(source_ghuser_folder, gh_target_folder, overwrite=True)
+
+def install_dewbee_materials_from_repo(extracted_repo_dir):
+    """Copy dewbee_materials.json into Honeybee standards/constructions."""
+
+    source_file = os.path.join(
+        extracted_repo_dir,
+        "resources",
+        "standards",
+        "dewbee_materials.json"
+    )
+
+    if not os.path.isfile(source_file):
+        raise IOError(
+            "Could not find dewbee_materials.json in repo:\n{}".format(source_file)
+        )
+
+    target_file = os.path.join(CONSTRUCTIONS_DIR, "dewbee_materials.json")
+
+    print("Installing Dewbee materials from:")
+    print(source_file)
+    print("To:")
+    print(target_file)
+    shutil.copyfile(source_file, target_file)
+
+def resolve_github_ref(user_github_ref, user_dewbee_ver, installed_version):
+    """Resolve which GitHub ref to use for GH assets/materials."""
+    if user_github_ref:
+        return user_github_ref
+
+    if user_dewbee_ver:
+        return "v{}".format(user_dewbee_ver)
+
+    if installed_version:
+        return "v{}".format(installed_version)
+
+    return "main"
+
+# -----------------------------------------------------------------------------
+# MAIN INSTALL
+# -----------------------------------------------------------------------------
+
+def verify_python_package(python_exe):
+    cmds = [python_exe, "-c", "import dewbee; print(dewbee.__version__)"]
+    use_shell = True if os.name == "nt" else False
+    process = subprocess.Popen(
+        cmds,
+        shell=use_shell,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        env=CUSTOM_ENV
+    )
+    stdout, stderr = process.communicate()
+
+    try:
+        stdout = stdout.decode("utf-8").strip()
+    except Exception:
+        stdout = str(stdout)
+
+    try:
+        stderr = stderr.decode("utf-8").strip()
+    except Exception:
+        stderr = str(stderr)
+
+    return process.returncode, stdout, stderr
+
+def install_dewbee(dewbee_version=None, github_ref=None):
+    print("Ladybug Tools Python executable:")
+    print(PY_EXE)
+    print("Ladybug Tools site-packages:")
+    print(PY_SITE)
+    print("Ladybug Tools custom constructions folder")
+    print(CONSTRUCTIONS_DIR)
+
+    print("- " * 30)
+    print("Installing Dewbee Python package into Ladybug Tools site-packages...")
+
+    returncode, stdout, stderr = run_pip_install(
+        python_exe=PY_EXE,
+        package_name=PYPI_PACKAGE,
+        version=dewbee_version,
+        target=PY_SITE,
+        env=CUSTOM_ENV
+    )
+
+    print(stdout)
+    if stderr:
+        print(stderr)
+
+    if returncode != 0:
+        raise Exception("pip install failed for '{}'.\n{}".format(PYPI_PACKAGE, stderr))
+
+    check_code, check_out, check_err = verify_python_package(PY_EXE)
+    if check_code != 0:
+        raise Exception(
+            "Dewbee installation could not be verified from Ladybug Tools Python.\n{}".format(check_err)
+        )
+
+    installed_version = check_out.strip()
+    print("Verified Dewbee version in LBT Python: {}".format(installed_version))
+
+    effective_github_ref = resolve_github_ref(
+        user_github_ref=github_ref,
+        user_dewbee_ver=dewbee_version,
+        installed_version=installed_version
+    )
+
+    print("Using GitHub ref for GH assets/materials: {}".format(effective_github_ref))
+
+    home_folder = os.getenv("HOME") or os.path.expanduser("~")
+    temp_root = os.path.join(home_folder, "dewbee_installer_temp")
+    gh_target = get_ghuser_target_folder()
+
     zip_path = None
     extracted_repo_dir = None
 
-    print("- " * 30)
-    print("Downloading Grasshopper components from GitHub:")
-    print(url)
-
     try:
-        zip_path = download_file_by_name(url, temp_root, zip_name, mkdir=True)
-        print("Downloaded zip to:\n{}".format(zip_path))
+        zip_path, extracted_repo_dir = download_and_extract_repo(
+            owner=GITHUB_OWNER,
+            repo=GITHUB_REPO,
+            ref=effective_github_ref,
+            temp_root=temp_root
+        )
 
-        unzip_file(zip_path, temp_root)
-        extracted_repo_dir = expected_unzipped_repo_folder(temp_root, repo, ref or "main")
+        install_ghuser_objects_from_repo(
+            extracted_repo_dir=extracted_repo_dir,
+            gh_target_folder=gh_target
+        )
 
-        if not os.path.isdir(extracted_repo_dir):
-            # fallback: search for the extracted folder
-            candidates = []
-            for name in os.listdir(temp_root):
-                full = os.path.join(temp_root, name)
-                if os.path.isdir(full) and name.startswith(repo + "-"):
-                    candidates.append(full)
-            if len(candidates) == 1:
-                extracted_repo_dir = candidates[0]
-
-        if not os.path.isdir(extracted_repo_dir):
-            raise IOError("Could not locate extracted repo folder inside:\n{}".format(temp_root))
-
-        source_ghuser_folder = os.path.join(extracted_repo_dir, REPO_GHUSER_SUBFOLDER)
-        if not os.path.isdir(source_ghuser_folder):
-            raise IOError(
-                "Could not find expected GH user objects folder in repo:\n{}".format(source_ghuser_folder)
-            )
-
-        print("Copying .ghuser files from:\n{}\nTo:\n{}".format(source_ghuser_folder, gh_target_folder))
-        preparedir(gh_target_folder, remove_content=True)
-        copy_file_tree(source_ghuser_folder, gh_target_folder, overwrite=True)
+        install_dewbee_materials_from_repo(
+            extracted_repo_dir=extracted_repo_dir
+        )
 
     finally:
         try:
@@ -1630,66 +1818,15 @@ def install_ghuser_objects_from_repo_zip(owner, repo, ref, temp_root, gh_target_
         except Exception:
             pass
 
-
-# -----------------------------------------------------------------------------
-# MAIN INSTALL
-# -----------------------------------------------------------------------------
-
-def install_dewbee(dewbee_version=None, github_ref=None):
-    py_exe, py_site = get_lbt_python()
-
-    print("Ladybug Tools Python executable:")
-    print(py_exe)
-    print("Ladybug Tools site-packages:")
-    print(py_site)
-
-    # 1) pip install dewbee into LBT Python
-    print("- " * 30)
-    print("Installing Dewbee Python package...")
-
-    returncode, stdout, stderr = run_pip_install(
-        python_exe=py_exe,
-        package_name=PYPI_PACKAGE,
-        version=dewbee_version,
-        target=None,  # install directly into LBT env
-        env=CUSTOM_ENV
-    )
-
-    print(stdout)
-    if stderr:
-        print(stderr)
-
-    if returncode != 0:
-        raise Exception("pip install failed for '{}'.\n{}".format(PYPI_PACKAGE, stderr))
-
-    if not package_dist_info_exists(py_site, PYPI_IMPORT_NAME, dewbee_version):
-        print("Warning: could not verify exact .dist-info folder for Dewbee.")
-        print("Proceeding anyway because some pip installs can still succeed with variant metadata names.")
-
-    # 2) install GH user objects from GitHub
-    home_folder = os.getenv("HOME") or os.path.expanduser("~")
-    temp_root = os.path.join(home_folder, "dewbee_installer_temp")
-    gh_target = get_ghuser_target_folder()
-
-    install_ghuser_objects_from_repo_zip(
-        owner=GITHUB_OWNER,
-        repo=GITHUB_REPO,
-        ref=github_ref or "main",
-        temp_root=temp_root,
-        gh_target_folder=gh_target
-    )
-
-    # cleanup temp folder root if empty / remaining
-    if os.path.isdir(temp_root):
         try:
-            nukedir(temp_root, rmdir=True)
+            if os.path.isdir(temp_root):
+                nukedir(temp_root, rmdir=True)
         except Exception:
             pass
-
-    # 3) success
+    
     success_lines = [
         "Dewbee has been successfully installed.",
-        "Python package installed into Ladybug Tools Python.",
+        "Verified Dewbee in Ladybug Tools Python: {}".format(check_out),
         "Grasshopper user objects installed to:",
         gh_target,
         "",
@@ -1700,93 +1837,135 @@ def install_dewbee(dewbee_version=None, github_ref=None):
     print(success_msg)
     give_popup_message(success_msg, "Dewbee Installation Successful")
 
-
 # -----------------------------------------------------------------------------
 # EXECUTION
 # -----------------------------------------------------------------------------
 
-if _install:
+if _run:
+    ensure_admin()
+
     try:
         install_dewbee(
             dewbee_version=_dewbee_ver if _dewbee_ver else None,
-            github_ref=_github_ref if _github_ref else "main"
+            github_ref=_github_ref if _github_ref else None
         )
     except Exception as e:
         msg = "Dewbee installation failed:\n{}".format(e)
         print(msg)
         give_error(msg)
 else:
-    print("Set _install to True to install Dewbee.")
+    print("Set _run to True to install Dewbee.")
     print("Optional:")
     print("  _dewbee_ver  -&gt; specific PyPI version, eg. 0.1.0")
     print("  _github_ref  -&gt; GitHub branch or tag, eg. main or v0.1.0")</item>
-                    <item name="Description" type_name="gh_string" type_code="10">GhPython provides a Python script component</item>
+                    <item name="Description" type_name="gh_string" type_code="10">Install or update Dewbee. Please update your Ladybug Tools version using the
+"LB Versioner" grasshopper component BEFORE installing dewbee.
+When _run is "True", it installs or updates the Dewbee Python package into the Ladybug Tools Python environment,
+installs Dewbee .ghuser components into the Grasshopper UserObjects folder, and Dewbee material
+library into the custom constructions folder.
+Only works with Rhino 8.0 and LBT version 1.10 or higher.
+-</item>
                     <item name="EditorLocation" type_name="gh_drawing_point" type_code="30">
-                      <X>114</X>
-                      <Y>114</Y>
+                      <X>1781</X>
+                      <Y>425</Y>
                     </item>
                     <item name="EditorSize" type_name="gh_drawing_size" type_code="32">
-                      <W>1123</W>
-                      <H>1214</H>
+                      <W>1619</W>
+                      <H>1407</H>
                     </item>
                     <item name="HideInput" type_name="gh_bool" type_code="1">true</item>
                     <item name="HideOutput" type_name="gh_bool" type_code="1">false</item>
+                    <item name="IconOverride" type_name="gh_drawing_bitmap" type_code="37">
+                      <bitmap length="1329">iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAWJQAAFiUBSVIk8AAABNNJREFUSEvNlG1MU1cch/+lvb2ttcCAFqTaFpBCQUERmToVNWpBQSXMwRLNssU3Js6AG3HzdZtGl8hwG1/QZYnboplzTlDiy9wYSpxsIPONgAKVUaogoEUYECm/5Z7YO3qXLfuwD3uSm9z8zjnPeT9E/yd4Tv6uiuOKpfl/hkqhKOOV8mvSmIh8iUgtyf8enucjeF5xQsVxLxGRjIiSiaiAiJqIyOlDlKdSKbcUF39SVVtb03bu7NnOw4cPOwreyr8+Lzn5OBGtJSKN1OtBrVJxq9VKDkTk0qrV1zMzMvDRwSKUlZai/MxphJlNUHIcUmw2fH7kCEbjdrtx7OhRBPj53SKiUC+zSql4h+cUDrmM9hJRy8vZ2WhsbPASbMnPZ/KyslLcvHEDS1JTsfLFTPT393vVy1m/Thjga14dKJVcFc8phALs37fP7dUCwOpVq1hZ6alTYjY4MMCypMREjIyMiPnKzEwhj/PqgOd5MxFdz9u8WazoQZiNICovPyNmPT09iI+LQ3SUBbbFi9nsXA/v44vPSno1GnWel/wZ+ihLZOfQ4JCXXFgCQX7+3Dkx6+7qQozVCl1QENra2lgWYRqPGRveQ3D2tk1SsYcdRR8WihJhyhkrljP5xYvfifnDzk5EWSwICQ6G3W4X8307tyIoswDple4KqZih5LjK+vp6Vlk4DelpaUz+Y0WFKHnw4AEmRkTAEDoOra2tYi78W8xGaCMTsLwSyB0ZCfN4eV6h2EBEWw3jQnqePn3K5KkpNia/fPmSKHE6nQgzm2GcMB6OZ8siYG9pwbiQEJhMRoRHWWF9dTcMM5d+yu6CVkuBKoW8mYj6Yq3RGBgYYHK5jww/XbkiShwOB4wTJsBsNsHpbBfzprt3ERQYiPi4yejo6IDgkCtVGDPW97FarTaMXiHeZDLemZ44DbySw8/V1aLkt9ZWGEJDEREezpbIQ2NDAwKe82fy3t5eDPT1whgzBQtPOGH7um3PaLmH08F6Pa7V1oqSe3Y720yLJRKdHR1iXn/7Nvx8tUiYOhUul4tllefL4T9pNpZfAmwnnPlSuYKIbm3K3ShKmpubodcFIcYaja6uLjEXbvBYzRgkTU/EkydPxDx3zSswZG3Fsh+Gseho0wJpB756va4nzGREu8PBvsCAAEyOjWUXysOvdXVQq1SYNXOm1/Nwr7kJ/v7+mHOoFou+ab+fVlIzRtqBPDLM3LR3z/tImDoFlsiJeD4pCY8fPRIlNTW/sP2ZO2c2OwwehoeHkfzCLJDMB6nf3oettGuHVO7hZPXVq9i9axc7oncaG0WJkHMKORbMn4ehoT9vend3N9LTlrL62kA95hZX3V7Xjr+M3sOa3NdzWMPCAwcwKTYGh0pKUPH9Rfhptew98tDzsAOHPi6EMciPyTkiaDQa6KMTMqTS0eiDdbrf+/r6mKSurk4cnZwIOWvXIO+NTUi3LUJETDz8ptkQnl2A+JwPYJiR0sL7+NxUEG2XSqUU7ty+TRxp3sb1MGS97Vr4ZSPUpliQVocp+y9g/rFWdhyXXhh8tKLKXVQE+AuNxxLppEIpaplMdvrNLfnYsH6dS3gAl1QjJKthJEsXNe1OQOSk/mWX3F+llHUfTDnpXLXkuD1EKvi3WIlI2jiKI0qQZP/IH5/rsH/inAzIAAAAAElFTkSuQmCC</bitmap>
+                    </item>
                     <item name="InputIsPath" type_name="gh_bool" type_code="1">false</item>
-                    <item name="InstanceGuid" type_name="gh_guid" type_code="9">1bfc0a9f-6fd7-402e-a31a-39f40ce71a97</item>
+                    <item name="InstanceGuid" type_name="gh_guid" type_code="9">6e0def03-b845-40e6-b6c0-7693f2f6ad07</item>
                     <item name="IsAdvancedMode" type_name="gh_bool" type_code="1">false</item>
                     <item name="MarshalOutGuids" type_name="gh_bool" type_code="1">true</item>
-                    <item name="Name" type_name="gh_string" type_code="10">DB Installer</item>
-                    <item name="NickName" type_name="gh_string" type_code="10">DBInstall</item>
+                    <item name="Name" type_name="gh_string" type_code="10">DB Installer and Updater</item>
+                    <item name="NickName" type_name="gh_string" type_code="10">DBInstallUpdate</item>
                   </items>
                   <chunks count="2">
                     <chunk name="Attributes">
                       <items count="2">
                         <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                          <X>424</X>
-                          <Y>119</Y>
-                          <W>100</W>
+                          <X>330</X>
+                          <Y>337</Y>
+                          <W>129</W>
                           <H>44</H>
                         </item>
                         <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                          <X>481</X>
-                          <Y>141</Y>
+                          <X>416</X>
+                          <Y>359</Y>
                         </item>
                       </items>
                     </chunk>
                     <chunk name="ParameterData">
                       <items count="5">
-                        <item name="InputCount" type_name="gh_int32" type_code="3">1</item>
+                        <item name="InputCount" type_name="gh_int32" type_code="3">2</item>
                         <item name="InputId" index="0" type_name="gh_guid" type_code="9">84fa917c-1ed8-4db3-8be1-7bdc4a6495a2</item>
-                        <item name="OutputCount" type_name="gh_int32" type_code="3">2</item>
+                        <item name="InputId" index="1" type_name="gh_guid" type_code="9">84fa917c-1ed8-4db3-8be1-7bdc4a6495a2</item>
+                        <item name="OutputCount" type_name="gh_int32" type_code="3">1</item>
                         <item name="OutputId" index="0" type_name="gh_guid" type_code="9">3ede854e-c753-40eb-84cb-b48008f14fd4</item>
-                        <item name="OutputId" index="1" type_name="gh_guid" type_code="9">8ec86459-bf01-4409-baee-174d0d2b13d0</item>
                       </items>
                       <chunks count="3">
                         <chunk name="InputParam" index="0">
-                          <items count="10">
+                          <items count="11">
                             <item name="AllowTreeAccess" type_name="gh_bool" type_code="1">true</item>
-                            <item name="Description" type_name="gh_string" type_code="10">Script variable Python</item>
-                            <item name="InstanceGuid" type_name="gh_guid" type_code="9">34955e84-b2d8-4467-94d5-685a726e4db1</item>
-                            <item name="Name" type_name="gh_string" type_code="10">_install</item>
-                            <item name="NickName" type_name="gh_string" type_code="10">_install</item>
+                            <item name="Description" type_name="gh_string" type_code="10">Set to True to install or update Dewbee.</item>
+                            <item name="InstanceGuid" type_name="gh_guid" type_code="9">cbc8bf5d-78b5-4ed8-8961-bea9c5ca93f4</item>
+                            <item name="Name" type_name="gh_string" type_code="10">_run</item>
+                            <item name="NickName" type_name="gh_string" type_code="10">_run</item>
                             <item name="Optional" type_name="gh_bool" type_code="1">true</item>
                             <item name="ScriptParamAccess" type_name="gh_int32" type_code="3">0</item>
                             <item name="ShowTypeHints" type_name="gh_bool" type_code="1">true</item>
-                            <item name="SourceCount" type_name="gh_int32" type_code="3">0</item>
-                            <item name="TypeHintID" type_name="gh_guid" type_code="9">87f87f55-5b71-41f4-8aea-21d494016f81</item>
+                            <item name="Source" index="0" type_name="gh_guid" type_code="9">f3d473fb-7c86-41bf-889e-f4735887764a</item>
+                            <item name="SourceCount" type_name="gh_int32" type_code="3">1</item>
+                            <item name="TypeHintID" type_name="gh_guid" type_code="9">d60527f5-b5af-4ef6-8970-5f96fe412559</item>
                           </items>
                           <chunks count="1">
                             <chunk name="Attributes">
                               <items count="2">
                                 <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                                  <X>426</X>
-                                  <Y>121</Y>
-                                  <W>40</W>
-                                  <H>40</H>
+                                  <X>332</X>
+                                  <Y>339</Y>
+                                  <W>69</W>
+                                  <H>20</H>
                                 </item>
                                 <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                                  <X>447.5</X>
-                                  <Y>141</Y>
+                                  <X>368</X>
+                                  <Y>349</Y>
+                                </item>
+                              </items>
+                            </chunk>
+                          </chunks>
+                        </chunk>
+                        <chunk name="InputParam" index="1">
+                          <items count="10">
+                            <item name="AllowTreeAccess" type_name="gh_bool" type_code="1">true</item>
+                            <item name="Description" type_name="gh_string" type_code="10">Optional version string for dewbee package (format: "0.1.0").
+If empty, the latest version will be installed.</item>
+                            <item name="InstanceGuid" type_name="gh_guid" type_code="9">90e02f91-0a37-4126-abf9-86ab76faf901</item>
+                            <item name="Name" type_name="gh_string" type_code="10">_dewbee_ver</item>
+                            <item name="NickName" type_name="gh_string" type_code="10">_dewbee_ver</item>
+                            <item name="Optional" type_name="gh_bool" type_code="1">true</item>
+                            <item name="ScriptParamAccess" type_name="gh_int32" type_code="3">0</item>
+                            <item name="ShowTypeHints" type_name="gh_bool" type_code="1">true</item>
+                            <item name="SourceCount" type_name="gh_int32" type_code="3">0</item>
+                            <item name="TypeHintID" type_name="gh_guid" type_code="9">37261734-eec7-4f50-b6a8-b8d1f3c4396b</item>
+                          </items>
+                          <chunks count="1">
+                            <chunk name="Attributes">
+                              <items count="2">
+                                <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
+                                  <X>332</X>
+                                  <Y>359</Y>
+                                  <W>69</W>
+                                  <H>20</H>
+                                </item>
+                                <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
+                                  <X>368</X>
+                                  <Y>369</Y>
                                 </item>
                               </items>
                             </chunk>
@@ -1795,7 +1974,7 @@ else:
                         <chunk name="OutputParam" index="0">
                           <items count="6">
                             <item name="Description" type_name="gh_string" type_code="10">The execution information, as output and error streams</item>
-                            <item name="InstanceGuid" type_name="gh_guid" type_code="9">1be0c432-e9ab-4835-bbe7-7f5b2e634029</item>
+                            <item name="InstanceGuid" type_name="gh_guid" type_code="9">ada1ccef-4349-4673-adde-a83332b802cf</item>
                             <item name="Name" type_name="gh_string" type_code="10">out</item>
                             <item name="NickName" type_name="gh_string" type_code="10">out</item>
                             <item name="Optional" type_name="gh_bool" type_code="1">false</item>
@@ -1805,40 +1984,14 @@ else:
                             <chunk name="Attributes">
                               <items count="2">
                                 <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                                  <X>496</X>
-                                  <Y>121</Y>
+                                  <X>431</X>
+                                  <Y>339</Y>
                                   <W>26</W>
-                                  <H>20</H>
+                                  <H>40</H>
                                 </item>
                                 <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                                  <X>509</X>
-                                  <Y>131</Y>
-                                </item>
-                              </items>
-                            </chunk>
-                          </chunks>
-                        </chunk>
-                        <chunk name="OutputParam" index="1">
-                          <items count="6">
-                            <item name="Description" type_name="gh_string" type_code="10">Script output a.</item>
-                            <item name="InstanceGuid" type_name="gh_guid" type_code="9">b5f7d86c-0526-4fc5-8134-290b6b2edf4e</item>
-                            <item name="Name" type_name="gh_string" type_code="10">a</item>
-                            <item name="NickName" type_name="gh_string" type_code="10">a</item>
-                            <item name="Optional" type_name="gh_bool" type_code="1">false</item>
-                            <item name="SourceCount" type_name="gh_int32" type_code="3">0</item>
-                          </items>
-                          <chunks count="1">
-                            <chunk name="Attributes">
-                              <items count="2">
-                                <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                                  <X>496</X>
-                                  <Y>141</Y>
-                                  <W>26</W>
-                                  <H>20</H>
-                                </item>
-                                <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                                  <X>509</X>
-                                  <Y>151</Y>
+                                  <X>444</X>
+                                  <Y>359</Y>
                                 </item>
                               </items>
                             </chunk>
@@ -1850,7 +2003,91 @@ else:
                 </chunk>
               </chunks>
             </chunk>
-            <chunk name="Object" index="4">
+            <chunk name="Object" index="11">
+              <items count="2">
+                <item name="GUID" type_name="gh_guid" type_code="9">2e78987b-9dfb-42a2-8b76-3923ac8bd91a</item>
+                <item name="Name" type_name="gh_string" type_code="10">Boolean Toggle</item>
+              </items>
+              <chunks count="1">
+                <chunk name="Container">
+                  <items count="7">
+                    <item name="Description" type_name="gh_string" type_code="10">Boolean (true/false) toggle</item>
+                    <item name="InstanceGuid" type_name="gh_guid" type_code="9">f3d473fb-7c86-41bf-889e-f4735887764a</item>
+                    <item name="Name" type_name="gh_string" type_code="10">Boolean Toggle</item>
+                    <item name="NickName" type_name="gh_string" type_code="10">Toggle</item>
+                    <item name="Optional" type_name="gh_bool" type_code="1">false</item>
+                    <item name="SourceCount" type_name="gh_int32" type_code="3">0</item>
+                    <item name="ToggleValue" type_name="gh_bool" type_code="1">false</item>
+                  </items>
+                  <chunks count="1">
+                    <chunk name="Attributes">
+                      <items count="1">
+                        <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
+                          <X>195</X>
+                          <Y>338</Y>
+                          <W>104</W>
+                          <H>22</H>
+                        </item>
+                      </items>
+                    </chunk>
+                  </chunks>
+                </chunk>
+              </chunks>
+            </chunk>
+            <chunk name="Object" index="12">
+              <items count="2">
+                <item name="GUID" type_name="gh_guid" type_code="9">59e0b89a-e487-49f8-bab8-b5bab16be14c</item>
+                <item name="Name" type_name="gh_string" type_code="10">Panel</item>
+              </items>
+              <chunks count="1">
+                <chunk name="Container">
+                  <items count="9">
+                    <item name="Description" type_name="gh_string" type_code="10">A panel for custom notes and text values</item>
+                    <item name="InstanceGuid" type_name="gh_guid" type_code="9">3c86f3bf-8dd4-4cee-b457-554c00b0c383</item>
+                    <item name="Name" type_name="gh_string" type_code="10">Panel</item>
+                    <item name="NickName" type_name="gh_string" type_code="10"></item>
+                    <item name="Optional" type_name="gh_bool" type_code="1">false</item>
+                    <item name="ScrollRatio" type_name="gh_double" type_code="6">0</item>
+                    <item name="Source" index="0" type_name="gh_guid" type_code="9">ada1ccef-4349-4673-adde-a83332b802cf</item>
+                    <item name="SourceCount" type_name="gh_int32" type_code="3">1</item>
+                    <item name="UserText" type_name="gh_string" type_code="10">Double click to edit panel content…</item>
+                  </items>
+                  <chunks count="2">
+                    <chunk name="Attributes">
+                      <items count="5">
+                        <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
+                          <X>509</X>
+                          <Y>61</Y>
+                          <W>515</W>
+                          <H>597</H>
+                        </item>
+                        <item name="MarginLeft" type_name="gh_int32" type_code="3">0</item>
+                        <item name="MarginRight" type_name="gh_int32" type_code="3">0</item>
+                        <item name="MarginTop" type_name="gh_int32" type_code="3">0</item>
+                        <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
+                          <X>509.67657</X>
+                          <Y>61.453705</Y>
+                        </item>
+                      </items>
+                    </chunk>
+                    <chunk name="PanelProperties">
+                      <items count="7">
+                        <item name="Colour" type_name="gh_drawing_color" type_code="36">
+                          <ARGB>255;181;229;255</ARGB>
+                        </item>
+                        <item name="DrawIndices" type_name="gh_bool" type_code="1">true</item>
+                        <item name="DrawPaths" type_name="gh_bool" type_code="1">true</item>
+                        <item name="Multiline" type_name="gh_bool" type_code="1">true</item>
+                        <item name="SpecialCodes" type_name="gh_bool" type_code="1">false</item>
+                        <item name="Stream" type_name="gh_bool" type_code="1">false</item>
+                        <item name="Wrap" type_name="gh_bool" type_code="1">true</item>
+                      </items>
+                    </chunk>
+                  </chunks>
+                </chunk>
+              </chunks>
+            </chunk>
+            <chunk name="Object" index="13">
               <items count="2">
                 <item name="GUID" type_name="gh_guid" type_code="9">c552a431-af5b-46a9-a8a4-0fcbc27ef596</item>
                 <item name="Name" type_name="gh_string" type_code="10">Group</item>
@@ -1858,14 +2095,14 @@ else:
               <chunks count="1">
                 <chunk name="Container">
                   <items count="8">
-                    <item name="Border" type_name="gh_int32" type_code="3">1</item>
+                    <item name="Border" type_name="gh_int32" type_code="3">3</item>
                     <item name="Colour" type_name="gh_drawing_color" type_code="36">
-                      <ARGB>255;255;0;0</ARGB>
+                      <ARGB>255;181;229;255</ARGB>
                     </item>
                     <item name="Description" type_name="gh_string" type_code="10">A group of Grasshopper objects</item>
-                    <item name="ID" index="0" type_name="gh_guid" type_code="9">1bfc0a9f-6fd7-402e-a31a-39f40ce71a97</item>
+                    <item name="ID" index="0" type_name="gh_guid" type_code="9">f3d473fb-7c86-41bf-889e-f4735887764a</item>
                     <item name="ID_Count" type_name="gh_int32" type_code="3">1</item>
-                    <item name="InstanceGuid" type_name="gh_guid" type_code="9">1a6dd04c-6b2f-4f14-8d5c-122d44a11870</item>
+                    <item name="InstanceGuid" type_name="gh_guid" type_code="9">21797b23-e7d9-4d2a-a5bb-e30278127b35</item>
                     <item name="Name" type_name="gh_string" type_code="10">Group</item>
                     <item name="NickName" type_name="gh_string" type_code="10"></item>
                   </items>
@@ -1882,7 +2119,7 @@ else:
     <chunk name="Thumbnail">
       <items count="1">
         <item name="Thumbnail" type_name="gh_drawing_bitmap" type_code="37">
-          <bitmap length="1889">iVBORw0KGgoAAAANSUhEUgAAAOEAAACWCAIAAACn9nhUAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAFiUAABYlAUlSJPAAAAb2SURBVHhe7drdT1vnHcBxpt5UtBSUqZUSshtIIvViUtRKu0gituRm0m4gV/sH9lJN2tYq2RqHNG6jdMnEgqJlbTeRJmQwBJpF8RxsYAYCdkJcCARsbMAnfjk+x8fHYIMhkXaxN2EvaeoECU1B+tn6fvTI8nnkc3zz1WP5nKeiApDvP4BUXzWaAOShUUhHo5CORiEdjUI6GoV0NArpaBTS0Siko1FIR6OQjkYhHY1COhqFdDQK6WgU0tEopKNRSEejkI5GIR2NQjoahXQ0CuloFNLRKKSjUUhHo5CORiEdjUI6GoV0NArpaBTS0Siko1FIR6OQjkYhHY1COhqFdDQK6WgU0tEopKNRSEejkI5GIR2NQjoahXQ0CuloFNLRKKSjUUhHo5CORiEdjUI6GoV0NArpaBTS0Siko1FIR6OQjkYhHY1COhqFdDQK6WgU0tEopCurRjVNKzrUdf3pmcJk0ccgXPk0quu6oiiRvGg0uvmqqpFkMhqPF2YKwuHwszVDsjJp1DCMiYmJUCgUi8UWFxfn5+fjyaTtD59c/N7R+3cmlGg0FAoFg8FwOByJRMbHx59dXyFWmTSaTqftdrvX6/V4PIODg319fTPB4Ocnf/VOxTeGenq+nJ52uVwOh2NsbMzv93d3d9NoCSmTRjVNU1XVbrdfu3ato6OjM6+tra3l449vdHR0Pp5pb2/v6elRFCWZTBZf4rl0PZHJbGskkwlVLT4dL0KZNJpIJNbX19va2qqqqmpra/fs2fOtvXsPHjz43WPHjh49Wl9fv3v37tra2srKyhMnTjx8+LD45OfSdVVR4sPD2sCA5nJtOQYG4m63urS0GTR2QPk0aprm5OTkhQsXWh5rbW29fPnylStXLl26VJg5f/780NBQOp0uPvm5sll1aOgfFRUblZW56urca68Vxnp19UZN9Xr+zXpNzcarr/6rokLt6VFzueIr4EUon0ZVVU2lUutPyeVya3m5XK4ws7Gxsby8rG7zRzmb1W7efPTyy4nbt81YLLW0lFoKp5XwirKQXFgwI3EtGEwsLET9/vjrrxvXr9PoDimfRl+8bDbpcCRrakLz81HTfKCqSjweTcQ+6Z7+6UXftO/vYxN33ePjs4bhfPvtVFtbgkZ3Bo1uLZtN9/W53nzTOzfndDptNttfOv/c6/D8/FSH7aNvj1z+4WLEWFhampmbS1VXp9rbWUd3CI1uLZtN9vebVVW+27cDodD8/HwgEAgsxsZ7fz/c8gPfnbtjHu/S4qLvwQP7W2+ZV6+yju4QGt1aNqv39z986aXhq1ftg4OOgr/ZHf2uvpvum/1Om+2vdqfT2d2tVVambtxgHd0hNLq1bDbudv/zlVc+37Xrm/v319fX19XVHTly5PDhww0NDXV1dfv27du1f3/LG2/8u7JStdnUtbXiK+BFKP9GY3nR6OarriVMY3t37/MPBtRoNOX3u3t7f/nee7/Os1qtZ8+etVqthcNfvPuuo6vLDATUSCTBHoCdUTKNFvYrPU3/uqLPJ5PJ5eXlwhaTwk4nJRL9cuqea3R8KRze7p4STVPTaTOT2byPlbf6WOFwPZdLZ7NqOs0N/J1TMo3GYtF4fHNB3FwT8wr9PWEYhq7rhmGk0+l4PD47Ozs8PNzb2xuLxXw+XzDgH50OHvvJ6e98v2khrCRJqnSUQKO6rgeDIa/X5/HcvXNncmJianJydnx8wuFwuFwup9M1MDDwxRd9IyMjiqJMT08PDw/39/ePjo56vV673T4zM+PxeGam792bC/z4d+3W1k9Dwfln112IVQKNmmbK55u6ePGPJ09+1Nz8W4vlN62t11pa/tSUd/z48aampsbGJqv1Q7fbfevWrfv372ualk6nV1ZWFEU5d+6cxWL50GptPnPmR+/87NPPPguFQjRaQkqgUcNI+v2Bzk5bV1dvYXR3269f77JYmi2W0xZL86lTp99/3zI5ObW6umqa5pM9TZqmZTKZxsbGAwcOHDp0qKGhYe+e3R+cOfPo0aPi74BgJdBo4efeNI1U6qthmqknf19WV1fX1tYMw3j2Qbyu61NTU263eyTP7XYHAoHtbsyDDKXR6P9NVVXTNDOZzEpeJpN5bsqQrMwbRRmgUUhHo5CORiEdjUI6GoV0NArpaBTS0Siko1FIR6OQjkYhHY1COhqFdDQK6WgU0tEopKNRSEejkI5GIR2NQjoahXQ0CuloFNLRKKSjUUhHo5CORiEdjUI6GoV0NArpaBTS0Siko1FIR6OQjkYhHY1COhqFdDQK6WgU0tEopKNRSEejkI5GIR2NQjoahXQ0CuloFNLRKKSjUUhHo5CORiEdjUI6GoV0NArpaBTS0Siko1FIR6OQjkYh3dcaBWT6X6OAZP8FpNoVosOCTKAAAAAASUVORK5CYII=</bitmap>
+          <bitmap length="3054">iVBORw0KGgoAAAANSUhEUgAAAOEAAACWCAIAAACn9nhUAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAFiUAABYlAUlSJPAAAAuDSURBVHhe7d3pUxv3Hcfx/CnJw0zTZ3mSZ2mbNO20j9onfsR02kk64xk/aDuTTJpJnEymSezYsQ2GYA5jLoM5pNXBGQ4JBDKHDoRuae9L4jCYQ4gr21nJEBvYNIdr/bT+vOY7zLJaSzB6z2pXhuWFFwDIpwGQ6rtGRQDyoFEgHRoF0qFRIB0aBdKhUSAdGgXSoVEgHRoF0qFRIB0aBdKhUSAdGgXSoVEgHRoF0qFRIB0aBdKhUSAdGgXSoVEgHRoF0qFRIB0aBdKhUSAdGgXSoVEgHRoF0qFRIB0aBdKhUSAdGgXSoVEgHRoF0qFRIB0aBdKhUSAdGgXSoVEgHRoF0qFRIJ3JG5UkSZUEfUTiRhH5rCJlFbn4UZUEWZJOfgNg7kZlWUqlaYfHb/UEbFNB0sbuDd0dcLf3jd8ddLf1jVGeQDiWUGT55Lfx3DNzo4oiR2Lxr8cWb4xFa9yJGneicjRyczxW7U7oH13xm674zfFYjTtR7TpaMx67Of5o42pX/NGW7njNRLI41a545Wik6mlMtSt+sW3o/UbbB3ecH9xxXhsO3Q+GMwoaPcnUjcpSPJWuHw813udqXdH6yWRv6mGrX673pJrnxaYZ7s4c3zwv3pqIN3rTLT75tpdp8YmtfrluMlHvSTRO09WjoaYZrmE6VeuOVo+Gal2Rphm2O7HeHX/4VKYnudmb2irMZkd41RdOqDJe7k8yeaOJFN06y96LrddNJprnxQH1287Iav1U6m4o27G43DTDWtLbd+aEr8fDd0NLbQG1xSdZ6dytiXidJ1nvSd6ZE6x0rnlerBzyVw0HqoYD9Z5Un3w4mNUGMk91sppD+tYfTaHR08zdqJxIpdvmuNuzws1vgnUT8brJZK0rWjeZaJhOU2zeIRxQbN4u7DvEQxu3Z+f10deLBw7x0CEe2vl9fQN+v0/61lkYh3BgpXcKk3tydqxMcX1x4cSt/3N2uhMbvgj2o2cweaPxZLp1lm32KzcGfbfvM61+uWE6Xe9JdUZWrXTOzu/b+X0LnbPQOYrNW5kdO7/nEA9s3F5vaqsnuUGxeUt628btWpkdS3q7GLSN1T+18/v6ejrnEA5s3K4lva2nxuiBFpeLd/uDZ6cLjRowd6NSIk03e9MWJj/yQLNxu1dsU5VD/uv9s5WDc+0LmaZZvnLQ5xD2++SD9mDGSudqXdGvnDP1nmTdZKJqONi+oLYF1Wt9s1ft3vZgpjOyfGNw/vZ9pt6TvDHoa54XHcL+tb7ZZv2QYLvek2oP6vfZMJ0eWtL6lSemT/7eUTQbv4/X+jOZvNF4MtURkC1M3ikd9iQ324OZO7Ncq19u8Ukd4ZV70QetfsmS3nZKh8X9ZfO8ePs+27G4XDih2egMr1Jsvj2Y6Vhc7klsWNK5u6Glrthad/zhveiD7vi6jc23+pX2hayd3+2Kr3dGVnsSG72pLYeoH0UUd8z6Ap1ziocO4cBwxAMrk/dHk2j0NHM3KifSdN1YqCWgUky+LaBe6nXfGJi/bJ38tH3wljt2ayJ+yeJuDShWOtfoZdoCatWQv3LQ90WP6+MWZ8NU+ivn/coh/2XLxBXbVN1komY01DhNN8+Ll3rdlywTvamta30zVx1eK527bJ0s7qRbfPIV29S96IMbA/PVIwv1nlTNWLjWFbWx+aNT+DNn+15sHa/1ZzJ3o1I0nrQm1q3srp3f60ludMXWiqdBVjrXm9qyMjs2btch7Nv5PRu3a+P0fZ6N2y1uoK9hHy0X1u8VttfPqyzp7c6Ivou10rl70bXiTVZavzeK3aUKR6v6AqsfsFJMvng29r2jHxb7I9iPnsH8jTrZnFPWjwgHVP1dnkcHiKr+6YlDxifm8VtPb3l8V0/e58nNfvioml04wPHomczfqIPZdkinzlFIG5wzGUOjZAwaNWb+Ru3l06gPjZ4FjZIxaNQYGiVj0KgxNErGoFFjaJSMQaPG0CgZo2gUGjWARskYNGrsOWiURqPl7TloFPvRModGyRg0aszkjUbQaPkrcaOSJBYu0MArAqcIXOE6CCe3+cnQqDmUslFVEgSOW6DFKTrropcn6OXZtJJkOFXkn8oFOx41inOmMleyRlWRjzDCILNBiYc2WbMr+lCSZufyU+mswHM//8kqNmpDo2WuNI2qIh9kJJuw7zj9y2iKRsnaCLMucD8307JrdB6NnqUEjSqSmGB4O7/nPB3o0VCyNkEvKwJ38h//GGjUHErQqCxwY/Sq/ft/s0LVbMJhlOaVwlMm/WCPPxAaNYdn3agsiSmGc/B7dqlwIRDhwC4e6B+FA/1XjjLaYGEGMppzSZtilvVTfkVhGCb9GPrI8fLxTYIgHD8WGjWHZ92oKgkhVu5NbblmF13egDcQn/JFpnzRaX/sxq2mi59f+eizLz/67MsPP/2ssvebYfqhyDELCwvJZFJRlOOdpSzLQoGqZrLZbCaTKa4XBCGZTMqyXPxUkaVYMl1GjfrjNBo9rQSNLvBLneGVhq9bP//ky4vvf/reP/79n4uXmuo6zv35T3/87a9/95vXf//Gr/7wxusVf32nihofHRmpra0NhUKSJPEFoiiGw+G+vr7Z2dnw4qKlt9fr9RaTZRgmEAgUYxUEQZGl4GKESm+VS6PehSgaPe3ZNyqGOaU7sVnV3l/V4rzaaLnS0FvV4qxqdV748Iu//evDv7/3yTvvfvyXC+9e7hmbVPeWVDkajfp8vlRBMplMpVKRSCQej7Ms29HRUV1Veb2xzTUxSVHU4uJiQ0NDS0tLT09Pd3d3b3f31euVVHrLeboJ0kbR7OJhQ3uXwDInjqrhWTcqSyLNsH38bv+y1p/VBpa0gcJCf1YbWdPGHmqj6/qMPdT6V7TpdObBUqa7u9vj8QwODvYUdHV1jY+POxwOt9vtmZyoaWqlvnFFo5FgIBAKhbxeL8dxLMsyDCPw3Jw/WEb7UY9/EfvR0551o/qpjMBN0Ms24zeeis+Znd9LMHw2o/r9fqfTSRXYbDar1UpRlMVicTgc42Nj4y6X2+UaGRkZHR0dGhoKBoPHh6eqIuN41ARK0Ki+K2U5J7dzxhv4x0+YrHnpjCrqR5+bm5s1NTUvvvjiLwteeeWVV1999a233nrzzTdfe+21l19++RcFL7300rlz5zKZjHx0SfnyO6+P4Lz+DCVotHjmFGUEB7ej702fLNWpaFZJm6BXJIErHpitrKwMDw9XVFS8c+T8+fP/LLhw4cLbb79dXFlRUXH9+vXl5eXjR0Gj5lCaRouZplhefzOf36MkzSbrQ4mH/ezWPK3IR4GKoigIQiaTWVtbe/CYlYLV1dXjNWtraysrK48/hCJLYTRa/krWaPE/RWWBizP8PC17aXWGVhdokeMKP/d0ctufotgohUbLXCkbLVKOfoRUH0n/idKnpewanYukMmj0lNI3+v9z3KgTjZYzNErGoFFjaJSMUTQrGjWARskYNGrMzI2qaNQU0CgZg0aNoVEyBo0aQ6NkDBo1hkbJGDRqDI2SMWjUGBolY9CoMbM3Gkta0WiZM3mji2XUKIdGz4ZGyZhCo7No9CxolIxBo8bQKBmDRo2hUTIGjRpDo2QMGjWGRskYNGoMjZIxaNTYc9BoGo2WNzRKxqBRY2iUjEGjxtAoGYNGjZm80VA0aWHyTlXry5A9Wc0iaDNo9CxmbrR4rXHrgmSLLtljpI9lUQ3gevhnMXOj+h8kEUWOoRk6xdJpskf/CkXxuz84AcdM3uiP+rs5JXfyS4cC8zcK5Q6NAunQKJAOjQLp0CiQDo0C6dAokA6NAunQKJAOjQLp0CiQDo0C6dAokA6NAunQKJAOjQLp0CiQDo0C6dAokA6NAunQKJAOjQLp0CiQDo0C6dAokA6NAunQKJAOjQLp0CiQDo0C6dAokA6NAunQKJAOjQLp0CiQDo0C6Z5oFIBMjxoFINl/AYfY8eAs5posAAAAAElFTkSuQmCC</bitmap>
         </item>
       </items>
     </chunk>
