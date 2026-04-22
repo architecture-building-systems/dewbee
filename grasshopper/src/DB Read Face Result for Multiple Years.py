@@ -23,7 +23,7 @@ longer than 1 year.
 
 ghenv.Component.Name = 'DB Read Face Result for Multiple Years'
 ghenv.Component.NickName = 'MultiyearFaceResult'
-ghenv.Component.Message = '0.1.1'
+ghenv.Component.Message = '0.1.2'
 ghenv.Component.Category = 'Dewbee'
 ghenv.Component.SubCategory = "3 :: Results"
 

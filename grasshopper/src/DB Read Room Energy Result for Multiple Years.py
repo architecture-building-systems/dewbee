@@ -47,7 +47,7 @@ for periods longer than 1 year.
 
 ghenv.Component.Name = 'DB Read Room Energy Result for Multiple Years'
 ghenv.Component.NickName = 'MultiyearRoomEnergyResult'
-ghenv.Component.Message = '0.1.1'
+ghenv.Component.Message = '0.1.2'
 ghenv.Component.Category = 'Dewbee'
 ghenv.Component.SubCategory = "3 :: Results"
 

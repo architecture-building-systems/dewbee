@@ -22,7 +22,7 @@ This is only an approximation based on Künzel's exponential function.
 
 ghenv.Component.Name = "DB Liquid Coefficients"
 ghenv.Component.NickName = 'LiquidCoeff'
-ghenv.Component.Message = '0.1.1'
+ghenv.Component.Message = '0.1.2'
 ghenv.Component.Category = 'Dewbee'
 ghenv.Component.SubCategory = "1 :: Constructions"
 

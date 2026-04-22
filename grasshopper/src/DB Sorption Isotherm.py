@@ -21,7 +21,7 @@ building components: one- and two-dimensional calculation using simple parameter
 
 ghenv.Component.Name = "DB Sorption Isotherm"
 ghenv.Component.NickName = 'GenSorption'
-ghenv.Component.Message = '0.1.1'
+ghenv.Component.Message = '0.1.2'
 ghenv.Component.Category = 'Dewbee'
 ghenv.Component.SubCategory = "1 :: Constructions"
 

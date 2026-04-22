@@ -20,7 +20,7 @@ Only works with Rhino 8.0 and LBT version 1.10 or higher.
 
 ghenv.Component.Name = "DB Installer and Updater"
 ghenv.Component.NickName = "DBInstallUpdate"
-ghenv.Component.Message = '0.1.1'
+ghenv.Component.Message = '0.1.2'
 ghenv.Component.Category = "Dewbee"
 ghenv.Component.SubCategory = "0 :: Miscellaneous"
 
