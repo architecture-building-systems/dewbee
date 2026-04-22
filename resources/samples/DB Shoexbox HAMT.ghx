@@ -49,10 +49,10 @@
             <chunk name="Projection">
               <items count="2">
                 <item name="Target" type_name="gh_drawing_point" type_code="30">
-                  <X>465</X>
-                  <Y>553</Y>
+                  <X>-30</X>
+                  <Y>392</Y>
                 </item>
-                <item name="Zoom" type_name="gh_single" type_code="5">0.5090036</item>
+                <item name="Zoom" type_name="gh_single" type_code="5">0.66555816</item>
               </items>
             </chunk>
             <chunk name="Views">
@@ -6238,7 +6238,7 @@ https://github.com/ladybug-tools/ladybug-grasshopper-dotnet</item>
                     <item name="NickName" type_name="gh_string" type_code="10">FalseStart</item>
                     <item name="Optional" type_name="gh_bool" type_code="1">false</item>
                     <item name="SourceCount" type_name="gh_int32" type_code="3">0</item>
-                    <item name="ToggleValue" type_name="gh_bool" type_code="1">true</item>
+                    <item name="ToggleValue" type_name="gh_bool" type_code="1">false</item>
                   </items>
                   <chunks count="1">
                     <chunk name="Attributes">
@@ -7389,7 +7389,7 @@ innermost (interior) layer.
                     <item name="HideInput" type_name="gh_bool" type_code="1">true</item>
                     <item name="HideOutput" type_name="gh_bool" type_code="1">true</item>
                     <item name="IconOverride" type_name="gh_drawing_bitmap" type_code="37">
-                      <bitmap length="997">iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAOwQAADsEBuJFr7QAAA4dJREFUSEvtlXlIk2Ecxx9aW3NLR6uVUCylzKLs+qMis1bzJJ1Xd8wug8qwKDKPUqu1mkdqSzSvabnsQqH71OjQgiJMLLsguqyIoKazcnu/8b5J7HkSgqD/+sD7z/PH5/u+v+N5CfnPX6DxkIuXEkISCSEbCCFxUnGfOKlMtowQsrznLFEuly8khKwihKztOVsjk4r1hJCZrJBioEff2hv7AnAzLwAN2f54UK5FxqKhWL8xCc3NzWhsbERTUxPuNT9EbNAkXMuagoYcf9wxz8Jlkz/cJKJK1kkxRNHP+vFkGHA9BrgaBdyej9IEb2QasuGKA0DCktnAhRCgPgq4Hos3NSFQ9BebWSeFdvJg06e6ufh2LgKdp8PBXYlEZZofl1dwgHMN+NrNocSwEh21s2E/E47v53X4cDIMmgmqrayTwsvTrfzt0VB0X9AJAWiIRtFab+w05rr68cXuQPy8GbDVBQoBzouReFoZCHeZ+ADrpFApJNZX1hA4XAL2rx6OlPTdVMDnTgfidNOogMcWLaQSURHrpBitdi9+dzwM3ed/BnBXo1C4yZfL2GGkSmT/5oRhYwxsdXOEAP6LX9eEYPRw912sk6K3HpQmj+XKLYedbIBpywJ0uAS8ORoKP29FJuukUCokR15Zg6kSFcSrkbzN4OoXSqTXTaVLVCGUqJh1UgwSekAHmPkebKd7wDd5Rcx0KuCJJRAyqbiQdVJoJg7OYktkSRvH5eabfxtTc7oeHbU/S8SP6fsTYZg2RpnKOilGDZOXvDsW+qvJqI/GwYQRMGblu/ph63Jg3WIN9QXPq4IwwKNfAeukUA2QVLNjypcoNd1IBXy2O7Askh7TJxYtZH8aUy9PeRm1aPVRqEgcCaNpHxXQ+dWJbesiYKvTCgH8C720BsPLU76HdVL0NqZlKWO53Hz6quj6ziEvdcmvHvAlbT8eismjlNtZJ0Wvmxyv7nWT9RF/Mab8HvCfygb8tgd2B+KYHvBXxR97oJkwKLvrnE64qrlLkcCtWBzJ8OMOVddQm8xTalgJ59lAcBd1wovYToUjYLwqhXVS+A7rX3UzfyZeVAfjUbkWrRYtduu9kJyWiba2NrS3t6O1tRV377dgRewMtBT741lVEFpK5uCyaTqU7pKDrJOF/xXmqIfIkpQeEr5hOYSQXP4RiUR7fXx8NvecCY/cTbxDrZIluZzpWOE/5QeblWVDh/rj3QAAAABJRU5ErkJggg==</bitmap>
+                      <bitmap length="997">iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAOwAAADsABataJCQAAA4dJREFUSEvtlXlIk2Ecxx9aW3NLR6uVUCylzKLs+qMis1bzJJ1Xd8wug8qwKDKPUqu1mkdqSzSvabnsQqH71OjQgiJMLLsguqyIoKazcnu/8b5J7HkSgqD/+sD7z/PH5/u+v+N5CfnPX6DxkIuXEkISCSEbCCFxUnGfOKlMtowQsrznLFEuly8khKwihKztOVsjk4r1hJCZrJBioEff2hv7AnAzLwAN2f54UK5FxqKhWL8xCc3NzWhsbERTUxPuNT9EbNAkXMuagoYcf9wxz8Jlkz/cJKJK1kkxRNHP+vFkGHA9BrgaBdyej9IEb2QasuGKA0DCktnAhRCgPgq4Hos3NSFQ9BebWSeFdvJg06e6ufh2LgKdp8PBXYlEZZofl1dwgHMN+NrNocSwEh21s2E/E47v53X4cDIMmgmqrayTwsvTrfzt0VB0X9AJAWiIRtFab+w05rr68cXuQPy8GbDVBQoBzouReFoZCHeZ+ADrpFApJNZX1hA4XAL2rx6OlPTdVMDnTgfidNOogMcWLaQSURHrpBitdi9+dzwM3ed/BnBXo1C4yZfL2GGkSmT/5oRhYwxsdXOEAP6LX9eEYPRw912sk6K3HpQmj+XKLYedbIBpywJ0uAS8ORoKP29FJuukUCokR15Zg6kSFcSrkbzN4OoXSqTXTaVLVCGUqJh1UgwSekAHmPkebKd7wDd5Rcx0KuCJJRAyqbiQdVJoJg7OYktkSRvH5eabfxtTc7oeHbU/S8SP6fsTYZg2RpnKOilGDZOXvDsW+qvJqI/GwYQRMGblu/ph63Jg3WIN9QXPq4IwwKNfAeukUA2QVLNjypcoNd1IBXy2O7Askh7TJxYtZH8aUy9PeRm1aPVRqEgcCaNpHxXQ+dWJbesiYKvTCgH8C720BsPLU76HdVL0NqZlKWO53Hz6quj6ziEvdcmvHvAlbT8eismjlNtZJ0Wvmxyv7nWT9RF/Mab8HvCfygb8tgd2B+KYHvBXxR97oJkwKLvrnE64qrlLkcCtWBzJ8OMOVddQm8xTalgJ59lAcBd1wovYToUjYLwqhXVS+A7rX3UzfyZeVAfjUbkWrRYtduu9kJyWiba2NrS3t6O1tRV377dgRewMtBT741lVEFpK5uCyaTqU7pKDrJOF/xXmqIfIkpQeEr5hOYSQXP4RiUR7fXx8NvecCY/cTbxDrZIluZzpWOE/5QeblWVDh/rj3QAAAABJRU5ErkJggg==</bitmap>
                     </item>
                     <item name="InputIsPath" type_name="gh_bool" type_code="1">false</item>
                     <item name="InstanceGuid" type_name="gh_guid" type_code="9">bc891ab6-1763-4ca3-bee4-feb27b307c15</item>
@@ -7600,19 +7600,21 @@ such that it can be used to run a HAMT simulation using "DB Run HAMT Simulation"
 
 ghenv.Component.Name = "DB Is Hygrothermal Material"
 ghenv.Component.NickName = 'IsHygroMat'
-ghenv.Component.Message = '0.0.1'
+ghenv.Component.Message = '0.1.1'
 ghenv.Component.Category = 'Dewbee'
 ghenv.Component.SubCategory = "1 :: Constructions"
 
+
 # Import dewbee dependencies
-from dewbee import hygro_material
-from dewbee import utils
-reload(hygro_material)
-reload(utils)
-from dewbee.hygro_material import HygroMaterial
-from dewbee.utils import material_ishygro
-
-
+try:
+    import dewbee.utils as utils
+    import dewbee.hygro_material as hygro_material
+    reload(utils)
+    reload(hygro_material)
+    from dewbee.utils import material_ishygro
+    from dewbee.hygro_material import HygroMaterial
+except Exception as e:
+    raise ImportError('Failed to import dewbee:\n\t{}'.format(e))
 
 try:  # import the honeybee-energy dependencies
     from honeybee_energy.lib.materials import opaque_material_by_identifier
@@ -8084,14 +8086,9 @@ Apply moisture source loads to Rooms using the Process object from Honeybee
 
 ghenv.Component.Name = 'DB Moisture Source'
 ghenv.Component.NickName = 'MoistureSource'
-ghenv.Component.Message = '0.0.1'
+ghenv.Component.Message = '0.1.1'
 ghenv.Component.Category = 'Dewbee'
 ghenv.Component.SubCategory = "0 :: Miscellaneous"
-
-# Turn off the "old" tag
-import ghpythonlib as ghlib
-c = ghlib.component._get_active_component()
-c.ToggleObsolete(False)
 
 try:  # import the honeybee extension
     from honeybee.typing import clean_and_id_ep_string, clean_ep_string
@@ -8154,7 +8151,7 @@ if all_required_inputs(ghenv.Component):
                     <item name="HideInput" type_name="gh_bool" type_code="1">true</item>
                     <item name="HideOutput" type_name="gh_bool" type_code="1">true</item>
                     <item name="IconOverride" type_name="gh_drawing_bitmap" type_code="37">
-                      <bitmap length="1041">iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAScgAAEnIBXmVb4wAAA7NJREFUSEutlH9MU1cUx09/8IqNzIo8SieZmcts16H75WbMBhX6Hn0FmphsGpdlmhqy/bc5p4PFJWTZMPsR9ocG5pJFoqPtawk/DJlOkWQ0ChbMTJaQaEP7HsVYBkicMqhJ6VluZ5tyEVKdn+TknXPvOd973/0F8Jjs8qGK84XWpGLhl+BTwtmgZnHWI2IV5U7eFXIQnxPlWqtrVCK+pVXK5bxyhPOE3ydxpS/irPDKZrp+Cbt8yHCi3MR75WdJbBWlv3lROkN83hveJ3RPouC9xVa4Q/rqc/eQE8M2mzds3OlH5MX/JrIiZGZC1wRy7tBPJOZEyVlzYQ5592hFhffGekdvDPn26DaHP/Gmo/d+VELMrfpt9iIvRuSGBlTSekk499jTfEfUb2n900Ri3iMddFyYR16MlCX7RTnAu8O9tnOzhurz97trELUAjBnyig8BwOFi2/6+subfX6B1QegYLyZfsiy87+a40BUNpjbN1j4esHpGrxHf6gn32Tqj/Q/KyDKcfXlzyd0PnXvxREsLbi0xIQAsHYAXpRv2numLllZJV942sqGqZwa59nGR9Nm6pw5X+sbuEL+yZ/qN0pPDrwKAa/c7b+PlS5cwkUhgipe2bI4BgIHWB7JB9l/v3K1sj4yRuGYwYS89dX0QAHTwzFvm7aeCr2Sk+442NqZFU5z4sYXMvjUjbzHlPw8Z7Wem/cXb+T0AcDw/b/UfZpNxqsRk/EsN0AcArwHAR5/X1y0SnpqaxJbmZtSuWhUCAJbWXYICYPCzQ5/iP7P30iJXrw6jcdOmuVyNZs7jdmHb6dP4xZEjWGUX0FDEkvtw7KFLswxbivT66999+w1ORKPpQbo6O1ClUpJlOAkAjQDgfPBXj3WD8wDgywLdmpGSF023zSbj5HqDYYTJUct04pOAvDmrAYBhmJwBrRaK6IQnhlIBVwAgn25/ZDQ5qq/Ytbohli0IpKyQLRhet1Y3q1+Xfy2zvUCnG2IY9QFaY0WUCsWAq60NBwYuo7+/P239GT4x0t98/BgqFIoOWmNFNDmq7w36wpltr29Fa/mOZY3061n2NsOo62mNbPj4aOPXGIvFlrUfmprIsa2jC7OF/6C2Nn0PHkZ9XR0ZYDddmC3PW8pKF2jRTN57dw8ZoJQuzBbtcxs3TMzPz9O6aXZYyhbIROjCrNFqNIFwKETrJonH42g2GWeSL+7/wBW4MkhrJ1mIx7GokA2SU00XZY1arWyoFmx48JMDS6x2vxM1DENu9rL8Cy4MXzJPwFNpAAAAAElFTkSuQmCC</bitmap>
+                      <bitmap length="1041">iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAScQAAEnEB89x6jgAAA7NJREFUSEutlH9MU1cUx09/8IqNzIo8SieZmcts16H75WbMBhX6Hn0FmphsGpdlmhqy/bc5p4PFJWTZMPsR9ocG5pJFoqPtawk/DJlOkWQ0ChbMTJaQaEP7HsVYBkicMqhJ6VluZ5tyEVKdn+TknXPvOd973/0F8Jjs8qGK84XWpGLhl+BTwtmgZnHWI2IV5U7eFXIQnxPlWqtrVCK+pVXK5bxyhPOE3ydxpS/irPDKZrp+Cbt8yHCi3MR75WdJbBWlv3lROkN83hveJ3RPouC9xVa4Q/rqc/eQE8M2mzds3OlH5MX/JrIiZGZC1wRy7tBPJOZEyVlzYQ5592hFhffGekdvDPn26DaHP/Gmo/d+VELMrfpt9iIvRuSGBlTSekk499jTfEfUb2n900Ri3iMddFyYR16MlCX7RTnAu8O9tnOzhurz97trELUAjBnyig8BwOFi2/6+subfX6B1QegYLyZfsiy87+a40BUNpjbN1j4esHpGrxHf6gn32Tqj/Q/KyDKcfXlzyd0PnXvxREsLbi0xIQAsHYAXpRv2numLllZJV942sqGqZwa59nGR9Nm6pw5X+sbuEL+yZ/qN0pPDrwKAa/c7b+PlS5cwkUhgipe2bI4BgIHWB7JB9l/v3K1sj4yRuGYwYS89dX0QAHTwzFvm7aeCr2Sk+442NqZFU5z4sYXMvjUjbzHlPw8Z7Wem/cXb+T0AcDw/b/UfZpNxqsRk/EsN0AcArwHAR5/X1y0SnpqaxJbmZtSuWhUCAJbWXYICYPCzQ5/iP7P30iJXrw6jcdOmuVyNZs7jdmHb6dP4xZEjWGUX0FDEkvtw7KFLswxbivT66999+w1ORKPpQbo6O1ClUpJlOAkAjQDgfPBXj3WD8wDgywLdmpGSF023zSbj5HqDYYTJUct04pOAvDmrAYBhmJwBrRaK6IQnhlIBVwAgn25/ZDQ5qq/Ytbohli0IpKyQLRhet1Y3q1+Xfy2zvUCnG2IY9QFaY0WUCsWAq60NBwYuo7+/P239GT4x0t98/BgqFIoOWmNFNDmq7w36wpltr29Fa/mOZY3061n2NsOo62mNbPj4aOPXGIvFlrUfmprIsa2jC7OF/6C2Nn0PHkZ9XR0ZYDddmC3PW8pKF2jRTN57dw8ZoJQuzBbtcxs3TMzPz9O6aXZYyhbIROjCrNFqNIFwKETrJonH42g2GWeSL+7/wBW4MkhrJ1mIx7GokA2SU00XZY1arWyoFmx48JMDS6x2vxM1DENu9rL8Cy4MXzJPwFNpAAAAAElFTkSuQmCC</bitmap>
                     </item>
                     <item name="InputIsPath" type_name="gh_bool" type_code="1">false</item>
                     <item name="InstanceGuid" type_name="gh_guid" type_code="9">a46a9e8a-e87e-44ad-be1f-5ca76d68907f</item>
@@ -8391,19 +8388,17 @@ and InternalMass objects.
 
 ghenv.Component.Name = 'DB Faces by Algorithm'
 ghenv.Component.NickName = 'FacesByAlgo'
-ghenv.Component.Message = '0.0.1'
+ghenv.Component.Message = '0.1.1'
 ghenv.Component.Category = 'Dewbee'
 ghenv.Component.SubCategory = '0 :: Miscellaneous'
 
-# Turn off the "old" tag
-import ghpythonlib as ghlib
-c = ghlib.component._get_active_component()
-c.ToggleObsolete(False)
-
 # Import dewbee dependencies
-from dewbee import utils
-reload(utils)
-from dewbee.utils import get_hygro_and_non_hygro_faces
+try:
+    import dewbee.utils as utils
+    reload(utils)
+    from dewbee.utils import get_hygro_and_non_hygro_faces
+except Exception as e:
+    raise ImportError('Failed to import dewbee:\n\t{}'.format(e))
 
 from ladybug_rhino.grasshopper import all_required_inputs
 
@@ -8425,7 +8420,7 @@ and InternalMass objects.
                     <item name="HideInput" type_name="gh_bool" type_code="1">true</item>
                     <item name="HideOutput" type_name="gh_bool" type_code="1">true</item>
                     <item name="IconOverride" type_name="gh_drawing_bitmap" type_code="37">
-                      <bitmap length="1147">iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAScgAAEnIBXmVb4wAABB1JREFUSEvdVV1oXFUQnpszM+fc3dhttNqWWlQqSH1pA1qKVhpMtt2fGClUUYug+CKIWH3xSR9qQQQL/iFKRUSr2TTaJI3ZxKBJWiz+gFofNIj5bS2tbtO6m2gtxhyZ+5Pce/Psix8c2J07M9+Z3wPwfwK6rrsulYI19QBXrwC4EgAyAFAPAC4AaNEBgLqkIQAoAGAASGcAVqbTcE06DatjGq7rXquZLhqmOc1UNUyXDJM1TPOG6bJh+sMwVZn5Zmbe7aIaZcQpJjqrmS4EdjPMdN4w1ZjpixjBFQBXiZI4dZksM53QRAcMq7c14yHNeFg7zocAsNpl3q1ZfcNMnxuiQYN41LB6ixGng0tZzfR1jAAAUox4JiQwqCbktkkla62TlAm0Vlnt394jMESfJXVUEO5XmtW3HgnTn2IYKjSXxm/NdkxIFDEYovsjkR/TiL8Yok+TeiARaMRuL12ofghILjNzq3zPtk8+tOuEtc0fjO0PbQzRnsWoiYak0Ix4yhCVY849ZVQ/alYn5bd0gWF10jfEeQVwV67rt+5iuWrzvTP27uFKEwC0yffg5iNBt4EXOWNH0j9I5Q2q8fC/RCLFYgdsw/obbbZzen7H4Wmb6/7V3nnop7n6hlXzXOfIzYelhqGZYfpHmmPJcwBDNCBtBgDRQmYcgGMb9zxti+VZmy1N2mz7hC32z9rGva9KxfvCmwuCbhTSVyI+fEgrGqa/hSsqz2x7oKHp4HfVXNc5n0BOx7Qt9M7Ylvax5qhuKgVrvTYlej4q90BEm7VWktvYtLaWa9vzPZWFbGlqiaA0aQu9F2xLx6njUV2JxhDdR0SNCbmkCHs1YldSvvOjMy8W+2sx534UU1aikvYNdWXFeO1OtC/uxW/TKc3q+4TYbXr9y9H80fPLCUqTXi1y5ereiP5Kf9jUwYjMByOeDtothEsAQ7e/0GdzPZVlzn2Cmt3y7HsDEZuUzI6sl4jMg8NMFUPUH/x3DeEQAthNjx2wxYE5r3uWEZRrdv1teasA3g8dybLTiEeWXPsgwzTLjO9KkWUqZYDIcey6rYV9+e6ZqgxYNP+tg5fstpdHzmlm2V02sJVMyCR/kiSQ0OY0YqecYE1IPz8oH5tL4y07us6OFT6+aL1p7qnYnZ2nB7e/NrymDuBJV3Mw0fiOQfVzItUeMsEu9x0z/c6sCkmlfN9stm3E3vP4wsKGqFwTPSIrIrJNZbqXIK+Q5G5xnyMecZl3acRHDeNThvEZAngumJFGBfAmK+cNQ/SSJtrPjE/Iggztlz04xpjrFtMSHFcHJ9yWniFv1EQPu0x/xXQTtgbVaIxA3l5DdC8zt8kbYBDvcBG3ENEmZr5Ja319KpVaK80QRCH7Z0U9wCp5y7XWNwh5imizi7jVRbwlSfCf4F8BsZ9PbbBHcwAAAABJRU5ErkJggg==</bitmap>
+                      <bitmap length="1147">iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAScQAAEnEB89x6jgAABB1JREFUSEvdVV1oXFUQnpszM+fc3dhttNqWWlQqSH1pA1qKVhpMtt2fGClUUYug+CKIWH3xSR9qQQQL/iFKRUSr2TTaJI3ZxKBJWiz+gFofNIj5bS2tbtO6m2gtxhyZ+5Pce/Psix8c2J07M9+Z3wPwfwK6rrsulYI19QBXrwC4EgAyAFAPAC4AaNEBgLqkIQAoAGAASGcAVqbTcE06DatjGq7rXquZLhqmOc1UNUyXDJM1TPOG6bJh+sMwVZn5Zmbe7aIaZcQpJjqrmS4EdjPMdN4w1ZjpixjBFQBXiZI4dZksM53QRAcMq7c14yHNeFg7zocAsNpl3q1ZfcNMnxuiQYN41LB6ixGng0tZzfR1jAAAUox4JiQwqCbktkkla62TlAm0Vlnt394jMESfJXVUEO5XmtW3HgnTn2IYKjSXxm/NdkxIFDEYovsjkR/TiL8Yok+TeiARaMRuL12ofghILjNzq3zPtk8+tOuEtc0fjO0PbQzRnsWoiYak0Ix4yhCVY849ZVQ/alYn5bd0gWF10jfEeQVwV67rt+5iuWrzvTP27uFKEwC0yffg5iNBt4EXOWNH0j9I5Q2q8fC/RCLFYgdsw/obbbZzen7H4Wmb6/7V3nnop7n6hlXzXOfIzYelhqGZYfpHmmPJcwBDNCBtBgDRQmYcgGMb9zxti+VZmy1N2mz7hC32z9rGva9KxfvCmwuCbhTSVyI+fEgrGqa/hSsqz2x7oKHp4HfVXNc5n0BOx7Qt9M7Ylvax5qhuKgVrvTYlej4q90BEm7VWktvYtLaWa9vzPZWFbGlqiaA0aQu9F2xLx6njUV2JxhDdR0SNCbmkCHs1YldSvvOjMy8W+2sx534UU1aikvYNdWXFeO1OtC/uxW/TKc3q+4TYbXr9y9H80fPLCUqTXi1y5ereiP5Kf9jUwYjMByOeDtothEsAQ7e/0GdzPZVlzn2Cmt3y7HsDEZuUzI6sl4jMg8NMFUPUH/x3DeEQAthNjx2wxYE5r3uWEZRrdv1teasA3g8dybLTiEeWXPsgwzTLjO9KkWUqZYDIcey6rYV9+e6ZqgxYNP+tg5fstpdHzmlm2V02sJVMyCR/kiSQ0OY0YqecYE1IPz8oH5tL4y07us6OFT6+aL1p7qnYnZ2nB7e/NrymDuBJV3Mw0fiOQfVzItUeMsEu9x0z/c6sCkmlfN9stm3E3vP4wsKGqFwTPSIrIrJNZbqXIK+Q5G5xnyMecZl3acRHDeNThvEZAngumJFGBfAmK+cNQ/SSJtrPjE/Iggztlz04xpjrFtMSHFcHJ9yWniFv1EQPu0x/xXQTtgbVaIxA3l5DdC8zt8kbYBDvcBG3ENEmZr5Ja319KpVaK80QRCH7Z0U9wCp5y7XWNwh5imizi7jVRbwlSfCf4F8BsZ9PbbBHcwAAAABJRU5ErkJggg==</bitmap>
                     </item>
                     <item name="InputIsPath" type_name="gh_bool" type_code="1">false</item>
                     <item name="InstanceGuid" type_name="gh_guid" type_code="9">04f2a83d-44b0-43c0-acb7-3caa03fd1189</item>
@@ -8655,7 +8650,7 @@ assignment of child objects.
                     <item name="HideInput" type_name="gh_bool" type_code="1">true</item>
                     <item name="HideOutput" type_name="gh_bool" type_code="1">true</item>
                     <item name="IconOverride" type_name="gh_drawing_bitmap" type_code="37">
-                      <bitmap length="1012">iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAOwQAADsEBuJFr7QAAA5ZJREFUSEvNVXtMjWEc/h3nhM4Yc7oIoVMSXVzTanWayjmpc/m+0xFmMRnWMpNs5rbchrEy+QeF4Q+XTKbQxTlF7sx9MTO3tZmZP5DQ7bH3rZN6C4f5w7P99r17v+99nvf3/H7v+xH9pxjk3lt1eLhXv7Xii3+B+IgQj1d39idg95LxIKI08YO/hVbdR3X84EL/pm/lFqBaRqtDhjlySD0R+Ykf/ynmxIZ6fXh0YBpQbcW3cybUnzGiucKCd6eNSJjgXUxECnGRqwiJH+nVWJgdDtglfD1rwucSIw8mgktWlG6OYlbtEBe6hMmBmopPZ83IzxyHrJRATugUYNFQYgRqUrDcFshEDOL632F1UU5MK2qsaLVLsOl8cW5LFPef7d4pwixrtstYlKytJaJhIsnPoJtvGAlUyXyXTWVmvCmajizbaP5sPG/uapVdwtNDengPcr9MRL1EMhG99OHedz6VmDhxZ7/3Z0/EPINfh3AXq+7NQn5b6/76fKhUykOPWcc4pC5WcJKLVqQn+uHYmilg1tWfSea7Zx2VlxGG2XEjEBGkKRI5OyNtc3pwt2J29vtjqQnZqUG4XxAP3JiBiu3RmGvww6b0ELw9mYTIYE2NSOqE5/xE31ctlV3bsXNwqxwSqnJjYI3xxYrZQUiKGIIr+bHANRuazlsQGjDwpkjMoVQotj45kMBTru+BvCOYyFUblsr+yDRr+eHDBQkNpUY0llsgxwy9IHJzuCkVubWFcUCFpTupEHDIvOCV26J4RmyOCbBayLqhV0RuDnc35dbawnjXBKqt2DA3CEXr2k44m/tSakRLuQWRYzXPe7w6xmkHLKs7mojm9tb8VTCBnLTROLH2hwDLgFllmDiYCahEflaDHQ8LXLSoSsauzDAUr5/SIeCcXzMn8GqPGSiI8h7sneqywM6MUJzK+SHAz0mVjBTdsNdE1FfkJ62PeuWLI3q0/IlF7TXg13eZGbg+A4nhPq3sryfyk6+netXzw9PQUu6awMZ57UV2SPwCfF+cjExLAPqp3XKJqLfIzyzKfbgvDqi08IKxlPlTHLNiOmQULJ/Q1qY3UlGdp0PEGE0ZEUWLvB1wUyryWQbsfmfdwEhQKbUFG9vbx+zd7ZnYmRGCPcvGY4Hev4GIskS+blCrlUmxYR6v9ZO86qzRPs+ypIBb+kmedSwWm7R3U2MHP2VjY7jHy+yZo26PHdG/TqVQsN9lsMjlxHezB1IRa5nGxgAAAABJRU5ErkJggg==</bitmap>
+                      <bitmap length="1012">iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAOwAAADsABataJCQAAA5ZJREFUSEvNVXtMjWEc/h3nhM4Yc7oIoVMSXVzTanWayjmpc/m+0xFmMRnWMpNs5rbchrEy+QeF4Q+XTKbQxTlF7sx9MTO3tZmZP5DQ7bH3rZN6C4f5w7P99r17v+99nvf3/H7v+xH9pxjk3lt1eLhXv7Xii3+B+IgQj1d39idg95LxIKI08YO/hVbdR3X84EL/pm/lFqBaRqtDhjlySD0R+Ykf/ynmxIZ6fXh0YBpQbcW3cybUnzGiucKCd6eNSJjgXUxECnGRqwiJH+nVWJgdDtglfD1rwucSIw8mgktWlG6OYlbtEBe6hMmBmopPZ83IzxyHrJRATugUYNFQYgRqUrDcFshEDOL632F1UU5MK2qsaLVLsOl8cW5LFPef7d4pwixrtstYlKytJaJhIsnPoJtvGAlUyXyXTWVmvCmajizbaP5sPG/uapVdwtNDengPcr9MRL1EMhG99OHedz6VmDhxZ7/3Z0/EPINfh3AXq+7NQn5b6/76fKhUykOPWcc4pC5WcJKLVqQn+uHYmilg1tWfSea7Zx2VlxGG2XEjEBGkKRI5OyNtc3pwt2J29vtjqQnZqUG4XxAP3JiBiu3RmGvww6b0ELw9mYTIYE2NSOqE5/xE31ctlV3bsXNwqxwSqnJjYI3xxYrZQUiKGIIr+bHANRuazlsQGjDwpkjMoVQotj45kMBTru+BvCOYyFUblsr+yDRr+eHDBQkNpUY0llsgxwy9IHJzuCkVubWFcUCFpTupEHDIvOCV26J4RmyOCbBayLqhV0RuDnc35dbawnjXBKqt2DA3CEXr2k44m/tSakRLuQWRYzXPe7w6xmkHLKs7mojm9tb8VTCBnLTROLH2hwDLgFllmDiYCahEflaDHQ8LXLSoSsauzDAUr5/SIeCcXzMn8GqPGSiI8h7sneqywM6MUJzK+SHAz0mVjBTdsNdE1FfkJ62PeuWLI3q0/IlF7TXg13eZGbg+A4nhPq3sryfyk6+netXzw9PQUu6awMZ57UV2SPwCfF+cjExLAPqp3XKJqLfIzyzKfbgvDqi08IKxlPlTHLNiOmQULJ/Q1qY3UlGdp0PEGE0ZEUWLvB1wUyryWQbsfmfdwEhQKbUFG9vbx+zd7ZnYmRGCPcvGY4Hev4GIskS+blCrlUmxYR6v9ZO86qzRPs+ypIBb+kmedSwWm7R3U2MHP2VjY7jHy+yZo26PHdG/TqVQsN9lsMjlxHezB1IRa5nGxgAAAABJRU5ErkJggg==</bitmap>
                     </item>
                     <item name="InputIsPath" type_name="gh_bool" type_code="1">false</item>
                     <item name="InstanceGuid" type_name="gh_guid" type_code="9">fb2a8d2a-8a12-458f-8c00-94c2a5fd57e5</item>
@@ -8818,7 +8813,7 @@ scene, including all sub-faces and assigned shades.
                     <item name="HideInput" type_name="gh_bool" type_code="1">true</item>
                     <item name="HideOutput" type_name="gh_bool" type_code="1">true</item>
                     <item name="IconOverride" type_name="gh_drawing_bitmap" type_code="37">
-                      <bitmap length="701">iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAOwQAADsEBuJFr7QAAAl9JREFUSEvN1durlkUUx/FPIZqHzFQED0RRmhmm5ikztZLsZKlFB7WTiooaJFZqNyaEolYqeSPRZWjdCV6kJOIf4B8Vv816Nw+z33e32d30hQeeWTOz1qzTDP9jvsd5PNBO/FcW4mYZ+AI/tQvGyyRcxDks78h/xZ7OeFw8i7v4EhOauRlleEEjHzMP4xau9lHe4zn8jYntxFj4Cp9hFa63kx2O4XIr/Dc+xKnO+BKOdMYt3+DlVjiIJyvuczuyKTiLpzuyLtNxB0+0E/34AW+1QiyreD/UThQvVc4G5WuIQxXTQSQUF1ohNuBa9Um86UuSmdCk/EbjOF6p/0fxM/7ADlzBM836IeJ2GmldO9GHmbhR3iYkJ7GrDMfQ0nZDeL9TJavL0Ao8WLLH8UZ9aawovIdFJYv3L9YdlStlBLur7V+ozVvrZHMwD/uwCW/jXbyKT7CxjEee3MWrp1rl4WN8XvU/uWQ53Swswaedtc+Xwhj9oDx/s+bSLzE6gvVVCTH0enVwkje7vijJxpzyI2zGUcwvD3skyVs642Gi+HBnnKT34t+P7TjRGa+ta/zrQUlOPGNgWoUprifOPR6p5su3Bu9UT+QQKZD9WFlvRHffMInhtlKQ0ywuWa8rYzQhSnXtxHs4WOOc+LEqkt+qH0aQuEV5NiWuUysEuYNC3oMeURqDe8uTeJsInMGfdZeNIFVyoNx7rdzOiXrvbpKcly3kuYwXWZ8LMeu+w491sL5k02jXcZqvF670SXrhdCU1b0VKelQS8yz8pb64n0ck/2m4lN9t/FWKf8d9fDuo2v4BD7RYqHt7aeAAAAAASUVORK5CYII=</bitmap>
+                      <bitmap length="701">iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAOwAAADsABataJCQAAAl9JREFUSEvN1durlkUUx/FPIZqHzFQED0RRmhmm5ikztZLsZKlFB7WTiooaJFZqNyaEolYqeSPRZWjdCV6kJOIf4B8Vv816Nw+z33e32d30hQeeWTOz1qzTDP9jvsd5PNBO/FcW4mYZ+AI/tQvGyyRcxDks78h/xZ7OeFw8i7v4EhOauRlleEEjHzMP4xau9lHe4zn8jYntxFj4Cp9hFa63kx2O4XIr/Dc+xKnO+BKOdMYt3+DlVjiIJyvuczuyKTiLpzuyLtNxB0+0E/34AW+1QiyreD/UThQvVc4G5WuIQxXTQSQUF1ohNuBa9Um86UuSmdCk/EbjOF6p/0fxM/7ADlzBM836IeJ2GmldO9GHmbhR3iYkJ7GrDMfQ0nZDeL9TJavL0Ao8WLLH8UZ9aawovIdFJYv3L9YdlStlBLur7V+ozVvrZHMwD/uwCW/jXbyKT7CxjEee3MWrp1rl4WN8XvU/uWQ53Swswaedtc+Xwhj9oDx/s+bSLzE6gvVVCTH0enVwkje7vijJxpzyI2zGUcwvD3skyVs642Gi+HBnnKT34t+P7TjRGa+ta/zrQUlOPGNgWoUprifOPR6p5su3Bu9UT+QQKZD9WFlvRHffMInhtlKQ0ywuWa8rYzQhSnXtxHs4WOOc+LEqkt+qH0aQuEV5NiWuUysEuYNC3oMeURqDe8uTeJsInMGfdZeNIFVyoNx7rdzOiXrvbpKcly3kuYwXWZ8LMeu+w491sL5k02jXcZqvF670SXrhdCU1b0VKelQS8yz8pb64n0ck/2m4lN9t/FWKf8d9fDuo2v4BD7RYqHt7aeAAAAAASUVORK5CYII=</bitmap>
                     </item>
                     <item name="InputIsPath" type_name="gh_bool" type_code="1">false</item>
                     <item name="InstanceGuid" type_name="gh_guid" type_code="9">419adb64-43d6-4494-abe7-e741d45a43a7</item>
@@ -9348,21 +9343,19 @@ longer than 1 year.
 
 ghenv.Component.Name = 'DB Read Face Result for Multiple Years'
 ghenv.Component.NickName = 'MultiyearFaceResult'
-ghenv.Component.Message = '0.0.1'
+ghenv.Component.Message = '0.1.1'
 ghenv.Component.Category = 'Dewbee'
 ghenv.Component.SubCategory = "3 :: Results"
 
 import os
 
-# Turn off the "old" tag
-import ghpythonlib as ghlib
-c = ghlib.component._get_active_component()
-c.ToggleObsolete(False)
-
 # Import dewbee dependencies
-from dewbee import multiyear_sql
-reload(multiyear_sql)
-from dewbee.multiyear_sql import MultiYearSQLiteResult
+try:
+    import dewbee.multiyear_sql as multiyear_sql
+    reload(multiyear_sql)
+    from dewbee.multiyear_sql import MultiYearSQLiteResult
+except Exception as e:
+    raise ImportError('Failed to import dewbee:\n\t{}'.format(e))
 
 try:
     from ladybug_rhino.grasshopper import all_required_inputs
@@ -9444,7 +9437,7 @@ longer than 1 year.
                     <item name="HideInput" type_name="gh_bool" type_code="1">true</item>
                     <item name="HideOutput" type_name="gh_bool" type_code="1">true</item>
                     <item name="IconOverride" type_name="gh_drawing_bitmap" type_code="37">
-                      <bitmap length="1239">iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAScgAAEnIBXmVb4wAABHlJREFUSEvFlX9MU1cUxy9YMkqXMJ2A4OO171UQcbJCgYWhtlTaWikCYxs6oJC5DZjDMH+UbIOYLMtAdIxlW6ZFQJQKWCiloMKUmbi4fxdxGKBThh2bDiHSYgFpOcvtoJQni3NZsk9y0ptzz/1+e+997zyE/if8EUIB82M2Hgu05hDlNQiTafvDlEZL2PYLFj+E0DPzdavna3GO46azBI9ogeBIWVnZd/JEqSUxQWItLy//oSA/fyDx5TirMHWPQ3R2COStv4FMZ4bE1pHfxbvzB1JkEqtSseNBjUZzeadSOREdFWX29/ePY4pjfOJj42zwN3z/7QWITHkTtp79BeRtd2GbbgRSO+5B3/2ZJXWNWi14enqqmeIYtmSL2Gy325cscOenq12wNT0XRLU3nLvYoh0Che4O3Bx75KrRnmkAhNCyBh5fVlW1ugteGZ6EtsEJMJos0GGyQM+IHUqq9RDzwSmQ4aNqGoLNDbecvzf+mHKuqa87hQ2KmeIYdoJIfGd2dtZl8LphGCJqTBBb//N83IKElrsgbxkBaeNtkDYNuUzk54bhphWgv69vOjQ0NJ4pjuHERAnHZmYWz/StnnEQ6UdB3n5/MYxjzn+/YIBDrjODoNYER7t6odvYNsdisQqY4hivvHfyrjkcDpeB8pMGoPOqYOO+r1wRWVgFCZXdIGv59a8d6Mwg0d+DsPRCuNxpgHONTfiISpjiGNahgwd75ubmXAZfVJSDuvBdKDlQ5IyPDxVBXv5eiP/sEshaRhbFX90HzXUa55ruri67t7d3FlMcw4mNjrG61JdhGgAKrk6CqNkM0uZhkBpGIe7tw3CpvcVVMzAw8CgwMFDOFMew1vNDfzzf0Wk5VnEUDpeUQk31STC0GaZKi9VwrE4Hqis22KwfA8X5CWdEZqkh8SUhVHxaBl0XLz488c1x2JmkBB9vHxVT3AmHw8EtgkQIJSOE0hFC+I0Mx+M1UpU2IrMYXnyt0CHMVoMgKdtBr/RRr3qW/cp8bShCSIIQSmTq/lNiPRCq4vmytR4IVSKEEpgF/wbcyBTbxOLPc1Sqvprqk1O913vnqjUaW25m1nWJWFyBENo+3+SejEgkYvn6+gpSk5N3v5GRYTzw/v4HnR0d8HBycsllL2C1WqG9zQD7i4rGM3ftalUqlBnPcTibEEIrmNpO1pFk+Bo///HkHUlgNLTDzDR+bp6MzWYDg14PCpkcglb7jYaQJM3UdkJRVASfovC213ohzz0vbNhgzFWpxnADMw0OLhHt7++HM/WnIScre3TT+vA2T4Ry8DqaR1dSFIUv/HFCSZLik7xsRvp5fM7coKDq9LS026UffmRPS0k1EYGBxxFCUoTQKvdimsvNDSGIte45F3ySFNIk+TUz78ZKDsvbiL8dzIkFKII6wQ8O3sjMO6EIIobmcjXMvBsr+CS5l5l0h0fyaimCwBf9OHyCWEdxuct2QgxBEGx+MPcIftqYcwvwSeo9mqbxy/r0BAQEcPhcXoNQKPRizv0nYAOa4J5+GoM/AcHv6gBO2DJqAAAAAElFTkSuQmCC</bitmap>
+                      <bitmap length="1239">iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAScQAAEnEB89x6jgAABHlJREFUSEvFlX9MU1cUxy9YMkqXMJ2A4OO171UQcbJCgYWhtlTaWikCYxs6oJC5DZjDMH+UbIOYLMtAdIxlW6ZFQJQKWCiloMKUmbi4fxdxGKBThh2bDiHSYgFpOcvtoJQni3NZsk9y0ptzz/1+e+997zyE/if8EUIB82M2Hgu05hDlNQiTafvDlEZL2PYLFj+E0DPzdavna3GO46azBI9ogeBIWVnZd/JEqSUxQWItLy//oSA/fyDx5TirMHWPQ3R2COStv4FMZ4bE1pHfxbvzB1JkEqtSseNBjUZzeadSOREdFWX29/ePY4pjfOJj42zwN3z/7QWITHkTtp79BeRtd2GbbgRSO+5B3/2ZJXWNWi14enqqmeIYtmSL2Gy325cscOenq12wNT0XRLU3nLvYoh0Che4O3Bx75KrRnmkAhNCyBh5fVlW1ugteGZ6EtsEJMJos0GGyQM+IHUqq9RDzwSmQ4aNqGoLNDbecvzf+mHKuqa87hQ2KmeIYdoJIfGd2dtZl8LphGCJqTBBb//N83IKElrsgbxkBaeNtkDYNuUzk54bhphWgv69vOjQ0NJ4pjuHERAnHZmYWz/StnnEQ6UdB3n5/MYxjzn+/YIBDrjODoNYER7t6odvYNsdisQqY4hivvHfyrjkcDpeB8pMGoPOqYOO+r1wRWVgFCZXdIGv59a8d6Mwg0d+DsPRCuNxpgHONTfiISpjiGNahgwd75ubmXAZfVJSDuvBdKDlQ5IyPDxVBXv5eiP/sEshaRhbFX90HzXUa55ruri67t7d3FlMcw4mNjrG61JdhGgAKrk6CqNkM0uZhkBpGIe7tw3CpvcVVMzAw8CgwMFDOFMew1vNDfzzf0Wk5VnEUDpeUQk31STC0GaZKi9VwrE4Hqis22KwfA8X5CWdEZqkh8SUhVHxaBl0XLz488c1x2JmkBB9vHxVT3AmHw8EtgkQIJSOE0hFC+I0Mx+M1UpU2IrMYXnyt0CHMVoMgKdtBr/RRr3qW/cp8bShCSIIQSmTq/lNiPRCq4vmytR4IVSKEEpgF/wbcyBTbxOLPc1Sqvprqk1O913vnqjUaW25m1nWJWFyBENo+3+SejEgkYvn6+gpSk5N3v5GRYTzw/v4HnR0d8HBycsllL2C1WqG9zQD7i4rGM3ftalUqlBnPcTibEEIrmNpO1pFk+Bo///HkHUlgNLTDzDR+bp6MzWYDg14PCpkcglb7jYaQJM3UdkJRVASfovC213ohzz0vbNhgzFWpxnADMw0OLhHt7++HM/WnIScre3TT+vA2T4Ry8DqaR1dSFIUv/HFCSZLik7xsRvp5fM7coKDq9LS026UffmRPS0k1EYGBxxFCUoTQKvdimsvNDSGIte45F3ySFNIk+TUz78ZKDsvbiL8dzIkFKII6wQ8O3sjMO6EIIobmcjXMvBsr+CS5l5l0h0fyaimCwBf9OHyCWEdxuct2QgxBEGx+MPcIftqYcwvwSeo9mqbxy/r0BAQEcPhcXoNQKPRizv0nYAOa4J5+GoM/AcHv6gBO2DJqAAAAAElFTkSuQmCC</bitmap>
                     </item>
                     <item name="InputIsPath" type_name="gh_bool" type_code="1">false</item>
                     <item name="InstanceGuid" type_name="gh_guid" type_code="9">ea4a9698-a44b-477e-a935-f5d2aeeee104</item>
@@ -9740,7 +9733,7 @@ for periods longer than 1 year.
 
 ghenv.Component.Name = 'DB Read Room Energy Result for Multiple Years'
 ghenv.Component.NickName = 'MultiyearRoomEnergyResult'
-ghenv.Component.Message = '0.0.1'
+ghenv.Component.Message = '0.1.1'
 ghenv.Component.Category = 'Dewbee'
 ghenv.Component.SubCategory = "3 :: Results"
 
@@ -9748,10 +9741,13 @@ import os
 import subprocess
 import json
 
-# Turn off the "old" tag
-import ghpythonlib as ghlib
-c = ghlib.component._get_active_component()
-c.ToggleObsolete(False)
+# Import dewbee dependencies
+try:
+    import dewbee.multiyear_sql as multiyear_sql
+    reload(multiyear_sql)
+    from dewbee.multiyear_sql import MultiYearSQLiteResult
+except Exception as e:
+    raise ImportError('Failed to import dewbee:\n\t{}'.format(e))
 
 try:
     from ladybug.datacollection import HourlyContinuousCollection, \
@@ -9768,11 +9764,6 @@ try:
     from ladybug_rhino.grasshopper import all_required_inputs
 except ImportError as e:
     raise ImportError('\nFailed to import ladybug_rhino:\n\t{}'.format(e))
-
-# Import dewbee dependencies
-from dewbee import multiyear_sql
-reload(multiyear_sql)
-from dewbee.multiyear_sql import MultiYearSQLiteResult
 
 
 def subtract_loss_from_gain(gain_load, loss_load):
@@ -9955,7 +9946,7 @@ for periods longer than 1 year.</item>
                     <item name="HideInput" type_name="gh_bool" type_code="1">true</item>
                     <item name="HideOutput" type_name="gh_bool" type_code="1">true</item>
                     <item name="IconOverride" type_name="gh_drawing_bitmap" type_code="37">
-                      <bitmap length="1382">iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAScgAAEnIBXmVb4wAABQhJREFUSEvFlH1Mk1cUxi+GZXwsLkyHNjNmOodMMy0gKKNKQaAyOwFhS5yITlHQBQGBMmkrbnOC6BQVRQsFHC0ILVCKIqhohnGJuqnAMDDmGHT4MShoW/yC8iz3HVR4xzazf/ZLTt6b23Of595zew8h/xOOhJApw2NbOuYqdW8LL8M5QNniLNQanJdVG14nhLw8nDd5OJfO2Y/SGYPVAi53T1pa2gWBn7/Bz8fXmJ6e/t3m6OhWv/c8jW7BG8zeRe0QlN1BgEoHv7Kuu/xV0a1BAb5GYeD7D+Qy2fkVQuHDBa6uOkdHR0+2OMXOy8PzEf6GS2er4RK0HkuKfoWg4h6WqroQXHUfzT1Px+QVK5WYMGGCiC1OsfVdzNcNDg6OWTCaH+trsCR0HbzzmphTLFa2I1DViVv6Z5YcZaEChJBxDawOZ2aWjRa82GFCxU8PoW0zoKrNgLquQUhyyuG+vQABtFQn28FT3Ga+Tb8/ZtacyC+gBslscYqtjze/c2BgwGLwkaYD8+Rt8Djx83Dcho/6HgTqLvgX/wL/k+0WE0FpB24ZgZbm5idOTk5ebHGKvburm/7p0+c1jazrhXd5NwSVPc9Dq2d2P2JAQ6DSgZvXhr01jajVVgxZW1tvZotTXoraFHXZbDZbDIS7FJgZlYm5W7Ms4RKTCZ/9tQhQ//bnCVQ6+Jbfh3NoDM6f0qC0+CQtkYQtTrFOSkysGxoashgczEiHKGYLJAlxTHyRFIeo6E/h9fU5BKi7nouHbUVJvoxZU1tTM2hjYxPOFqfYeyxwN1rUx+EJgM31JniX6OBf0gF/TTc8N6biXKXaktPa2vqMw+EI2OIU69lvOd04XXXKsC9jL1IlUshzcqGp0DyWJouwL1+FiIuPwCvXI/D0QyZcwkXwW+iGjN1pqDlzpv949jGsWC6EnY1dBFucwd7enraI6YSQDwghoYQQ+iLn0PFU/wjlvNXJmP9hjNltjQjc5WvMMx3sRK+9YrtyONeJEOJLCPFj674oHlaEZL75qq3SipD9hBAfdsJ/gTaywKV8/oG1ERHN8pzcx40NjUM5MtmjdavDG3z5/AxCyLLhJvfvAMSKEPKON48XFhq8snJbXPyDU9oq9JtMYy57BKPRCE1FBeLj4nrDQkLUS7y8aLloqajOX5nO4bjOne1sjt4UhUv1l6DX69ma49Ld3Y36b+uxfu06zHGaPTB96lR6b+OyKD8vD3fv3IGisBDi7SnYIZHiQl0dGm42YOSN0IbYcPMmM79zRyqSEhKhVCgYoyNZWfShzWcLj7BIrVLh+2vXEL7qY+ze9RWyjxzFmepqSMRixMfGIlUqRfzWWEhSxFCVlkIqFjMbifxkPWNO/6r/ZOBRUV4OraYSxUXFaG1poS+TEbv+w3X09PQgZEUQ+nr7cPjQIchz5czvdP4zUTIMBgNkx49Tg3fZwiPwqiq1zAmOHM5CU2MTs6sylRr58jxmrPimkPlui42D0WRCf38/rl29ilTpDmY+L1dODVzZwgwTJ06cxefxGmVHs/uLlUWQpojx5c7PsSUqGleuXGHuYE9aOiN08EAmkhISmJLRzZytrcWxo9km3sJFNxwcHOhj/UemzZoxIz4sOPRCUkJiH73Avr4+RliyPYX56jo7caKggO68Nzgo+Ny0KZwYQsgbbKEXYTLH0THEjcstidwQeZf2mo0bIrvcXVyLpkyaRFvKJPaC0fwBcb3Yc03rFAgAAAAASUVORK5CYII=</bitmap>
+                      <bitmap length="1382">iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAScQAAEnEB89x6jgAABQhJREFUSEvFlH1Mk1cUxi+GZXwsLkyHNjNmOodMMy0gKKNKQaAyOwFhS5yITlHQBQGBMmkrbnOC6BQVRQsFHC0ILVCKIqhohnGJuqnAMDDmGHT4MShoW/yC8iz3HVR4xzazf/ZLTt6b23Of595zew8h/xOOhJApw2NbOuYqdW8LL8M5QNniLNQanJdVG14nhLw8nDd5OJfO2Y/SGYPVAi53T1pa2gWBn7/Bz8fXmJ6e/t3m6OhWv/c8jW7BG8zeRe0QlN1BgEoHv7Kuu/xV0a1BAb5GYeD7D+Qy2fkVQuHDBa6uOkdHR0+2OMXOy8PzEf6GS2er4RK0HkuKfoWg4h6WqroQXHUfzT1Px+QVK5WYMGGCiC1OsfVdzNcNDg6OWTCaH+trsCR0HbzzmphTLFa2I1DViVv6Z5YcZaEChJBxDawOZ2aWjRa82GFCxU8PoW0zoKrNgLquQUhyyuG+vQABtFQn28FT3Ga+Tb8/ZtacyC+gBslscYqtjze/c2BgwGLwkaYD8+Rt8Djx83Dcho/6HgTqLvgX/wL/k+0WE0FpB24ZgZbm5idOTk5ebHGKvburm/7p0+c1jazrhXd5NwSVPc9Dq2d2P2JAQ6DSgZvXhr01jajVVgxZW1tvZotTXoraFHXZbDZbDIS7FJgZlYm5W7Ms4RKTCZ/9tQhQ//bnCVQ6+Jbfh3NoDM6f0qC0+CQtkYQtTrFOSkysGxoashgczEiHKGYLJAlxTHyRFIeo6E/h9fU5BKi7nouHbUVJvoxZU1tTM2hjYxPOFqfYeyxwN1rUx+EJgM31JniX6OBf0gF/TTc8N6biXKXaktPa2vqMw+EI2OIU69lvOd04XXXKsC9jL1IlUshzcqGp0DyWJouwL1+FiIuPwCvXI/D0QyZcwkXwW+iGjN1pqDlzpv949jGsWC6EnY1dBFucwd7enraI6YSQDwghoYQQ+iLn0PFU/wjlvNXJmP9hjNltjQjc5WvMMx3sRK+9YrtyONeJEOJLCPFj674oHlaEZL75qq3SipD9hBAfdsJ/gTaywKV8/oG1ERHN8pzcx40NjUM5MtmjdavDG3z5/AxCyLLhJvfvAMSKEPKON48XFhq8snJbXPyDU9oq9JtMYy57BKPRCE1FBeLj4nrDQkLUS7y8aLloqajOX5nO4bjOne1sjt4UhUv1l6DX69ma49Ld3Y36b+uxfu06zHGaPTB96lR6b+OyKD8vD3fv3IGisBDi7SnYIZHiQl0dGm42YOSN0IbYcPMmM79zRyqSEhKhVCgYoyNZWfShzWcLj7BIrVLh+2vXEL7qY+ze9RWyjxzFmepqSMRixMfGIlUqRfzWWEhSxFCVlkIqFjMbifxkPWNO/6r/ZOBRUV4OraYSxUXFaG1poS+TEbv+w3X09PQgZEUQ+nr7cPjQIchz5czvdP4zUTIMBgNkx49Tg3fZwiPwqiq1zAmOHM5CU2MTs6sylRr58jxmrPimkPlui42D0WRCf38/rl29ilTpDmY+L1dODVzZwgwTJ06cxefxGmVHs/uLlUWQpojx5c7PsSUqGleuXGHuYE9aOiN08EAmkhISmJLRzZytrcWxo9km3sJFNxwcHOhj/UemzZoxIz4sOPRCUkJiH73Avr4+RliyPYX56jo7caKggO68Nzgo+Ny0KZwYQsgbbKEXYTLH0THEjcstidwQeZf2mo0bIrvcXVyLpkyaRFvKJPaC0fwBcb3Yc03rFAgAAAAASUVORK5CYII=</bitmap>
                     </item>
                     <item name="InputIsPath" type_name="gh_bool" type_code="1">false</item>
                     <item name="InstanceGuid" type_name="gh_guid" type_code="9">4a625acc-edf1-4db8-818a-46750f93b4cb</item>
@@ -10485,7 +10476,7 @@ longer than 1 year.
 
 ghenv.Component.Name = 'DB Read Room Comfort Result for Multiple Years'
 ghenv.Component.NickName = 'MultiyearRoomComfortResult'
-ghenv.Component.Message = '0.0.1'
+ghenv.Component.Message = '0.1.1'
 ghenv.Component.Category = 'Dewbee'
 ghenv.Component.SubCategory = "3 :: Results"
 
@@ -10493,15 +10484,13 @@ import os
 import subprocess
 import json
 
-# Turn off the "old" tag
-import ghpythonlib as ghlib
-c = ghlib.component._get_active_component()
-c.ToggleObsolete(False)
-
 # Import dewbee dependencies
-from dewbee import multiyear_sql
-reload(multiyear_sql)
-from dewbee.multiyear_sql import MultiYearSQLiteResult
+try:
+    import dewbee.multiyear_sql as multiyear_sql
+    reload(multiyear_sql)
+    from dewbee.multiyear_sql import MultiYearSQLiteResult
+except Exception as e:
+    raise ImportError('Failed to import dewbee:\n\t{}'.format(e))
 
 try:
     from ladybug_rhino.grasshopper import all_required_inputs
@@ -10556,7 +10545,7 @@ longer than 1 year.</item>
                     <item name="HideInput" type_name="gh_bool" type_code="1">true</item>
                     <item name="HideOutput" type_name="gh_bool" type_code="1">true</item>
                     <item name="IconOverride" type_name="gh_drawing_bitmap" type_code="37">
-                      <bitmap length="1186">iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAScgAAEnIBXmVb4wAABERJREFUSEvFlXlMFHccxb/V2g0gSLAtpq4sxwrrQWINpVuWG5YrYikFidFCBeXSLgIGhe5ypB4L0qYSjA1VLrfscrkckpakFmLagkCb3lKWcKgoK0RdqArB8JoZYQsTEov9o5/kJTPfed/3kslvMkT/A1ZEZE1EpnP3r/KicmzDeyEKKOsVBdSNiIIu6R2IaAXzbM7LwPhfXpCzGAszs6g8RW59VETkuL+P72RC3P7+wsLCb/09PSbcfYOnXQu/RlDzPUg1g/DX6qc9s87/HObvPSH18Z1UKpXfJycl93lIJA9s+TYKbjaLuamp5seeHizF2MgNRO7Zh23KVgS3GCCtuQGfej0u/m5Y5Ls9MgKRUNjNzWaxsrD4/Fpn56KFRRj0iI2JgevxBgTU34afZhBvXhyEakEJU+Bob9/BzWbZFRERPTY2ZjT/MT6Ful4DmnQTrL4anoKqow9uB5XwUw9AWj0EP/Ug3ijvR8Wv958W3LoJBxvBNW42i5W5eUlnR4exoLhnHI4lf8K1ot8od/VNBGr1kDIFmkFW8yWqvilMTU8jIy1Nyc1mMeXxqtrb2owF53+bhLj2LgIbx/9R0zgCtHeN4fPyqtcj5NxV6HQ6iF1cWrnZLNu2bs1kDPN80vgdXos9jS2yYqOcD52Be7YKAZqnr4gJD7r8AJvSzuPDY5m4NTQIoa3dD9xsFolYfHh4aNhY0NpyGakJByBPP8wq+0gq5LIkeB/9DP61I8bwzekXIEtOBp5MY2JiAp4SSR03m8WUx6vt7uoyFizFud4n8Kobhb96AIHN9+GaW4McuXyRJy4u7iw3m8WMx/uoUJn/V1lpKXLkCuSfUqK9rc1wIi8PJ/M/Rma7Hm7a+whsuofg1sfwPNUAZ5EIOceOorysHA1a7dQHyQex3tq6gZvNwufzTYjIhojciOhdItpJRAIiCjMTuaeuD00yOL0dD6ed8di+OxVOTptr+CYr35nzvkVEWxivUCi04GY/Ex6R9MDuXfimpRElnxbCZo3J0iflP+BardFMMe/4zp07sN+w4QLX8Nw42NkdylUorkTv2TuZnJiIuH2xs9kKxU+eEkkZEb3E9S8XQVjoTqTKUjAwMICZmRnMzs7i5PETSJOlYK3l2iTuwrKI2Rt9NiM9nflw8nuvXzceRW93r6uR4eGqI+npOiJayd37Vwj4/DBfTy+87uzsJxaLt4+OjqJfp8Ojh49QXFRUxPxwgqQB2OToWEVEL3D3n4lQIEgU8PlnmGsPN49KjVqNNatXf3m6oODhYVnKGBGtWmf1SrSDrW2pF9GL3P3lsE6elfU4V64wMCc2NCRUU1dTA9NVvPe5xufCwcZuv7b+EiRicencKERVUYno96KvcKzPxYrKsspm9RdVICKXudmqxPiEoe6ubj0R2XH8y8PS0jI0MyMDYTt2/LJw7uSwMavg5Ck4CTdWL5wvxd/B78jyN7AvvgAAAABJRU5ErkJggg==</bitmap>
+                      <bitmap length="1186">iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAScQAAEnEB89x6jgAABERJREFUSEvFlXlMFHccxb/V2g0gSLAtpq4sxwrrQWINpVuWG5YrYikFidFCBeXSLgIGhe5ypB4L0qYSjA1VLrfscrkckpakFmLagkCb3lKWcKgoK0RdqArB8JoZYQsTEov9o5/kJTPfed/3kslvMkT/A1ZEZE1EpnP3r/KicmzDeyEKKOsVBdSNiIIu6R2IaAXzbM7LwPhfXpCzGAszs6g8RW59VETkuL+P72RC3P7+wsLCb/09PSbcfYOnXQu/RlDzPUg1g/DX6qc9s87/HObvPSH18Z1UKpXfJycl93lIJA9s+TYKbjaLuamp5seeHizF2MgNRO7Zh23KVgS3GCCtuQGfej0u/m5Y5Ls9MgKRUNjNzWaxsrD4/Fpn56KFRRj0iI2JgevxBgTU34afZhBvXhyEakEJU+Bob9/BzWbZFRERPTY2ZjT/MT6Ful4DmnQTrL4anoKqow9uB5XwUw9AWj0EP/Ug3ijvR8Wv958W3LoJBxvBNW42i5W5eUlnR4exoLhnHI4lf8K1ot8od/VNBGr1kDIFmkFW8yWqvilMTU8jIy1Nyc1mMeXxqtrb2owF53+bhLj2LgIbx/9R0zgCtHeN4fPyqtcj5NxV6HQ6iF1cWrnZLNu2bs1kDPN80vgdXos9jS2yYqOcD52Be7YKAZqnr4gJD7r8AJvSzuPDY5m4NTQIoa3dD9xsFolYfHh4aNhY0NpyGakJByBPP8wq+0gq5LIkeB/9DP61I8bwzekXIEtOBp5MY2JiAp4SSR03m8WUx6vt7uoyFizFud4n8Kobhb96AIHN9+GaW4McuXyRJy4u7iw3m8WMx/uoUJn/V1lpKXLkCuSfUqK9rc1wIi8PJ/M/Rma7Hm7a+whsuofg1sfwPNUAZ5EIOceOorysHA1a7dQHyQex3tq6gZvNwufzTYjIhojciOhdItpJRAIiCjMTuaeuD00yOL0dD6ed8di+OxVOTptr+CYr35nzvkVEWxivUCi04GY/Ex6R9MDuXfimpRElnxbCZo3J0iflP+BardFMMe/4zp07sN+w4QLX8Nw42NkdylUorkTv2TuZnJiIuH2xs9kKxU+eEkkZEb3E9S8XQVjoTqTKUjAwMICZmRnMzs7i5PETSJOlYK3l2iTuwrKI2Rt9NiM9nflw8nuvXzceRW93r6uR4eGqI+npOiJayd37Vwj4/DBfTy+87uzsJxaLt4+OjqJfp8Ojh49QXFRUxPxwgqQB2OToWEVEL3D3n4lQIEgU8PlnmGsPN49KjVqNNatXf3m6oODhYVnKGBGtWmf1SrSDrW2pF9GL3P3lsE6elfU4V64wMCc2NCRUU1dTA9NVvPe5xufCwcZuv7b+EiRicencKERVUYno96KvcKzPxYrKsspm9RdVICKXudmqxPiEoe6ubj0R2XH8y8PS0jI0MyMDYTt2/LJw7uSwMavg5Ck4CTdWL5wvxd/B78jyN7AvvgAAAABJRU5ErkJggg==</bitmap>
                     </item>
                     <item name="InputIsPath" type_name="gh_bool" type_code="1">false</item>
                     <item name="InstanceGuid" type_name="gh_guid" type_code="9">8125b982-88eb-4bf3-975b-64d7fa7d15f8</item>
@@ -11073,7 +11062,7 @@ to all remaining surfaces.
 
 ghenv.Component.Name = 'DB Run HAMT Simulation'
 ghenv.Component.NickName = 'RunHAMT'
-ghenv.Component.Message = '0.0.1'
+ghenv.Component.Message = '0.1.1'
 ghenv.Component.Category = 'Dewbee'
 ghenv.Component.SubCategory = "2 :: Simulation"
 
@@ -11082,15 +11071,13 @@ import re
 import json
 import subprocess
 
-# Turn off the "old" tag
-import ghpythonlib as ghlib
-c = ghlib.component._get_active_component()
-c.ToggleObsolete(False)
-
 # Import dewbee dependencies
-from dewbee import utils
-reload(utils)
-from dewbee.utils import generate_hygro_idf, edit_idf
+try:
+    import dewbee.utils as utils
+    reload(utils)
+    from dewbee.utils import generate_hygro_idf, edit_idf
+except Exception as e:
+    raise ImportError('Failed to import dewbee:\n\t{}'.format(e))
 
 try:
     from ladybug.futil import preparedir, nukedir, copy_file_tree
@@ -11303,7 +11290,7 @@ to all remaining surfaces.
                     <item name="HideInput" type_name="gh_bool" type_code="1">true</item>
                     <item name="HideOutput" type_name="gh_bool" type_code="1">true</item>
                     <item name="IconOverride" type_name="gh_drawing_bitmap" type_code="37">
-                      <bitmap length="1145">iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAScgAAEnIBXmVb4wAABBtJREFUSEvVVWtsVFUQnt07r9vdvrArlW2xFFulrQtipdBia2usSCkttmkIGilorCRSQzRQTSPG+scoSkkqJoYQfGHARn6ID4IhWiXBKGpD/6BBsCFpfCSmKRETuMec292VvRqFf/olJ/fcM9/MnJkzcw7AfwAOM9/A7CwXonWCuEGI7neZW4moCgA0qHBZcBEXKdGQonNS0PE4BIYBDMH01/4Lhg0jnlZ2dos4TUEbf4tIJDJTGN9QQiMhMIphkz0jZgpKK0xhotbMurnRXHNTvYmVJUw0b4bv0A4lxyjRe8xcFrSZRtHilkWuy6et8aysiCkovXHyuhXrPli4+ZWBhp3HupcdmFi14uBkx7J3Jh5s3D22rfb5Q58mNr5wYXZ9ux+RjUyYfnERa4K2oWH7h1X5JfMmJRwyrupUvPq2Jzq/8uJBXhA9nlex8vDFocUDwyYvXupHI0QTUYCCNMkYE5q3pu8zJTJKeE6zs2szrFwG1nzv3dXw8udTObFZRpywUcb+tPC+CS8xd3m3QT9EfDND8wrQ8bXXW7m237ejRIf/FIx5bWWrNqQc7MvQ+he0f/Tb3Pzi8mEAyNlnTGF558aUg0Np0uozXnX1ll3GsQLG8yJOY4aVf0Ci98UD2baaQqEdC3r6O3NnFvnlq4yb06StxmDz/vFRW4Jh3wmds80EAKEMawF0HffmxxfdMb1jZuOqe14cMEx4JhcgL4N891GvrmnPiYux6xeakE2VEzIu4i0ZpAAW9G4fzopEjdgeYL9AjCtykogSQa6PlR97Lc1vnfq54t4+E40VH4sCxIKcFFaPeol4TXNy9+QP1w6R14PcDLQdMSVdo17PVs/LCcouRdUDA8M2SuvAjlRH22bTMKwN8q8Ibe+fvbXini3m6solJl5zpyle2nqhpKlrak7L+h/LWnu+yy2asz6oc0XY5Hnxji+929tHzNIBz7t2xJj8rcYUGmOD+SuiQrTNVo0g9gjRcwCQZQUuc6cKDQriQ5fwIw7AMwAwP/nfEQZ4zE4QoFZCMCjkDCrTkBB123URdk4wc6sSdQk73wAAWYG97xXxW2X63XXd1L3E9gpXdE7ZzdnDFcT9VqBELwniMDMdVXZ2MYc/8TWEca/LuNcSmXFP0hCIyFxBfFuInhUiu2sfyrTTOlCiI4w4rox+BIpYz8zlzPiaLVX7SKUd2JfKRXyEGV9NOyB6Wtg5roTvCtMXqcazDkTwYUVnTBkfFaKnUjq+nOggxGLRaSMiJUJ4lhk3KWOfII4DQL6fHqZflfHxLKIFyfmT9gwY8QebAlWdzUwjNiX2aZ12jv3C9FMyExG7lqOKtURUmcx5nfWbDXCVXbdpAoBsVVzCzBX2LBWxNtnljirWu4jVqej8pxaxThEbUmf5/8Yf1lknki5teLYAAAAASUVORK5CYII=</bitmap>
+                      <bitmap length="1145">iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAScQAAEnEB89x6jgAABBtJREFUSEvVVWtsVFUQnt07r9vdvrArlW2xFFulrQtipdBia2usSCkttmkIGilorCRSQzRQTSPG+scoSkkqJoYQfGHARn6ID4IhWiXBKGpD/6BBsCFpfCSmKRETuMec292VvRqFf/olJ/fcM9/MnJkzcw7AfwAOM9/A7CwXonWCuEGI7neZW4moCgA0qHBZcBEXKdGQonNS0PE4BIYBDMH01/4Lhg0jnlZ2dos4TUEbf4tIJDJTGN9QQiMhMIphkz0jZgpKK0xhotbMurnRXHNTvYmVJUw0b4bv0A4lxyjRe8xcFrSZRtHilkWuy6et8aysiCkovXHyuhXrPli4+ZWBhp3HupcdmFi14uBkx7J3Jh5s3D22rfb5Q58mNr5wYXZ9ux+RjUyYfnERa4K2oWH7h1X5JfMmJRwyrupUvPq2Jzq/8uJBXhA9nlex8vDFocUDwyYvXupHI0QTUYCCNMkYE5q3pu8zJTJKeE6zs2szrFwG1nzv3dXw8udTObFZRpywUcb+tPC+CS8xd3m3QT9EfDND8wrQ8bXXW7m237ejRIf/FIx5bWWrNqQc7MvQ+he0f/Tb3Pzi8mEAyNlnTGF558aUg0Np0uozXnX1ll3GsQLG8yJOY4aVf0Ci98UD2baaQqEdC3r6O3NnFvnlq4yb06StxmDz/vFRW4Jh3wmds80EAKEMawF0HffmxxfdMb1jZuOqe14cMEx4JhcgL4N891GvrmnPiYux6xeakE2VEzIu4i0ZpAAW9G4fzopEjdgeYL9AjCtykogSQa6PlR97Lc1vnfq54t4+E40VH4sCxIKcFFaPeol4TXNy9+QP1w6R14PcDLQdMSVdo17PVs/LCcouRdUDA8M2SuvAjlRH22bTMKwN8q8Ibe+fvbXini3m6solJl5zpyle2nqhpKlrak7L+h/LWnu+yy2asz6oc0XY5Hnxji+929tHzNIBz7t2xJj8rcYUGmOD+SuiQrTNVo0g9gjRcwCQZQUuc6cKDQriQ5fwIw7AMwAwP/nfEQZ4zE4QoFZCMCjkDCrTkBB123URdk4wc6sSdQk73wAAWYG97xXxW2X63XXd1L3E9gpXdE7ZzdnDFcT9VqBELwniMDMdVXZ2MYc/8TWEca/LuNcSmXFP0hCIyFxBfFuInhUiu2sfyrTTOlCiI4w4rox+BIpYz8zlzPiaLVX7SKUd2JfKRXyEGV9NOyB6Wtg5roTvCtMXqcazDkTwYUVnTBkfFaKnUjq+nOggxGLRaSMiJUJ4lhk3KWOfII4DQL6fHqZflfHxLKIFyfmT9gwY8QebAlWdzUwjNiX2aZ12jv3C9FMyExG7lqOKtURUmcx5nfWbDXCVXbdpAoBsVVzCzBX2LBWxNtnljirWu4jVqej8pxaxThEbUmf5/8Yf1lknki5teLYAAAAASUVORK5CYII=</bitmap>
                     </item>
                     <item name="InputIsPath" type_name="gh_bool" type_code="1">false</item>
                     <item name="InstanceGuid" type_name="gh_guid" type_code="9">3ac1f579-0893-4cad-b13a-44e1fa698b08</item>
@@ -12162,7 +12149,7 @@ unzip the file, and open .epw, .stat, and ddy weather files.
                     <item name="HideInput" type_name="gh_bool" type_code="1">true</item>
                     <item name="HideOutput" type_name="gh_bool" type_code="1">true</item>
                     <item name="IconOverride" type_name="gh_drawing_bitmap" type_code="37">
-                      <bitmap length="1116">iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAOwQAADsEBuJFr7QAAA/5JREFUSEutlU1oXUUUx1P8qpZq+/KSNu/eOefMOWdea9UqjQsVRShxJYpiwNDaWqUFPxFRKloUqYtsXOhaFBd2UZFaFHQlIuKiLkQpiNpCsSJCpNZ+2Y80+cvc915IbkM16B+Ge2fuzO8/M2fO3L6+hWmRr/SBeuP/KiXeXW9bsNasWXO5x7jRgl2X6x6CRY4bSpLxEMLPBfNrzDy2ilnqY/+VlHnLtakNa8lvQyV/3BgYOBvMsNYcw6rVszTDNSKng8iHxnxrnTGvYoh3pBh3GMm2RqNxpikR68yxUxM+l4QDlHCYEg5wwmeS8Iom3OSOAYmIzDuykTG/UedWGhoauiqEcHy1OYT4SD/z5NPq+IUTUHq3JEyVud5rSzjECY+ZYyAqIsspZ76lzq40PDx8WST51CVO5xmNqwMh4a/CcbJMGDfHqCo2qWEsKp61hImQcKZwTIeEVzV1Tfi5OntGeYlNiVOPd+GnCseR0nE2JIyqYTETBlmwlAg3q2GCEo6WjhNFp/+j5miKTFsI1eG4QK3AH9xojsPcxvvaxq/UMTkTUjXzQWYYCwpi3Nk1OJlXGBJ2i+NbTrjBHa0QdtXZfUQ0lAP7Up59mfCAOu5XqwZPlwkPzWPwB3XisV0d61iquDyvjitDOF6WZWOOgQS5t6WGT6QzaFt0LGLGFjVMchtb1TAwy2C9Gs5xGzvVcYUI1lPEdOHYKwkrVRGJRmbgOcAlyfZ8gvZXp6ZjkIHLmfGUOTaaYYg6BiUx7lLDy57QZMFKFoxwxOnC8Q0nuBmI6MnM7WNmUeaPiOXg9THip9DZos3R0ezOuMUCFanee8VF0BKBdr/fzrGK1/fcxirVbPCjBdmTF3DJ6larPwR+sW1WBQqFY1wTlnYBGdh79kqu99quZsbWaDhfOL7mBDVDCPLMnDhEiiN57/ZIqvbydEh4QR3LZpnMV5YxY6wX8MKxKyYMRoUR3TYDzyKi5f1FcSxnbz41xwrH5D+Y9OB/5uNcOs6HhG3qaBBNrF2xYskcg6wQwtttd3zHCWcLv6jJHHiRk9GxL+btcZQlv1lnV0pEmnNh1DpblJPoWHmhSR2e+53ghHvcsYTlZCrLos6ekQXZ3Ixx6gl1nKKEc4Xj+KyVXCqCB7vwfE9N5u/UuSYGVZHH15lzZETDRDTRjBH3mWOfpAqeAzhdOt6NCUe79XMh4StJuDvfphnOvKPOm6OcGMbynhGtc6KNgxKPqjseMcc7MeELTvhB2viSE96KCZvz1W6OfubfjWRTnTefFs2uqCqFIK/3ixzKKyI1xJxEasg/owbLQREZXxVCa/a4BYuZFxvZsIg8zMz7mXlDXmX+d9f7/mdFor31tovpb4xKPIdkVzJ8AAAAAElFTkSuQmCC</bitmap>
+                      <bitmap length="1116">iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAOwAAADsABataJCQAAA/5JREFUSEutlU1oXUUUx1P8qpZq+/KSNu/eOefMOWdea9UqjQsVRShxJYpiwNDaWqUFPxFRKloUqYtsXOhaFBd2UZFaFHQlIuKiLkQpiNpCsSJCpNZ+2Y80+cvc915IbkM16B+Ge2fuzO8/M2fO3L6+hWmRr/SBeuP/KiXeXW9bsNasWXO5x7jRgl2X6x6CRY4bSpLxEMLPBfNrzDy2ilnqY/+VlHnLtakNa8lvQyV/3BgYOBvMsNYcw6rVszTDNSKng8iHxnxrnTGvYoh3pBh3GMm2RqNxpikR68yxUxM+l4QDlHCYEg5wwmeS8Iom3OSOAYmIzDuykTG/UedWGhoauiqEcHy1OYT4SD/z5NPq+IUTUHq3JEyVud5rSzjECY+ZYyAqIsspZ76lzq40PDx8WST51CVO5xmNqwMh4a/CcbJMGDfHqCo2qWEsKp61hImQcKZwTIeEVzV1Tfi5OntGeYlNiVOPd+GnCseR0nE2JIyqYTETBlmwlAg3q2GCEo6WjhNFp/+j5miKTFsI1eG4QK3AH9xojsPcxvvaxq/UMTkTUjXzQWYYCwpi3Nk1OJlXGBJ2i+NbTrjBHa0QdtXZfUQ0lAP7Up59mfCAOu5XqwZPlwkPzWPwB3XisV0d61iquDyvjitDOF6WZWOOgQS5t6WGT6QzaFt0LGLGFjVMchtb1TAwy2C9Gs5xGzvVcYUI1lPEdOHYKwkrVRGJRmbgOcAlyfZ8gvZXp6ZjkIHLmfGUOTaaYYg6BiUx7lLDy57QZMFKFoxwxOnC8Q0nuBmI6MnM7WNmUeaPiOXg9THip9DZos3R0ezOuMUCFanee8VF0BKBdr/fzrGK1/fcxirVbPCjBdmTF3DJ6larPwR+sW1WBQqFY1wTlnYBGdh79kqu99quZsbWaDhfOL7mBDVDCPLMnDhEiiN57/ZIqvbydEh4QR3LZpnMV5YxY6wX8MKxKyYMRoUR3TYDzyKi5f1FcSxnbz41xwrH5D+Y9OB/5uNcOs6HhG3qaBBNrF2xYskcg6wQwtttd3zHCWcLv6jJHHiRk9GxL+btcZQlv1lnV0pEmnNh1DpblJPoWHmhSR2e+53ghHvcsYTlZCrLos6ekQXZ3Ixx6gl1nKKEc4Xj+KyVXCqCB7vwfE9N5u/UuSYGVZHH15lzZETDRDTRjBH3mWOfpAqeAzhdOt6NCUe79XMh4StJuDvfphnOvKPOm6OcGMbynhGtc6KNgxKPqjseMcc7MeELTvhB2viSE96KCZvz1W6OfubfjWRTnTefFs2uqCqFIK/3ixzKKyI1xJxEasg/owbLQREZXxVCa/a4BYuZFxvZsIg8zMz7mXlDXmX+d9f7/mdFor31tovpb4xKPIdkVzJ8AAAAAElFTkSuQmCC</bitmap>
                     </item>
                     <item name="InputIsPath" type_name="gh_bool" type_code="1">false</item>
                     <item name="InstanceGuid" type_name="gh_guid" type_code="9">cb7eea80-8c9c-4dac-b2ba-a66c4f4dc27d</item>
@@ -12900,7 +12887,7 @@ if all_required_inputs(ghenv.Component):
                     <item name="HideInput" type_name="gh_bool" type_code="1">true</item>
                     <item name="HideOutput" type_name="gh_bool" type_code="1">false</item>
                     <item name="IconOverride" type_name="gh_drawing_bitmap" type_code="37">
-                      <bitmap length="943">iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAOwQAADsEBuJFr7QAAA1FJREFUSEvllPtLU2EYx7/dzUJzJWSCRUU3L1lSlpkt0xnkhGjqQp0Hciynbe5s6ZyL5TY27WZzlbjumtoq7QJZunbOphmtlkZSKf1SURARFPQPxIkZ9nal/Kk+P533ed7n++W87/M+wP/MODIwlmwAMAwgnUyMFUoA3QA0ZOJvmAQgZNS6YkyPKYLHS89NSvGsWRJdBCASwBFyz1+RtiymtlWhfmSTqQaKtxW4E2Li3eHh4ckAppJ7/4QIpUDgcaroHgetYxxaS5+1wvq+TL7HL85TtG/cUrAnNjEta0GiIGHWvBiuARIBBJMiP2TZnDklDonk4dlSFetQVjD1mmqviTa9sBoaPEZL023a2PKgyHS+X6hueBIZm6wDwCM1fkaEms9nrpSU9p4pLvvKwFRV79HvPcGqzC2svPaqf2VGwSGy+FdMEcdFN16iCv3OIhkzYmCnDT0GjeHNiIG2tsO7VWa6A2AhKTCaMAATAt/BS8LC1ioT4k9dzs32X6MopkW6k+UMGsu0rF1t8Fh3G4fNerubM1BbnPdXJGceJvS+ZgKQuonHa3XELm6yr1refm7T+rtMjtDXmS9m2imK/WwgV7gdysquw7T+gVlj+mjS2e7tNTe7KPqQLziEJyA1v2HptGlptpjFA08zUu/2CgWeLpGQvbo9m+2QSNznpTu7T8oVvjpl+fN96qpnNeXWxwbtgSGj+fTrDek5j4lH+GNmBgXlNSet6O8Tbma7t2W5r4tFrjaK8p2UyYaPlex6eVSheVSvMd46WLGvu6a6wUVrbUMRkVFHAagBWABEBdp0Bqk9wsQdi+Zfup+Z4e3Mzuxry8952iDNe3taKh1skitcxxWVLpummq2r2s9Y9McG+PyspkAd9wcyAHIArwJm3yc6JETXnJX6tlWS/e5ifu4Ad0TOHTJXcwntOaXRext1NbeNKuOgYGNmG4DZRHkcAAbAViKONQDmBibkDXNK4tC97aKea2KRq4OimDZpsa+OKvIZJNKeYpHk5urYhHIA00kRAOPJAMdkAB8AXADADbPQON6MXfZU/qC3MK/XWVjYr0rLaIyPWpAEYD6XJwV+BTc3uFfIXdYXokJDRZUp6/2l69YdBxA0OjeWrPztFvwn+QRFqjmEfDNnegAAAABJRU5ErkJggg==</bitmap>
+                      <bitmap length="943">iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAOwAAADsABataJCQAAA1FJREFUSEvllPtLU2EYx7/dzUJzJWSCRUU3L1lSlpkt0xnkhGjqQp0Hciynbe5s6ZyL5TY27WZzlbjumtoq7QJZunbOphmtlkZSKf1SURARFPQPxIkZ9nal/Kk+P533ed7n++W87/M+wP/MODIwlmwAMAwgnUyMFUoA3QA0ZOJvmAQgZNS6YkyPKYLHS89NSvGsWRJdBCASwBFyz1+RtiymtlWhfmSTqQaKtxW4E2Li3eHh4ckAppJ7/4QIpUDgcaroHgetYxxaS5+1wvq+TL7HL85TtG/cUrAnNjEta0GiIGHWvBiuARIBBJMiP2TZnDklDonk4dlSFetQVjD1mmqviTa9sBoaPEZL023a2PKgyHS+X6hueBIZm6wDwCM1fkaEms9nrpSU9p4pLvvKwFRV79HvPcGqzC2svPaqf2VGwSGy+FdMEcdFN16iCv3OIhkzYmCnDT0GjeHNiIG2tsO7VWa6A2AhKTCaMAATAt/BS8LC1ioT4k9dzs32X6MopkW6k+UMGsu0rF1t8Fh3G4fNerubM1BbnPdXJGceJvS+ZgKQuonHa3XELm6yr1refm7T+rtMjtDXmS9m2imK/WwgV7gdysquw7T+gVlj+mjS2e7tNTe7KPqQLziEJyA1v2HptGlptpjFA08zUu/2CgWeLpGQvbo9m+2QSNznpTu7T8oVvjpl+fN96qpnNeXWxwbtgSGj+fTrDek5j4lH+GNmBgXlNSet6O8Tbma7t2W5r4tFrjaK8p2UyYaPlex6eVSheVSvMd46WLGvu6a6wUVrbUMRkVFHAagBWABEBdp0Bqk9wsQdi+Zfup+Z4e3Mzuxry8952iDNe3taKh1skitcxxWVLpummq2r2s9Y9McG+PyspkAd9wcyAHIArwJm3yc6JETXnJX6tlWS/e5ifu4Ad0TOHTJXcwntOaXRext1NbeNKuOgYGNmG4DZRHkcAAbAViKONQDmBibkDXNK4tC97aKea2KRq4OimDZpsa+OKvIZJNKeYpHk5urYhHIA00kRAOPJAMdkAB8AXADADbPQON6MXfZU/qC3MK/XWVjYr0rLaIyPWpAEYD6XJwV+BTc3uFfIXdYXokJDRZUp6/2l69YdBxA0OjeWrPztFvwn+QRFqjmEfDNnegAAAABJRU5ErkJggg==</bitmap>
                     </item>
                     <item name="InputIsPath" type_name="gh_bool" type_code="1">false</item>
                     <item name="InstanceGuid" type_name="gh_guid" type_code="9">2d1a5cdc-336d-4900-ab22-ddb94c5b309e</item>
@@ -14116,11 +14103,11 @@ of the Hourly Plot in Rhino.</item>
                       <Y>538.316</Y>
                     </item>
                     <item name="Cb" type_name="gh_drawing_pointf" type_code="31">
-                      <X>526.3316</X>
+                      <X>526.3318</X>
                       <Y>538.316</Y>
                     </item>
                     <item name="Cc" type_name="gh_drawing_pointf" type_code="31">
-                      <X>526.3316</X>
+                      <X>526.3318</X>
                       <Y>557.4664</Y>
                     </item>
                     <item name="Cd" type_name="gh_drawing_pointf" type_code="31">
@@ -14142,7 +14129,7 @@ of the Hourly Plot in Rhino.</item>
                         <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
                           <X>207.31812</X>
                           <Y>533.316</Y>
-                          <W>324.0135</W>
+                          <W>324.01367</W>
                           <H>29.15039</H>
                         </item>
                         <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
@@ -14162,7 +14149,7 @@ of the Hourly Plot in Rhino.</item>
     <chunk name="Thumbnail">
       <items count="1">
         <item name="Thumbnail" type_name="gh_drawing_bitmap" type_code="37">
-          <bitmap length="7628">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</bitmap>
+          <bitmap length="8735">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</bitmap>
         </item>
       </items>
     </chunk>

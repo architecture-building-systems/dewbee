@@ -17,7 +17,7 @@ and InternalMass objects.
 
 ghenv.Component.Name = 'DB Faces by Algorithm'
 ghenv.Component.NickName = 'FacesByAlgo'
-ghenv.Component.Message = '0.1.0'
+ghenv.Component.Message = '0.1.1'
 ghenv.Component.Category = 'Dewbee'
 ghenv.Component.SubCategory = '0 :: Miscellaneous'
 

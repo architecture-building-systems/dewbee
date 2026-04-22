@@ -40,7 +40,7 @@ Link to MASEA: https://www.masea-ensan.com/
 
 ghenv.Component.Name = "DB Process MASEA Data"
 ghenv.Component.NickName = 'ProcessMASEA'
-ghenv.Component.Message = '0.1.0'
+ghenv.Component.Message = '0.1.1'
 ghenv.Component.Category = 'Dewbee'
 ghenv.Component.SubCategory = "1 :: Constructions"
 

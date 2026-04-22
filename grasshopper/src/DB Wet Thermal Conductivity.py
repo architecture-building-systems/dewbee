@@ -21,7 +21,7 @@ conductivity = _conductivity_dry*(1+_conductivity_supplement*w/_bulk_density)
 
 ghenv.Component.Name = "DB Wet Thermal Conductivity"
 ghenv.Component.NickName = 'WetConductivity'
-ghenv.Component.Message = '0.1.0'
+ghenv.Component.Message = '0.1.1'
 ghenv.Component.Category = 'Dewbee'
 ghenv.Component.SubCategory = "1 :: Constructions"
 

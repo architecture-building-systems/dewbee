@@ -29,7 +29,7 @@ Apply moisture source loads to Rooms using the Process object from Honeybee
 
 ghenv.Component.Name = 'DB Moisture Source'
 ghenv.Component.NickName = 'MoistureSource'
-ghenv.Component.Message = '0.1.0'
+ghenv.Component.Message = '0.1.1'
 ghenv.Component.Category = 'Dewbee'
 ghenv.Component.SubCategory = "0 :: Miscellaneous"
 
