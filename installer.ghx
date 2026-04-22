@@ -49,10 +49,10 @@
             <chunk name="Projection">
               <items count="2">
                 <item name="Target" type_name="gh_drawing_point" type_code="30">
-                  <X>810</X>
-                  <Y>413</Y>
+                  <X>583</X>
+                  <Y>232</Y>
                 </item>
-                <item name="Zoom" type_name="gh_single" type_code="5">1.2750001</item>
+                <item name="Zoom" type_name="gh_single" type_code="5">1.764706</item>
               </items>
             </chunk>
             <chunk name="Views">
@@ -1388,6 +1388,115 @@ PHX&gt;=1.56.18</item>
               </chunks>
             </chunk>
             <chunk name="Object" index="10">
+              <items count="2">
+                <item name="GUID" type_name="gh_guid" type_code="9">2e78987b-9dfb-42a2-8b76-3923ac8bd91a</item>
+                <item name="Name" type_name="gh_string" type_code="10">Boolean Toggle</item>
+              </items>
+              <chunks count="1">
+                <chunk name="Container">
+                  <items count="7">
+                    <item name="Description" type_name="gh_string" type_code="10">Boolean (true/false) toggle</item>
+                    <item name="InstanceGuid" type_name="gh_guid" type_code="9">f3d473fb-7c86-41bf-889e-f4735887764a</item>
+                    <item name="Name" type_name="gh_string" type_code="10">Boolean Toggle</item>
+                    <item name="NickName" type_name="gh_string" type_code="10">Toggle</item>
+                    <item name="Optional" type_name="gh_bool" type_code="1">false</item>
+                    <item name="SourceCount" type_name="gh_int32" type_code="3">0</item>
+                    <item name="ToggleValue" type_name="gh_bool" type_code="1">false</item>
+                  </items>
+                  <chunks count="1">
+                    <chunk name="Attributes">
+                      <items count="1">
+                        <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
+                          <X>195</X>
+                          <Y>338</Y>
+                          <W>104</W>
+                          <H>22</H>
+                        </item>
+                      </items>
+                    </chunk>
+                  </chunks>
+                </chunk>
+              </chunks>
+            </chunk>
+            <chunk name="Object" index="11">
+              <items count="2">
+                <item name="GUID" type_name="gh_guid" type_code="9">59e0b89a-e487-49f8-bab8-b5bab16be14c</item>
+                <item name="Name" type_name="gh_string" type_code="10">Panel</item>
+              </items>
+              <chunks count="1">
+                <chunk name="Container">
+                  <items count="9">
+                    <item name="Description" type_name="gh_string" type_code="10">A panel for custom notes and text values</item>
+                    <item name="InstanceGuid" type_name="gh_guid" type_code="9">3c86f3bf-8dd4-4cee-b457-554c00b0c383</item>
+                    <item name="Name" type_name="gh_string" type_code="10">Panel</item>
+                    <item name="NickName" type_name="gh_string" type_code="10"></item>
+                    <item name="Optional" type_name="gh_bool" type_code="1">false</item>
+                    <item name="ScrollRatio" type_name="gh_double" type_code="6">1</item>
+                    <item name="Source" index="0" type_name="gh_guid" type_code="9">ada1ccef-4349-4673-adde-a83332b802cf</item>
+                    <item name="SourceCount" type_name="gh_int32" type_code="3">1</item>
+                    <item name="UserText" type_name="gh_string" type_code="10">Double click to edit panel content…</item>
+                  </items>
+                  <chunks count="2">
+                    <chunk name="Attributes">
+                      <items count="5">
+                        <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
+                          <X>509</X>
+                          <Y>61</Y>
+                          <W>515</W>
+                          <H>597</H>
+                        </item>
+                        <item name="MarginLeft" type_name="gh_int32" type_code="3">0</item>
+                        <item name="MarginRight" type_name="gh_int32" type_code="3">0</item>
+                        <item name="MarginTop" type_name="gh_int32" type_code="3">0</item>
+                        <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
+                          <X>509.67657</X>
+                          <Y>61.453705</Y>
+                        </item>
+                      </items>
+                    </chunk>
+                    <chunk name="PanelProperties">
+                      <items count="7">
+                        <item name="Colour" type_name="gh_drawing_color" type_code="36">
+                          <ARGB>255;181;229;255</ARGB>
+                        </item>
+                        <item name="DrawIndices" type_name="gh_bool" type_code="1">true</item>
+                        <item name="DrawPaths" type_name="gh_bool" type_code="1">true</item>
+                        <item name="Multiline" type_name="gh_bool" type_code="1">true</item>
+                        <item name="SpecialCodes" type_name="gh_bool" type_code="1">false</item>
+                        <item name="Stream" type_name="gh_bool" type_code="1">false</item>
+                        <item name="Wrap" type_name="gh_bool" type_code="1">true</item>
+                      </items>
+                    </chunk>
+                  </chunks>
+                </chunk>
+              </chunks>
+            </chunk>
+            <chunk name="Object" index="12">
+              <items count="2">
+                <item name="GUID" type_name="gh_guid" type_code="9">c552a431-af5b-46a9-a8a4-0fcbc27ef596</item>
+                <item name="Name" type_name="gh_string" type_code="10">Group</item>
+              </items>
+              <chunks count="1">
+                <chunk name="Container">
+                  <items count="8">
+                    <item name="Border" type_name="gh_int32" type_code="3">3</item>
+                    <item name="Colour" type_name="gh_drawing_color" type_code="36">
+                      <ARGB>255;181;229;255</ARGB>
+                    </item>
+                    <item name="Description" type_name="gh_string" type_code="10">A group of Grasshopper objects</item>
+                    <item name="ID" index="0" type_name="gh_guid" type_code="9">f3d473fb-7c86-41bf-889e-f4735887764a</item>
+                    <item name="ID_Count" type_name="gh_int32" type_code="3">1</item>
+                    <item name="InstanceGuid" type_name="gh_guid" type_code="9">21797b23-e7d9-4d2a-a5bb-e30278127b35</item>
+                    <item name="Name" type_name="gh_string" type_code="10">Group</item>
+                    <item name="NickName" type_name="gh_string" type_code="10"></item>
+                  </items>
+                  <chunks count="1">
+                    <chunk name="Attributes" />
+                  </chunks>
+                </chunk>
+              </chunks>
+            </chunk>
+            <chunk name="Object" index="13">
               <items count="3">
                 <item name="GUID" type_name="gh_guid" type_code="9">410755b1-224a-4c1e-a407-bf32fb45ea7e</item>
                 <item name="Lib" type_name="gh_guid" type_code="9">00000000-0000-0000-0000-000000000000</item>
@@ -1476,7 +1585,6 @@ PYPI_IMPORT_NAME = "dewbee"
 
 GITHUB_OWNER = "architecture-building-systems"
 GITHUB_REPO = "dewbee"
-# Erase this line if user inputs _github_ref
 _github_ref = None
 
 # relative path inside the downloaded repo zip
@@ -1525,6 +1633,27 @@ def remove_dist_info_files(directory, startswith_name=None):
         nukedir(full_path, rmdir=True)
 
 
+def remove_existing_package(site_dir, package_name):
+    """Remove any existing package folder and its dist-info from site_dir.
+
+    This is needed because ``pip install --target --upgrade`` does not
+    uninstall the previous version at the target first; it installs over it.
+    If the previous install left files or a stale dist-info, or if another
+    copy of the package exists earlier on sys.path, ``import`` can resolve to
+    the wrong version. Wiping the target package dir + dist-info prior to
+    install avoids that whole class of problem.
+    """
+    if not site_dir or not os.path.isdir(site_dir):
+        return
+
+    pkg_dir = os.path.join(site_dir, package_name)
+    if os.path.isdir(pkg_dir):
+        print("Removing existing package folder: {}".format(pkg_dir))
+        nukedir(pkg_dir, rmdir=True)
+
+    remove_dist_info_files(site_dir, startswith_name=package_name)
+
+
 # -----------------------------------------------------------------------------
 # DOWNLOAD HELPERS
 # -----------------------------------------------------------------------------
@@ -1541,12 +1670,18 @@ def build_github_zip_url(owner, repo, ref):
 
 
 def expected_unzipped_repo_folder(base_dir, repo, ref):
+    """Best-guess the name of the folder GitHub extracts from the archive zip.
+
+    - For branch archives the folder is ``repo-&lt;branch&gt;``.
+    - For tag archives, GitHub strips a leading ``v`` from the tag,
+      so ``v0.1.1`` becomes the folder ``repo-0.1.1``.
     """
-    GitHub usually extracts to:
-    - repo-branch
-    - repo-tag_without_prefix? No, usually repo-&lt;tag&gt;
-    """
-    return os.path.join(base_dir, "{}-{}".format(repo, ref or "main"))
+    if not ref:
+        return os.path.join(base_dir, "{}-main".format(repo))
+    folder_ref = ref
+    if folder_ref[:1] in ("v", "V") and len(folder_ref) &gt; 1 and folder_ref[1].isdigit():
+        folder_ref = folder_ref[1:]
+    return os.path.join(base_dir, "{}-{}".format(repo, folder_ref))
 
 def download_and_extract_repo(owner, repo, ref, temp_root):
     """Download repo zip and return extracted repo directory."""
@@ -1715,28 +1850,30 @@ def resolve_github_ref(user_github_ref, user_dewbee_ver, installed_version):
 # -----------------------------------------------------------------------------
 
 def verify_python_package(python_exe):
-    cmds = [python_exe, "-c", "import dewbee; print(dewbee.__version__)"]
-    use_shell = True if os.name == "nt" else False
-    process = subprocess.Popen(
-        cmds,
-        shell=use_shell,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        env=CUSTOM_ENV
-    )
-    stdout, stderr = process.communicate()
+    """Read __version__ directly from the installed package file.
+
+    We deliberately avoid ``import dewbee`` here: if another copy of dewbee
+    is earlier on sys.path (e.g. a stale install in the user site-packages),
+    ``import`` would return its version and mask the install we just did.
+    Reading the file at PY_SITE directly guarantees we verify the install
+    we actually performed.
+    """
+    init_path = os.path.join(PY_SITE, PYPI_IMPORT_NAME, "__init__.py")
+    if not os.path.isfile(init_path):
+        return 1, "", "Could not find {} after install.".format(init_path)
 
     try:
-        stdout = stdout.decode("utf-8").strip()
-    except Exception:
-        stdout = str(stdout)
+        with open(init_path, "r") as f:
+            src = f.read()
+    except Exception as e:
+        return 1, "", "Could not read {}: {}".format(init_path, e)
 
-    try:
-        stderr = stderr.decode("utf-8").strip()
-    except Exception:
-        stderr = str(stderr)
+    import re
+    match = re.search(r"__version__\s*=\s*[\"']([^\"']+)[\"']", src)
+    if not match:
+        return 1, "", "Could not find __version__ in {}".format(init_path)
 
-    return process.returncode, stdout, stderr
+    return 0, match.group(1).strip(), ""
 
 def install_dewbee(dewbee_version=None, github_ref=None):
     print("Ladybug Tools Python executable:")
@@ -1748,6 +1885,10 @@ def install_dewbee(dewbee_version=None, github_ref=None):
 
     print("- " * 30)
     print("Installing Dewbee Python package into Ladybug Tools site-packages...")
+
+    # Wipe any previous install at the target so --target --upgrade can't
+    # leave stale files, and so a stale copy cannot shadow the new one.
+    remove_existing_package(PY_SITE, PYPI_IMPORT_NAME)
 
     returncode, stdout, stderr = run_pip_install(
         python_exe=PY_EXE,
@@ -1856,8 +1997,7 @@ if _run:
 else:
     print("Set _run to True to install Dewbee.")
     print("Optional:")
-    print("  _dewbee_ver  -&gt; specific PyPI version, eg. 0.1.0")
-    print("  _github_ref  -&gt; GitHub branch or tag, eg. main or v0.1.0")</item>
+    print("  _dewbee_ver  -&gt; specific PyPI version, eg. 0.1.0")</item>
                     <item name="Description" type_name="gh_string" type_code="10">Install or update Dewbee. Please update your Ladybug Tools version using the
 "LB Versioner" grasshopper component BEFORE installing dewbee.
 When _run is "True", it installs or updates the Dewbee Python package into the Ladybug Tools Python environment,
@@ -2003,115 +2143,6 @@ If empty, the latest version will be installed.</item>
                 </chunk>
               </chunks>
             </chunk>
-            <chunk name="Object" index="11">
-              <items count="2">
-                <item name="GUID" type_name="gh_guid" type_code="9">2e78987b-9dfb-42a2-8b76-3923ac8bd91a</item>
-                <item name="Name" type_name="gh_string" type_code="10">Boolean Toggle</item>
-              </items>
-              <chunks count="1">
-                <chunk name="Container">
-                  <items count="7">
-                    <item name="Description" type_name="gh_string" type_code="10">Boolean (true/false) toggle</item>
-                    <item name="InstanceGuid" type_name="gh_guid" type_code="9">f3d473fb-7c86-41bf-889e-f4735887764a</item>
-                    <item name="Name" type_name="gh_string" type_code="10">Boolean Toggle</item>
-                    <item name="NickName" type_name="gh_string" type_code="10">Toggle</item>
-                    <item name="Optional" type_name="gh_bool" type_code="1">false</item>
-                    <item name="SourceCount" type_name="gh_int32" type_code="3">0</item>
-                    <item name="ToggleValue" type_name="gh_bool" type_code="1">false</item>
-                  </items>
-                  <chunks count="1">
-                    <chunk name="Attributes">
-                      <items count="1">
-                        <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                          <X>195</X>
-                          <Y>338</Y>
-                          <W>104</W>
-                          <H>22</H>
-                        </item>
-                      </items>
-                    </chunk>
-                  </chunks>
-                </chunk>
-              </chunks>
-            </chunk>
-            <chunk name="Object" index="12">
-              <items count="2">
-                <item name="GUID" type_name="gh_guid" type_code="9">59e0b89a-e487-49f8-bab8-b5bab16be14c</item>
-                <item name="Name" type_name="gh_string" type_code="10">Panel</item>
-              </items>
-              <chunks count="1">
-                <chunk name="Container">
-                  <items count="9">
-                    <item name="Description" type_name="gh_string" type_code="10">A panel for custom notes and text values</item>
-                    <item name="InstanceGuid" type_name="gh_guid" type_code="9">3c86f3bf-8dd4-4cee-b457-554c00b0c383</item>
-                    <item name="Name" type_name="gh_string" type_code="10">Panel</item>
-                    <item name="NickName" type_name="gh_string" type_code="10"></item>
-                    <item name="Optional" type_name="gh_bool" type_code="1">false</item>
-                    <item name="ScrollRatio" type_name="gh_double" type_code="6">0</item>
-                    <item name="Source" index="0" type_name="gh_guid" type_code="9">ada1ccef-4349-4673-adde-a83332b802cf</item>
-                    <item name="SourceCount" type_name="gh_int32" type_code="3">1</item>
-                    <item name="UserText" type_name="gh_string" type_code="10">Double click to edit panel content…</item>
-                  </items>
-                  <chunks count="2">
-                    <chunk name="Attributes">
-                      <items count="5">
-                        <item name="Bounds" type_name="gh_drawing_rectanglef" type_code="35">
-                          <X>509</X>
-                          <Y>61</Y>
-                          <W>515</W>
-                          <H>597</H>
-                        </item>
-                        <item name="MarginLeft" type_name="gh_int32" type_code="3">0</item>
-                        <item name="MarginRight" type_name="gh_int32" type_code="3">0</item>
-                        <item name="MarginTop" type_name="gh_int32" type_code="3">0</item>
-                        <item name="Pivot" type_name="gh_drawing_pointf" type_code="31">
-                          <X>509.67657</X>
-                          <Y>61.453705</Y>
-                        </item>
-                      </items>
-                    </chunk>
-                    <chunk name="PanelProperties">
-                      <items count="7">
-                        <item name="Colour" type_name="gh_drawing_color" type_code="36">
-                          <ARGB>255;181;229;255</ARGB>
-                        </item>
-                        <item name="DrawIndices" type_name="gh_bool" type_code="1">true</item>
-                        <item name="DrawPaths" type_name="gh_bool" type_code="1">true</item>
-                        <item name="Multiline" type_name="gh_bool" type_code="1">true</item>
-                        <item name="SpecialCodes" type_name="gh_bool" type_code="1">false</item>
-                        <item name="Stream" type_name="gh_bool" type_code="1">false</item>
-                        <item name="Wrap" type_name="gh_bool" type_code="1">true</item>
-                      </items>
-                    </chunk>
-                  </chunks>
-                </chunk>
-              </chunks>
-            </chunk>
-            <chunk name="Object" index="13">
-              <items count="2">
-                <item name="GUID" type_name="gh_guid" type_code="9">c552a431-af5b-46a9-a8a4-0fcbc27ef596</item>
-                <item name="Name" type_name="gh_string" type_code="10">Group</item>
-              </items>
-              <chunks count="1">
-                <chunk name="Container">
-                  <items count="8">
-                    <item name="Border" type_name="gh_int32" type_code="3">3</item>
-                    <item name="Colour" type_name="gh_drawing_color" type_code="36">
-                      <ARGB>255;181;229;255</ARGB>
-                    </item>
-                    <item name="Description" type_name="gh_string" type_code="10">A group of Grasshopper objects</item>
-                    <item name="ID" index="0" type_name="gh_guid" type_code="9">f3d473fb-7c86-41bf-889e-f4735887764a</item>
-                    <item name="ID_Count" type_name="gh_int32" type_code="3">1</item>
-                    <item name="InstanceGuid" type_name="gh_guid" type_code="9">21797b23-e7d9-4d2a-a5bb-e30278127b35</item>
-                    <item name="Name" type_name="gh_string" type_code="10">Group</item>
-                    <item name="NickName" type_name="gh_string" type_code="10"></item>
-                  </items>
-                  <chunks count="1">
-                    <chunk name="Attributes" />
-                  </chunks>
-                </chunk>
-              </chunks>
-            </chunk>
           </chunks>
         </chunk>
       </chunks>
@@ -2119,7 +2150,7 @@ If empty, the latest version will be installed.</item>
     <chunk name="Thumbnail">
       <items count="1">
         <item name="Thumbnail" type_name="gh_drawing_bitmap" type_code="37">
-          <bitmap length="3054">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</bitmap>
+          <bitmap length="3782">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</bitmap>
         </item>
       </items>
     </chunk>

@@ -78,7 +78,6 @@ PYPI_IMPORT_NAME = "dewbee"
 
 GITHUB_OWNER = "architecture-building-systems"
 GITHUB_REPO = "dewbee"
-# Erase this line if user inputs _github_ref
 _github_ref = None
 
 # relative path inside the downloaded repo zip
@@ -127,6 +126,27 @@ def remove_dist_info_files(directory, startswith_name=None):
         nukedir(full_path, rmdir=True)
 
 
+def remove_existing_package(site_dir, package_name):
+    """Remove any existing package folder and its dist-info from site_dir.
+
+    This is needed because ``pip install --target --upgrade`` does not
+    uninstall the previous version at the target first; it installs over it.
+    If the previous install left files or a stale dist-info, or if another
+    copy of the package exists earlier on sys.path, ``import`` can resolve to
+    the wrong version. Wiping the target package dir + dist-info prior to
+    install avoids that whole class of problem.
+    """
+    if not site_dir or not os.path.isdir(site_dir):
+        return
+
+    pkg_dir = os.path.join(site_dir, package_name)
+    if os.path.isdir(pkg_dir):
+        print("Removing existing package folder: {}".format(pkg_dir))
+        nukedir(pkg_dir, rmdir=True)
+
+    remove_dist_info_files(site_dir, startswith_name=package_name)
+
+
 # -----------------------------------------------------------------------------
 # DOWNLOAD HELPERS
 # -----------------------------------------------------------------------------
@@ -143,12 +163,18 @@ def build_github_zip_url(owner, repo, ref):
 
 
 def expected_unzipped_repo_folder(base_dir, repo, ref):
+    """Best-guess the name of the folder GitHub extracts from the archive zip.
+
+    - For branch archives the folder is ``repo-<branch>``.
+    - For tag archives, GitHub strips a leading ``v`` from the tag,
+      so ``v0.1.1`` becomes the folder ``repo-0.1.1``.
     """
-    GitHub usually extracts to:
-    - repo-branch
-    - repo-tag_without_prefix? No, usually repo-<tag>
-    """
-    return os.path.join(base_dir, "{}-{}".format(repo, ref or "main"))
+    if not ref:
+        return os.path.join(base_dir, "{}-main".format(repo))
+    folder_ref = ref
+    if folder_ref[:1] in ("v", "V") and len(folder_ref) > 1 and folder_ref[1].isdigit():
+        folder_ref = folder_ref[1:]
+    return os.path.join(base_dir, "{}-{}".format(repo, folder_ref))
 
 def download_and_extract_repo(owner, repo, ref, temp_root):
     """Download repo zip and return extracted repo directory."""
@@ -317,28 +343,30 @@ def resolve_github_ref(user_github_ref, user_dewbee_ver, installed_version):
 # -----------------------------------------------------------------------------
 
 def verify_python_package(python_exe):
-    cmds = [python_exe, "-c", "import dewbee; print(dewbee.__version__)"]
-    use_shell = True if os.name == "nt" else False
-    process = subprocess.Popen(
-        cmds,
-        shell=use_shell,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        env=CUSTOM_ENV
-    )
-    stdout, stderr = process.communicate()
+    """Read __version__ directly from the installed package file.
+
+    We deliberately avoid ``import dewbee`` here: if another copy of dewbee
+    is earlier on sys.path (e.g. a stale install in the user site-packages),
+    ``import`` would return its version and mask the install we just did.
+    Reading the file at PY_SITE directly guarantees we verify the install
+    we actually performed.
+    """
+    init_path = os.path.join(PY_SITE, PYPI_IMPORT_NAME, "__init__.py")
+    if not os.path.isfile(init_path):
+        return 1, "", "Could not find {} after install.".format(init_path)
 
     try:
-        stdout = stdout.decode("utf-8").strip()
-    except Exception:
-        stdout = str(stdout)
+        with open(init_path, "r") as f:
+            src = f.read()
+    except Exception as e:
+        return 1, "", "Could not read {}: {}".format(init_path, e)
 
-    try:
-        stderr = stderr.decode("utf-8").strip()
-    except Exception:
-        stderr = str(stderr)
+    import re
+    match = re.search(r"__version__\s*=\s*[\"']([^\"']+)[\"']", src)
+    if not match:
+        return 1, "", "Could not find __version__ in {}".format(init_path)
 
-    return process.returncode, stdout, stderr
+    return 0, match.group(1).strip(), ""
 
 def install_dewbee(dewbee_version=None, github_ref=None):
     print("Ladybug Tools Python executable:")
@@ -350,6 +378,10 @@ def install_dewbee(dewbee_version=None, github_ref=None):
 
     print("- " * 30)
     print("Installing Dewbee Python package into Ladybug Tools site-packages...")
+
+    # Wipe any previous install at the target so --target --upgrade can't
+    # leave stale files, and so a stale copy cannot shadow the new one.
+    remove_existing_package(PY_SITE, PYPI_IMPORT_NAME)
 
     returncode, stdout, stderr = run_pip_install(
         python_exe=PY_EXE,
@@ -459,4 +491,3 @@ else:
     print("Set _run to True to install Dewbee.")
     print("Optional:")
     print("  _dewbee_ver  -> specific PyPI version, eg. 0.1.0")
-    print("  _github_ref  -> GitHub branch or tag, eg. main or v0.1.0")
