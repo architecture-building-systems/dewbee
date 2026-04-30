@@ -13,7 +13,7 @@ Installer available at [Food4Rhino](https://www.food4rhino.com/en/app/dewbee).
 - Multi-year result parsing currently works **only on Windows**
 
 ## Cite us
-Zorzeto Bittencourt, G., Schlueter, A., & Hischier, I. (2026). Dewbee (v0.1.2). Zenodo. https://doi.org/10.5281/zenodo.19919608
+Zorzetto, G., Hischier, I., & Schlueter, A. (2026). Dewbee (v0.1.2). Zenodo. https://doi.org/10.5281/zenodo.19919608
 
 ## Implementation
 
