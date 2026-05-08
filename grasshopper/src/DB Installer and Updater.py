@@ -64,14 +64,32 @@ except Exception as e:
 
 PY_EXE = hb_folders.python_exe_path
 PY_SITE = hb_folders.python_package_path
-CONSTRUCTIONS_DIR = os.path.join(hb_folders.default_standards_folder, "constructions")
+
+# Always target the user-level AppData/ladybug_tools/standards folder so that
+# Dewbee materials are never written into the LBT install dir
+# (eg. C:\Program Files\ladybug_tools\resources\standards\honeybee_standards).
+# honeybee.config.folders.default_standards_folder would fall back to that
+# install dir if the AppData folder doesn't exist, which we explicitly avoid.
+APPDATA_DIR = os.getenv("APPDATA")
+if not APPDATA_DIR:
+    raise IOError("Could not resolve %APPDATA% to locate ladybug_tools standards folder.")
+STANDARDS_DIR = os.path.join(APPDATA_DIR, "ladybug_tools", "standards")
 
 if not PY_EXE or not os.path.isfile(PY_EXE):
     raise IOError("Could not find Ladybug Tools python executable:\n{}".format(PY_EXE))
 if not PY_SITE or not os.path.isdir(PY_SITE):
     raise IOError("Could not find Ladybug Tools site-packages:\n{}".format(PY_SITE))
-if not CONSTRUCTIONS_DIR or not os.path.isdir(CONSTRUCTIONS_DIR):
-    raise IOError("Could not find Ladybug Tools custom constructions:\n{}".format(CONSTRUCTIONS_DIR))
+
+CONSTRUCTIONS_DIR = os.path.join(STANDARDS_DIR, "constructions")
+# honeybee_energy.config validates the standards_data_folder by asserting
+# that ALL of these subfolders exist (constructions, constructionsets,
+# schedules, programtypes). If any are missing, honeybee_energy will fail
+# to import on the next Rhino start. So create all four if needed.
+for sub in ("constructions", "constructionsets", "schedules", "programtypes"):
+    sub_dir = os.path.join(STANDARDS_DIR, sub)
+    if not os.path.isdir(sub_dir):
+        print("Standards subfolder not found. Creating it at:\n{}".format(sub_dir))
+        preparedir(sub_dir, remove_content=False)
 
 PYPI_PACKAGE = "dewbee"
 PYPI_IMPORT_NAME = "dewbee"
