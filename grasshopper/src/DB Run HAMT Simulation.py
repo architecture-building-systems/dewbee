@@ -263,6 +263,21 @@ if all_required_inputs(ghenv.Component) and _write:
             # Assign default values for edit_idf()
             warmup_days_ = 100 if warmup_days_ is None else warmup_days_
             sim_years_ = 1 if sim_years_ is None else sim_years_
+            
+            # Add HAMT outputs
+            hamt_outputs = [
+                "HAMT Surface Average Water Content Ratio",
+                "HAMT Surface Inside Face Temperature",
+                "HAMT Surface Inside Face Relative Humidity",
+                "HAMT Surface Inside Face Vapor Pressure",
+                "HAMT Surface Outside Face Temperature",
+                "HAMT Surface Outside Face Relative Humidity",
+                ]
+            hamt_outputs.extend("HAMT Surface Temperature Cell {}".format(i+1) for i in range(99))
+            hamt_outputs.extend("HAMT Surface Water Content Cell {}".format (i+1) for i in range(99))
+            hamt_outputs.extend("HAMT Surface Relative Humidity Cell {}".format (i+1) for i in range(99))
+            for hamt_output in hamt_outputs:
+                sim_par.output.add_output(hamt_output)
     else:
         warmup_days_ = 25
         sim_years_ = 1

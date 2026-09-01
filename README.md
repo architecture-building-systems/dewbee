@@ -23,3 +23,10 @@ To avoid excessive computational cost and data requirements, the HAMT algorithm 
 
 ## Background
 Dewbee has been developed at the chair of [Architecture and Building Systems (ETH Zurich)](https://github.com/architecture-building-systems) with support from [Think Earth](https://thinkearth.ethz.ch/en/the-project.html), an Innosuisse flagship project. It extends the scope of an earlier proof-of-concept tool called [WaterSkater](https://github.com/mposani1/WaterSkater-Plugin-ETH).
+
+## Dev
+The current process of creating or editing a component is still very manual. While this is not automated, follow these steps:
+ 1. Create or edit a component in the Grasshopper canvas.
+ 2. Select the component and create a User Object (File - Create User Object...). Make sure all properties match the old component when updating one.
+ 3. Got to your local Grasshoppers User Objects folder (File - Special Folders - User Object Folder). Move the GH User Object file to dewbee folder (replace existing one when updating a component).
+ 4. To update the local repo (creating src python and ghuser files): run SaveCompos component in Grasshopper.
