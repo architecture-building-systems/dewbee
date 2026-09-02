@@ -5,6 +5,9 @@ from honeybee_energy.writer import generate_idf_string
 from .hygro_material import HygroMaterial
 import os
 
+def just_a_placeholder():
+    print("YAY")
+
 # Function to check if a material is hygrothermal
 def material_ishygro(material):
     user_data = getattr(material, "user_data", None)
