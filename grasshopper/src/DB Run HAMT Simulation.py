@@ -91,7 +91,11 @@ to all remaining surfaces.
 
 ghenv.Component.Name = 'DB Run HAMT Simulation'
 ghenv.Component.NickName = 'RunHAMT'
-ghenv.Component.Message = '0.1.2'
+try:
+    import dewbee
+    ghenv.Component.Message = dewbee.component_message()
+except ImportError:
+    ghenv.Component.Message = '?'
 ghenv.Component.Category = 'Dewbee'
 ghenv.Component.SubCategory = "2 :: Simulation"
 

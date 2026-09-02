@@ -22,7 +22,11 @@ Run DB Installer and Updater to return to a coherent released installation.
 
 ghenv.Component.Name = "DB Development Mode"
 ghenv.Component.NickName = "DBDevMode"
-ghenv.Component.Message = '0.1.2'
+try:
+    import dewbee
+    ghenv.Component.Message = dewbee.component_message()
+except ImportError:
+    ghenv.Component.Message = 'DEV'
 ghenv.Component.Category = "Dewbee"
 ghenv.Component.SubCategory = "0 :: Miscellaneous"
 

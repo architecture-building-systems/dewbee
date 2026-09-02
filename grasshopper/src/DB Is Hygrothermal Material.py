@@ -13,7 +13,11 @@ such that it can be used to run a HAMT simulation using "DB Run HAMT Simulation"
 
 ghenv.Component.Name = "DB Is Hygrothermal Material"
 ghenv.Component.NickName = 'IsHygroMat'
-ghenv.Component.Message = '0.1.2'
+try:
+    import dewbee
+    ghenv.Component.Message = dewbee.component_message()
+except ImportError:
+    ghenv.Component.Message = '?'
 ghenv.Component.Category = 'Dewbee'
 ghenv.Component.SubCategory = "1 :: Constructions"
 

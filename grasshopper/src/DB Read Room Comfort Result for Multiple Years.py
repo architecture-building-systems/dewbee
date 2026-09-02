@@ -23,7 +23,11 @@ longer than 1 year.
 
 ghenv.Component.Name = 'DB Read Room Comfort Result for Multiple Years'
 ghenv.Component.NickName = 'MultiyearRoomComfortResult'
-ghenv.Component.Message = '0.1.2'
+try:
+    import dewbee
+    ghenv.Component.Message = dewbee.component_message()
+except ImportError:
+    ghenv.Component.Message = '?'
 ghenv.Component.Category = 'Dewbee'
 ghenv.Component.SubCategory = "3 :: Results"
 

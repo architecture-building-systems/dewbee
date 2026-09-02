@@ -22,7 +22,11 @@ outputs have changed) will be circled in red and should be replaced manually.
 
 ghenv.Component.Name = 'DB Sync Grasshopper File'
 ghenv.Component.NickName = 'DBSyncGHFile'
-ghenv.Component.Message = '0.1.2'
+try:
+    import dewbee
+    ghenv.Component.Message = dewbee.component_message()
+except ImportError:
+    ghenv.Component.Message = '?'
 ghenv.Component.Category = 'Dewbee'
 ghenv.Component.SubCategory = '0 :: Miscellaneous'
 ghenv.Component.AdditionalHelpFromDocStrings = '1'

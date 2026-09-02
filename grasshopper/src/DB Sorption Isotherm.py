@@ -21,7 +21,11 @@ building components: one- and two-dimensional calculation using simple parameter
 
 ghenv.Component.Name = "DB Sorption Isotherm"
 ghenv.Component.NickName = 'GenSorption'
-ghenv.Component.Message = '0.1.2'
+try:
+    import dewbee
+    ghenv.Component.Message = dewbee.component_message()
+except ImportError:
+    ghenv.Component.Message = '?'
 ghenv.Component.Category = 'Dewbee'
 ghenv.Component.SubCategory = "1 :: Constructions"
 

@@ -123,7 +123,11 @@ for more information on the required inputs.
 
 ghenv.Component.Name = "DB Hygrothermal Material"
 ghenv.Component.NickName = 'HygroMat'
-ghenv.Component.Message = '0.1.2'
+try:
+    import dewbee
+    ghenv.Component.Message = dewbee.component_message()
+except ImportError:
+    ghenv.Component.Message = '?'
 ghenv.Component.Category = 'Dewbee'
 ghenv.Component.SubCategory = "0 :: Constructions"
 
