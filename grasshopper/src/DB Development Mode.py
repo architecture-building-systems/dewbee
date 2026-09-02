@@ -428,12 +428,11 @@ def write_dev_info(repo_dir, package_source, junction):
 
 def current_status():
     if os.path.isfile(DEV_INFO_FILE):
-        ghenv.Component.Message = '0.1.2'
         return (
             "Dewbee development mode is configured. Run this component again "
             "to refresh local Grasshopper components and materials."
         )
-    ghenv.Component.Message = '0.1.2'
+
     return "Set _run to True to activate or refresh Dewbee development mode."
 
 
@@ -479,7 +478,7 @@ if _run:
             "Run DB Installer and Updater to return to release mode.",
         ])
         report = "\n".join(lines)
-        ghenv.Component.Message = '0.1.2'
+        ghenv.Component.Message = dewbee.component_message()
         print(report)
 
     except Exception as error:

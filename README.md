@@ -85,6 +85,6 @@ Run `DB Installer and Updater`. It installs the requested/latest PyPI package an
 
 1. Finish and test backend, component, and material changes in development mode.
 2. Run the version-bump script so `pyproject.toml` and `dewbee/__init__.py` contain the new numeric version.
-3. Run `DB Save Compos` again. This stores the new numeric version in the `.ghuser` metadata while retaining the dynamic runtime message code.
-4. Review the generated files under `grasshopper/src` and `grasshopper/user_objects`.
+3. Run `DB Save Compos` again. This stores the new numeric version in the `.ghuser` metadata while retaining the dynamic runtime message code. --> Maybe this step is unecessary now that versioning of comps is dynamic.
+4. Review the generated files under `grasshopper/src` and `grasshopper/user_objects`. 
 5. Run the release script and verify the resulting release with `DB Installer and Updater`.
