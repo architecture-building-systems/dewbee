@@ -27,6 +27,19 @@ try:
     ghenv.Component.Message = dewbee.component_message()
 except ImportError:
     ghenv.Component.Message = 'DEV'
+
+try:
+    import dewbee
+    component_message = getattr(dewbee, "component_message", None)
+
+    if component_message is None:
+        ghenv.Component.Message = getattr(dewbee, "__version__", "DEV")
+    else:
+        ghenv.Component.Message = component_message()
+
+except Exception:
+    ghenv.Component.Message = "DEV"
+
 ghenv.Component.Category = "Dewbee"
 ghenv.Component.SubCategory = "0 :: Miscellaneous"
 
@@ -478,7 +491,6 @@ if _run:
             "Run DB Installer and Updater to return to release mode.",
         ])
         report = "\n".join(lines)
-        ghenv.Component.Message = dewbee.component_message()
         print(report)
 
     except Exception as error:
