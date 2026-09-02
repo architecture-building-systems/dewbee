@@ -6,7 +6,7 @@ from .hygro_material import HygroMaterial
 import os
 
 def just_a_placeholder():
-    print("YAY")
+    print("BOOOH")
 
 # Function to check if a material is hygrothermal
 def material_ishygro(material):
