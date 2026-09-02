@@ -1,21 +1,18 @@
 """
-Install or update Dewbee. Please update your Ladybug Tools version using the
-"LB Versioner" grasshopper component BEFORE installing dewbee.
+Install or update a coherent released version of Dewbee.
 
-When _run is "True", it installs or updates the Dewbee Python package into the Ladybug Tools Python environment,
-installs Dewbee .ghuser components into the Grasshopper UserObjects folder, and Dewbee material
-library into the custom constructions folder.
+The installed Python package determines the GitHub release tag used for the
+Grasshopper components and dewbee_materials.json:
 
-Only works with Rhino 8.0 and LBT version 1.10 or higher.
+    PyPI dewbee X  ->  GitHub tag vX
+
+The component clears a DB Development Mode path override only after the full
+release installation succeeds.
 -
-
     Args:
-       _run: Set to True to install or update Dewbee.
-       _dewbee_ver: Optional version string for dewbee package (format: "0.1.0").
-                    If empty, the latest version will be installed.
-       _github_ref: Optional GitHub ref to download GH components from.
-                    Can be a branch name like "main" or a tag like "v0.1.0".
-                    If empty, the latest released version will be used.
+        _run: Set to True to install or update Dewbee.
+        _dewbee_ver: Optional released version, for example "0.1.2". If empty,
+                     the latest PyPI version is installed.
 """
 
 ghenv.Component.Name = "DB Installer and Updater"
@@ -30,32 +27,42 @@ except Exception:
     pass
 
 
+import io
 import os
+import re
 import shutil
-import zipfile
 import subprocess
-import System.Net
-import System.Windows.Forms
+import sys
+import tempfile
+import xml.etree.ElementTree as ElementTree
+from xml.sax.saxutils import escape as xml_escape
+
 import Rhino
+import System.Windows.Forms
 from Grasshopper.Folders import UserObjectFolders
- 
 from Grasshopper.Kernel import GH_RuntimeMessageLevel as Message
 
-# Import ladybug dependencies
-try:
-    from ladybug.futil import preparedir, nukedir, copy_file_tree, download_file_by_name, unzip_file
-except Exception as e:
-    raise ImportError("Failed to import ladybug.futil utilities:\n\t{}".format(e))
 
-# Get Ladybug Tools python executable and site-packages path, as well as standards dir.
 try:
-    from honeybee.config import folders as hb_folders
-except Exception as e:
+    from ladybug.futil import (
+        preparedir,
+        nukedir,
+        copy_file_tree,
+        download_file_by_name,
+        unzip_file,
+    )
+except Exception as error:
     raise ImportError(
-        "Failed to import honeybee.config.folders.\n"
-        "Ladybug Tools / Honeybee must already be installed.\n{}".format(e)
+        "Failed to import ladybug.futil utilities:\n\t{}".format(error)
     )
 
+try:
+    from honeybee.config import folders as hb_folders
+except Exception as error:
+    raise ImportError(
+        "Failed to import honeybee.config.folders. Ladybug Tools / Honeybee "
+        "must already be installed.\n{}".format(error)
+    )
 
 
 # -----------------------------------------------------------------------------
@@ -65,47 +72,67 @@ except Exception as e:
 PY_EXE = hb_folders.python_exe_path
 PY_SITE = hb_folders.python_package_path
 
-# Always target the user-level AppData/ladybug_tools/standards folder so that
-# Dewbee materials are never written into the LBT install dir
-# (eg. C:\Program Files\ladybug_tools\resources\standards\honeybee_standards).
-# honeybee.config.folders.default_standards_folder would fall back to that
-# install dir if the AppData folder doesn't exist, which we explicitly avoid.
 APPDATA_DIR = os.getenv("APPDATA")
 if not APPDATA_DIR:
-    raise IOError("Could not resolve %APPDATA% to locate ladybug_tools standards folder.")
+    raise IOError("Could not resolve %APPDATA%.")
+
 STANDARDS_DIR = os.path.join(APPDATA_DIR, "ladybug_tools", "standards")
-
-if not PY_EXE or not os.path.isfile(PY_EXE):
-    raise IOError("Could not find Ladybug Tools python executable:\n{}".format(PY_EXE))
-if not PY_SITE or not os.path.isdir(PY_SITE):
-    raise IOError("Could not find Ladybug Tools site-packages:\n{}".format(PY_SITE))
-
 CONSTRUCTIONS_DIR = os.path.join(STANDARDS_DIR, "constructions")
-# honeybee_energy.config validates the standards_data_folder by asserting
-# that ALL of these subfolders exist (constructions, constructionsets,
-# schedules, programtypes). If any are missing, honeybee_energy will fail
-# to import on the next Rhino start. So create all four if needed.
-for sub in ("constructions", "constructionsets", "schedules", "programtypes"):
-    sub_dir = os.path.join(STANDARDS_DIR, sub)
-    if not os.path.isdir(sub_dir):
-        print("Standards subfolder not found. Creating it at:\n{}".format(sub_dir))
-        preparedir(sub_dir, remove_content=False)
+MATERIAL_TARGET = os.path.join(CONSTRUCTIONS_DIR, "dewbee_materials.json")
 
 PYPI_PACKAGE = "dewbee"
 PYPI_IMPORT_NAME = "dewbee"
-
 GITHUB_OWNER = "architecture-building-systems"
 GITHUB_REPO = "dewbee"
-_github_ref = None
-
-# relative path inside the downloaded repo zip
 REPO_GHUSER_SUBFOLDER = os.path.join("grasshopper", "user_objects")
-
-# target folder name inside Grasshopper UserObjects
+REPO_MATERIAL_FILE = os.path.join(
+    "resources", "standards", "dewbee_materials.json"
+)
 GHUSER_TARGET_FOLDER_NAME = "dewbee"
+
+RHINO_SCRIPTS_DIR = os.path.join(
+    APPDATA_DIR, "McNeel", "Rhinoceros", "8.0", "scripts"
+)
+DEV_PTH_FILES = (
+    os.path.join(RHINO_SCRIPTS_DIR, "python-2_dewbee-dev.pth"),
+    os.path.join(RHINO_SCRIPTS_DIR, "python-3_dewbee-dev.pth"),
+)
+DEV_INFO_DIR = os.path.join(APPDATA_DIR, "ladybug_tools", "dewbee", "dev_mode")
+DEV_INFO_FILE = os.path.join(DEV_INFO_DIR, "active.json")
+
+IRONPYTHON_ID = "814d908a-e25c-493d-97e9-ee3861957f49"
+IRONPYTHON_SETTINGS_DIR = os.path.join(
+    APPDATA_DIR,
+    "McNeel",
+    "Rhinoceros",
+    "8.0",
+    "Plug-ins",
+    "IronPython ({})".format(IRONPYTHON_ID),
+    "settings",
+)
+IRONPYTHON_DEFAULT_SETTINGS = os.path.join(
+    IRONPYTHON_SETTINGS_DIR, "settings-Scheme__Default.xml"
+)
 
 CUSTOM_ENV = os.environ.copy()
 CUSTOM_ENV["PYTHONHOME"] = ""
+
+
+if not PY_EXE or not os.path.isfile(PY_EXE):
+    raise IOError("Could not find Ladybug Tools Python executable:\n{}".format(PY_EXE))
+if not PY_SITE or not os.path.isdir(PY_SITE):
+    raise IOError("Could not find Ladybug Tools site-packages:\n{}".format(PY_SITE))
+
+for subfolder in (
+    "constructions",
+    "constructionsets",
+    "schedules",
+    "programtypes",
+):
+    folder = os.path.join(STANDARDS_DIR, subfolder)
+    if not os.path.isdir(folder):
+        preparedir(folder, remove_content=False)
+
 
 # -----------------------------------------------------------------------------
 # UI HELPERS
@@ -120,374 +147,417 @@ def give_error(message):
 
 
 def give_popup_message(message, window_title=""):
-    icon = System.Windows.Forms.MessageBoxIcon.Information
-    buttons = System.Windows.Forms.MessageBoxButtons.OK
-    Rhino.UI.Dialogs.ShowMessageBox(str(message), window_title, buttons, icon)
+    Rhino.UI.Dialogs.ShowMessageBox(
+        str(message),
+        window_title,
+        System.Windows.Forms.MessageBoxButtons.OK,
+        System.Windows.Forms.MessageBoxIcon.Information,
+    )
 
 
 # -----------------------------------------------------------------------------
-# FILE HELPERS
+# FILE / ADMIN HELPERS
 # -----------------------------------------------------------------------------
+
 def remove_dist_info_files(directory, startswith_name=None):
-    """Remove .dist-info folders, optionally filtering by prefix."""
     if not os.path.isdir(directory):
         return
+    normalized = None
+    if startswith_name is not None:
+        normalized = startswith_name.lower().replace("-", "_")
 
     for name in os.listdir(directory):
         if not name.endswith(".dist-info"):
             continue
-        if startswith_name is not None:
-            if not name.lower().startswith(startswith_name.lower().replace("-", "_")):
-                continue
-        full_path = os.path.join(directory, name)
-        print("Removing dist-info folder: {}".format(full_path))
-        nukedir(full_path, rmdir=True)
+        if normalized is not None and not name.lower().startswith(normalized):
+            continue
+        nukedir(os.path.join(directory, name), rmdir=True)
 
 
 def remove_existing_package(site_dir, package_name):
-    """Remove any existing package folder and its dist-info from site_dir.
-
-    This is needed because ``pip install --target --upgrade`` does not
-    uninstall the previous version at the target first; it installs over it.
-    If the previous install left files or a stale dist-info, or if another
-    copy of the package exists earlier on sys.path, ``import`` can resolve to
-    the wrong version. Wiping the target package dir + dist-info prior to
-    install avoids that whole class of problem.
-    """
-    if not site_dir or not os.path.isdir(site_dir):
-        return
-
-    pkg_dir = os.path.join(site_dir, package_name)
-    if os.path.isdir(pkg_dir):
-        print("Removing existing package folder: {}".format(pkg_dir))
-        nukedir(pkg_dir, rmdir=True)
-
+    package_dir = os.path.join(site_dir, package_name)
+    if os.path.isdir(package_dir):
+        nukedir(package_dir, rmdir=True)
     remove_dist_info_files(site_dir, startswith_name=package_name)
 
-
-# -----------------------------------------------------------------------------
-# DOWNLOAD HELPERS
-# -----------------------------------------------------------------------------
-
-def build_github_zip_url(owner, repo, ref):
-    """
-    Build GitHub archive URL.
-    GitHub supports archive/refs/heads/<branch>.zip and archive/refs/tags/<tag>.zip.
-    We try tag-style if ref starts with 'v', otherwise branch-style.
-    """
-    if ref and ref.startswith("v"):
-        return "https://github.com/{}/{}/archive/refs/tags/{}.zip".format(owner, repo, ref)
-    return "https://github.com/{}/{}/archive/refs/heads/{}.zip".format(owner, repo, ref or "main")
-
-
-def expected_unzipped_repo_folder(base_dir, repo, ref):
-    """Best-guess the name of the folder GitHub extracts from the archive zip.
-
-    - For branch archives the folder is ``repo-<branch>``.
-    - For tag archives, GitHub strips a leading ``v`` from the tag,
-      so ``v0.1.1`` becomes the folder ``repo-0.1.1``.
-    """
-    if not ref:
-        return os.path.join(base_dir, "{}-main".format(repo))
-    folder_ref = ref
-    if folder_ref[:1] in ("v", "V") and len(folder_ref) > 1 and folder_ref[1].isdigit():
-        folder_ref = folder_ref[1:]
-    return os.path.join(base_dir, "{}-{}".format(repo, folder_ref))
-
-def download_and_extract_repo(owner, repo, ref, temp_root):
-    """Download repo zip and return extracted repo directory."""
-    url = build_github_zip_url(owner, repo, ref)
-    zip_name = "{}_{}.zip".format(repo, ref or "main")
-    zip_path = os.path.join(temp_root, zip_name)
-
-    print("- " * 30)
-    print("Downloading repo from GitHub:")
-    print(url)
-
-    preparedir(temp_root, remove_content=True)
-
-    # This function downloads the file but does not return the path
-    download_file_by_name(url, temp_root, zip_name, mkdir=True)
-
-    if not os.path.isfile(zip_path):
-        raise IOError("Zip file was not downloaded successfully:\n{}".format(zip_path))
-
-    print("Downloaded zip to:")
-    print(zip_path)
-
-    unzip_file(zip_path, temp_root)
-
-    extracted_repo_dir = expected_unzipped_repo_folder(temp_root, repo, ref or "main")
-
-    if not os.path.isdir(extracted_repo_dir):
-        candidates = []
-        for name in os.listdir(temp_root):
-            full = os.path.join(temp_root, name)
-            if os.path.isdir(full) and name.startswith(repo + "-"):
-                candidates.append(full)
-        if len(candidates) == 1:
-            extracted_repo_dir = candidates[0]
-
-    if not os.path.isdir(extracted_repo_dir):
-        raise IOError("Could not locate extracted repo folder inside:\n{}".format(temp_root))
-
-    return zip_path, extracted_repo_dir
-
-# -----------------------------------------------------------------------------
-# LBT / PYTHON HELPERS
-# -----------------------------------------------------------------------------
-
-def run_pip_install(python_exe, package_name, version=None, target=None, env=None):
-    """Install or update a package with pip."""
-    if env is None:
-        env = os.environ
-
-    requirement = package_name if not version else "{}=={}".format(package_name, version)
-
-    cmds = [python_exe, "-m", "pip", "install", requirement, "--no-deps", "--no-user", "--upgrade"]
-    if target:
-        cmds.extend(["--target", target])
-
-    print("- " * 30)
-    print("Running pip command:")
-    print(" ".join(cmds))
-
-    use_shell = True if os.name == "nt" else False
-    process = subprocess.Popen(
-        cmds,
-        shell=use_shell,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        env=env
-    )
-    stdout, stderr = process.communicate()
-
-    try:
-        stdout = stdout.decode("utf-8")
-    except Exception:
-        stdout = str(stdout)
-
-    try:
-        stderr = stderr.decode("utf-8")
-    except Exception:
-        stderr = str(stderr)
-
-    return process.returncode, stdout, stderr
 
 def is_windows_user_admin():
     if os.name != "nt":
         return True
-
     try:
         import ctypes
         return ctypes.windll.shell32.IsUserAnAdmin() != 0
     except Exception:
         return False
 
+
 def ensure_admin():
     if os.name == "nt" and not is_windows_user_admin():
-        msg = (
-            "Dewbee installer needs administrator privileges to write into:\n"
-            "C:\\Program Files\\ladybug_tools\\python\\Lib\\site-packages\n\n"
-            "Please close Rhino, right-click Rhino, choose 'Run as administrator', "
-            "then run the installer again."
+        message = (
+            "Dewbee installer needs administrator privileges to write into "
+            "the Ladybug Tools Python site-packages folder.\n\nClose Rhino, "
+            "right-click Rhino, choose 'Run as administrator', and run the "
+            "installer again."
         )
-        give_error(msg)
-        give_popup_message(msg, "Administrator privileges required")
-        raise Exception(msg)
+        give_error(message)
+        give_popup_message(message, "Administrator privileges required")
+        raise Exception(message)
+
+
+def normalize_path(path):
+    path = os.path.abspath(os.path.expanduser(str(path)))
+    return os.path.normcase(path) if os.name == "nt" else path
+
+
+def read_development_state():
+    if not os.path.isfile(DEV_INFO_FILE):
+        return None
+    try:
+        import json
+        with open(DEV_INFO_FILE, "r") as stream:
+            return json.load(stream)
+    except Exception:
+        return None
+
+
+def read_development_repo():
+    state = read_development_state()
+    return state.get("repo") if state else None
+
+
+def remove_managed_development_junction(state):
+    """Remove only the junction recorded as created by DB Development Mode."""
+    if not state:
+        return None
+    junction = state.get("junction")
+    if not junction or not os.path.exists(junction):
+        return None
+
+    # Never use rmtree here. os.rmdir removes the junction itself without
+    # traversing into or deleting the source repository.
+    try:
+        os.rmdir(junction)
+    except Exception as error:
+        raise IOError(
+            "Could not remove the managed Dewbee development junction:\n{}\n{}"
+            .format(junction, error)
+        )
+    return junction
+
+
+def ironpython_settings_files():
+    if not os.path.isdir(IRONPYTHON_SETTINGS_DIR):
+        return []
+    settings_files = []
+    if os.path.isfile(IRONPYTHON_DEFAULT_SETTINGS):
+        settings_files.append(IRONPYTHON_DEFAULT_SETTINGS)
+    for name in os.listdir(IRONPYTHON_SETTINGS_DIR):
+        if not name.startswith("settings-Scheme") or not name.endswith(".xml"):
+            continue
+        path = os.path.join(IRONPYTHON_SETTINGS_DIR, name)
+        if normalize_path(path) != normalize_path(IRONPYTHON_DEFAULT_SETTINGS):
+            settings_files.append(path)
+    return settings_files
+
+
+def set_release_ironpython_search_paths(settings_file, dev_repo=None):
+    """Remove the dev repo and put LBT site-packages first."""
+    with io.open(settings_file, "r", encoding="utf-8") as stream:
+        contents = stream.read()
+    try:
+        root = ElementTree.fromstring(contents)
+    except Exception as error:
+        raise ValueError(
+            "Could not parse IronPython settings file:\n{}\n{}".format(
+                settings_file, error
+            )
+        )
+
+    existing_paths = ""
+    for entry in root.iter("entry"):
+        if entry.get("key") == "SearchPaths":
+            existing_paths = entry.text or ""
+            break
+
+    dev_norm = normalize_path(dev_repo) if dev_repo else None
+    lbt_norm = normalize_path(PY_SITE)
+    filtered = []
+    for path in existing_paths.split(";"):
+        path = path.strip()
+        if not path:
+            continue
+        path_norm = normalize_path(path)
+        if path_norm == lbt_norm or (dev_norm and path_norm == dev_norm):
+            continue
+        filtered.append(path)
+    new_paths = [PY_SITE] + filtered
+
+    entry_text = '<entry key="SearchPaths">{}</entry>'.format(
+        xml_escape(";".join(new_paths))
+    )
+    pattern = re.compile(
+        r'<entry\s+key=["\']SearchPaths["\']\s*>.*?</entry>',
+        re.DOTALL,
+    )
+    if pattern.search(contents):
+        updated = pattern.sub(lambda match: entry_text, contents, count=1)
+    else:
+        close_index = contents.find("</settings>")
+        if close_index == -1:
+            raise ValueError(
+                "IronPython settings file has no closing settings element:\n{}"
+                .format(settings_file)
+            )
+        updated = (
+            contents[:close_index]
+            + "    " + entry_text + "\n  "
+            + contents[close_index:]
+        )
+
+    with io.open(settings_file, "w", encoding="utf-8") as stream:
+        stream.write(updated)
+    return settings_file
+
+
+def use_release_in_current_session(dev_repo=None):
+    dev_norm = normalize_path(dev_repo) if dev_repo else None
+    lbt_norm = normalize_path(PY_SITE)
+    cleaned = []
+    for path in sys.path:
+        path_norm = normalize_path(path)
+        if path_norm == lbt_norm or (dev_norm and path_norm == dev_norm):
+            continue
+        cleaned.append(path)
+    sys.path[:] = [PY_SITE] + cleaned
+
+    for module_name in list(sys.modules.keys()):
+        if module_name == "dewbee" or module_name.startswith("dewbee."):
+            try:
+                del sys.modules[module_name]
+            except Exception:
+                pass
+
+
+def clear_development_override():
+    state = read_development_state()
+    dev_repo = state.get("repo") if state else None
+    settings_files = []
+    for settings_file in ironpython_settings_files():
+        settings_files.append(
+            set_release_ironpython_search_paths(settings_file, dev_repo)
+        )
+
+    removed_junction = remove_managed_development_junction(state)
+
+    for pth_file in DEV_PTH_FILES:
+        try:
+            if os.path.isfile(pth_file):
+                os.remove(pth_file)
+        except Exception as error:
+            give_warning(
+                "Could not remove development path file {}: {}".format(
+                    pth_file, error
+                )
+            )
+
+    try:
+        if os.path.isdir(DEV_INFO_DIR):
+            shutil.rmtree(DEV_INFO_DIR)
+    except Exception as error:
+        give_warning("Could not remove development-mode state: {}".format(error))
+
+    use_release_in_current_session(dev_repo)
+    return settings_files, removed_junction
+
 
 # -----------------------------------------------------------------------------
-# GH USER OBJECT INSTALL
+# PIP / VERSION
 # -----------------------------------------------------------------------------
+
+def decode_output(value):
+    try:
+        return value.decode("utf-8")
+    except Exception:
+        return str(value)
+
+
+def run_pip_install(python_exe, package_name, version=None, target=None, env=None):
+    requirement = (
+        package_name if not version
+        else "{}=={}".format(package_name, version)
+    )
+    commands = [
+        python_exe,
+        "-m",
+        "pip",
+        "install",
+        requirement,
+        "--no-deps",
+        "--no-user",
+        "--upgrade",
+    ]
+    if target:
+        commands.extend(["--target", target])
+
+    process = subprocess.Popen(
+        commands,
+        shell=False,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        env=env if env is not None else os.environ,
+    )
+    stdout, stderr = process.communicate()
+    return process.returncode, decode_output(stdout), decode_output(stderr)
+
+
+def verify_python_package():
+    init_path = os.path.join(PY_SITE, PYPI_IMPORT_NAME, "__init__.py")
+    if not os.path.isfile(init_path):
+        raise IOError("Could not find installed package file:\n{}".format(init_path))
+
+    with open(init_path, "r") as stream:
+        source = stream.read()
+
+    match = re.search(r"__version__\s*=\s*[\"']([^\"']+)[\"']", source)
+    if not match:
+        raise ValueError("Could not find __version__ in:\n{}".format(init_path))
+    return match.group(1).strip()
+
+
+# -----------------------------------------------------------------------------
+# GITHUB RELEASE ASSETS
+# -----------------------------------------------------------------------------
+
+def github_tag_zip_url(tag):
+    return "https://github.com/{}/{}/archive/refs/tags/{}.zip".format(
+        GITHUB_OWNER, GITHUB_REPO, tag
+    )
+
+
+def expected_unzipped_repo_folder(base_dir, tag):
+    folder_ref = tag
+    if (
+        folder_ref[:1] in ("v", "V")
+        and len(folder_ref) > 1
+        and folder_ref[1].isdigit()
+    ):
+        folder_ref = folder_ref[1:]
+    return os.path.join(base_dir, "{}-{}".format(GITHUB_REPO, folder_ref))
+
+
+def download_and_extract_release(tag, temp_root):
+    zip_name = "{}_{}.zip".format(GITHUB_REPO, tag)
+    zip_path = os.path.join(temp_root, zip_name)
+    preparedir(temp_root, remove_content=True)
+
+    url = github_tag_zip_url(tag)
+    print("Downloading released assets from {}".format(url))
+    download_file_by_name(url, temp_root, zip_name, mkdir=True)
+    if not os.path.isfile(zip_path):
+        raise IOError("Release archive was not downloaded:\n{}".format(zip_path))
+
+    unzip_file(zip_path, temp_root)
+    extracted = expected_unzipped_repo_folder(temp_root, tag)
+    if not os.path.isdir(extracted):
+        candidates = []
+        for name in os.listdir(temp_root):
+            full_path = os.path.join(temp_root, name)
+            if os.path.isdir(full_path) and name.startswith(GITHUB_REPO + "-"):
+                candidates.append(full_path)
+        if len(candidates) == 1:
+            extracted = candidates[0]
+
+    if not os.path.isdir(extracted):
+        raise IOError(
+            "Could not locate the extracted Dewbee release in:\n{}".format(temp_root)
+        )
+    return extracted
+
 
 def get_ghuser_target_folder():
     if not UserObjectFolders or len(UserObjectFolders) == 0:
-        raise IOError("Could not find Grasshopper UserObjects directory.")
-    base = UserObjectFolders[0]
-    target = os.path.join(base, GHUSER_TARGET_FOLDER_NAME)
-    return target
+        raise IOError("Could not find the Grasshopper UserObjects directory.")
+    return os.path.join(UserObjectFolders[0], GHUSER_TARGET_FOLDER_NAME)
 
-def install_ghuser_objects_from_repo(extracted_repo_dir, gh_target_folder):
-    """Copy grasshopper/user_objects/* to GH UserObjects/dewbee."""
-    source_ghuser_folder = os.path.join(extracted_repo_dir, REPO_GHUSER_SUBFOLDER)
 
-    if not os.path.isdir(source_ghuser_folder):
-        raise IOError(
-            "Could not find expected GH user objects folder in repo:\n{}".format(source_ghuser_folder)
-        )
+def install_release_assets(extracted_repo_dir):
+    gh_source = os.path.join(extracted_repo_dir, REPO_GHUSER_SUBFOLDER)
+    material_source = os.path.join(extracted_repo_dir, REPO_MATERIAL_FILE)
+    gh_target = get_ghuser_target_folder()
 
-    print("Copying .ghuser files from:\n{}\nTo:\n{}".format(source_ghuser_folder, gh_target_folder))
-    preparedir(gh_target_folder, remove_content=True)
-    copy_file_tree(source_ghuser_folder, gh_target_folder, overwrite=True)
+    if not os.path.isdir(gh_source):
+        raise IOError("Released .ghuser folder is missing:\n{}".format(gh_source))
+    if not os.path.isfile(material_source):
+        raise IOError("Released material file is missing:\n{}".format(material_source))
 
-def install_dewbee_materials_from_repo(extracted_repo_dir):
-    """Copy dewbee_materials.json into Honeybee standards/constructions."""
+    preparedir(gh_target, remove_content=True)
+    copy_file_tree(gh_source, gh_target, overwrite=True)
 
-    source_file = os.path.join(
-        extracted_repo_dir,
-        "resources",
-        "standards",
-        "dewbee_materials.json"
-    )
+    # The release material data always comes from the same tag as the backend.
+    shutil.copy2(material_source, MATERIAL_TARGET)
+    return gh_target, material_source
 
-    if not os.path.isfile(source_file):
-        raise IOError(
-            "Could not find dewbee_materials.json in repo:\n{}".format(source_file)
-        )
-
-    target_file = os.path.join(CONSTRUCTIONS_DIR, "dewbee_materials.json")
-
-    print("Installing Dewbee materials from:")
-    print(source_file)
-    print("To:")
-    print(target_file)
-    shutil.copyfile(source_file, target_file)
-
-def resolve_github_ref(user_github_ref, user_dewbee_ver, installed_version):
-    """Resolve which GitHub ref to use for GH assets/materials."""
-    if user_github_ref:
-        return user_github_ref
-
-    if user_dewbee_ver:
-        return "v{}".format(user_dewbee_ver)
-
-    if installed_version:
-        return "v{}".format(installed_version)
-
-    return "main"
 
 # -----------------------------------------------------------------------------
 # MAIN INSTALL
 # -----------------------------------------------------------------------------
 
-def verify_python_package(python_exe):
-    """Read __version__ directly from the installed package file.
+def install_dewbee(dewbee_version=None):
+    print("Ladybug Tools Python executable:\n{}".format(PY_EXE))
+    print("Ladybug Tools site-packages:\n{}".format(PY_SITE))
+    print("Custom constructions folder:\n{}".format(CONSTRUCTIONS_DIR))
 
-    We deliberately avoid ``import dewbee`` here: if another copy of dewbee
-    is earlier on sys.path (e.g. a stale install in the user site-packages),
-    ``import`` would return its version and mask the install we just did.
-    Reading the file at PY_SITE directly guarantees we verify the install
-    we actually performed.
-    """
-    init_path = os.path.join(PY_SITE, PYPI_IMPORT_NAME, "__init__.py")
-    if not os.path.isfile(init_path):
-        return 1, "", "Could not find {} after install.".format(init_path)
-
-    try:
-        with open(init_path, "r") as f:
-            src = f.read()
-    except Exception as e:
-        return 1, "", "Could not read {}: {}".format(init_path, e)
-
-    import re
-    match = re.search(r"__version__\s*=\s*[\"']([^\"']+)[\"']", src)
-    if not match:
-        return 1, "", "Could not find __version__ in {}".format(init_path)
-
-    return 0, match.group(1).strip(), ""
-
-def install_dewbee(dewbee_version=None, github_ref=None):
-    print("Ladybug Tools Python executable:")
-    print(PY_EXE)
-    print("Ladybug Tools site-packages:")
-    print(PY_SITE)
-    print("Ladybug Tools custom constructions folder")
-    print(CONSTRUCTIONS_DIR)
-
-    print("- " * 30)
-    print("Installing Dewbee Python package into Ladybug Tools site-packages...")
-
-    # Wipe any previous install at the target so --target --upgrade can't
-    # leave stale files, and so a stale copy cannot shadow the new one.
     remove_existing_package(PY_SITE, PYPI_IMPORT_NAME)
-
     returncode, stdout, stderr = run_pip_install(
         python_exe=PY_EXE,
         package_name=PYPI_PACKAGE,
         version=dewbee_version,
         target=PY_SITE,
-        env=CUSTOM_ENV
+        env=CUSTOM_ENV,
     )
-
     print(stdout)
     if stderr:
         print(stderr)
-
     if returncode != 0:
-        raise Exception("pip install failed for '{}'.\n{}".format(PYPI_PACKAGE, stderr))
+        raise Exception("pip install failed for Dewbee.\n{}".format(stderr))
 
-    check_code, check_out, check_err = verify_python_package(PY_EXE)
-    if check_code != 0:
-        raise Exception(
-            "Dewbee installation could not be verified from Ladybug Tools Python.\n{}".format(check_err)
-        )
-
-    installed_version = check_out.strip()
-    print("Verified Dewbee version in LBT Python: {}".format(installed_version))
-
-    effective_github_ref = resolve_github_ref(
-        user_github_ref=github_ref,
-        user_dewbee_ver=dewbee_version,
-        installed_version=installed_version
-    )
-
-    print("Using GitHub ref for GH assets/materials: {}".format(effective_github_ref))
-
-    home_folder = os.getenv("HOME") or os.path.expanduser("~")
-    temp_root = os.path.join(home_folder, "dewbee_installer_temp")
-    gh_target = get_ghuser_target_folder()
-
-    zip_path = None
-    extracted_repo_dir = None
+    installed_version = verify_python_package()
+    github_tag = "v{}".format(installed_version)
+    temp_root = os.path.join(tempfile.gettempdir(), "dewbee_release_installer")
 
     try:
-        zip_path, extracted_repo_dir = download_and_extract_repo(
-            owner=GITHUB_OWNER,
-            repo=GITHUB_REPO,
-            ref=effective_github_ref,
-            temp_root=temp_root
-        )
+        extracted_repo_dir = download_and_extract_release(github_tag, temp_root)
+        gh_target, material_source = install_release_assets(extracted_repo_dir)
 
-        install_ghuser_objects_from_repo(
-            extracted_repo_dir=extracted_repo_dir,
-            gh_target_folder=gh_target
-        )
-
-        install_dewbee_materials_from_repo(
-            extracted_repo_dir=extracted_repo_dir
-        )
-
+        # Clear the local-repo import only after backend + both assets succeeded.
+        ironpython_files, removed_junction = clear_development_override()
     finally:
-        try:
-            if zip_path and os.path.isfile(zip_path):
-                os.remove(zip_path)
-        except Exception:
-            pass
-
-        try:
-            if extracted_repo_dir and os.path.isdir(extracted_repo_dir):
-                nukedir(extracted_repo_dir, rmdir=True)
-        except Exception:
-            pass
-
         try:
             if os.path.isdir(temp_root):
                 nukedir(temp_root, rmdir=True)
         except Exception:
             pass
-    
-    success_lines = [
-        "Dewbee has been successfully installed.",
-        "Verified Dewbee in Ladybug Tools Python: {}".format(check_out),
-        "Grasshopper user objects installed to:",
-        gh_target,
-        "",
-        "RESTART RHINO to load the new components and library."
-    ]
 
-    success_msg = "\n".join(success_lines)
-    print(success_msg)
-    give_popup_message(success_msg, "Dewbee Installation Successful")
+    success_message = "\n".join([
+        "Dewbee has been installed in RELEASE mode.",
+        "Python package: dewbee {}".format(installed_version),
+        "Grasshopper components: GitHub tag {} -> {}".format(
+            github_tag, gh_target
+        ),
+        "Materials: GitHub tag {} -> {}".format(
+            github_tag, MATERIAL_TARGET
+        ),
+        "",
+        "Any DB Development Mode override has been cleared.",
+        "Development package junction removed:",
+        removed_junction if removed_junction else "No managed junction found.",
+        "Legacy IronPython release paths restored in:",
+        "\n".join(ironpython_files) if ironpython_files else "No settings files found.",
+        "Restart Rhino to load the released package and components.",
+    ])
+    print(success_message)
+    give_popup_message(success_message, "Dewbee Installation Successful")
+
 
 # -----------------------------------------------------------------------------
 # EXECUTION
@@ -495,17 +565,13 @@ def install_dewbee(dewbee_version=None, github_ref=None):
 
 if _run:
     ensure_admin()
-
     try:
-        install_dewbee(
-            dewbee_version=_dewbee_ver if _dewbee_ver else None,
-            github_ref=_github_ref if _github_ref else None
-        )
-    except Exception as e:
-        msg = "Dewbee installation failed:\n{}".format(e)
-        print(msg)
-        give_error(msg)
+        install_dewbee(_dewbee_ver if _dewbee_ver else None)
+    except Exception as error:
+        message = "Dewbee installation failed:\n{}".format(error)
+        print(message)
+        give_error(message)
 else:
-    print("Set _run to True to install Dewbee.")
-    print("Optional:")
-    print("  _dewbee_ver  -> specific PyPI version, eg. 0.1.0")
+    print("Set _run to True to install/update Dewbee RELEASE mode.")
+    print("Optional: _dewbee_ver -> released PyPI version, for example 0.1.2")
+    print("Grasshopper components and materials come from the matching Git tag.")

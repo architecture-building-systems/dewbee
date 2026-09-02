@@ -2,9 +2,9 @@
 Activate or refresh Dewbee development mode from a local repository.
 
 This component uses the local checkout as the source of truth for:
-1. the Dewbee Python package;
-2. Grasshopper .ghuser components; and
-3. dewbee_materials.json.
+  1. the Dewbee Python package;
+  2. Grasshopper .ghuser components; and
+  3. dewbee_materials.json.
 
 Run DB Installer and Updater to return to a coherent released installation.
 -
@@ -21,7 +21,7 @@ Run DB Installer and Updater to return to a coherent released installation.
 """
 
 ghenv.Component.Name = "DB Development Mode"
-ghenv.Component.NickName = "DevMode"
+ghenv.Component.NickName = "DBDevMode"
 ghenv.Component.Message = '0.1.2'
 ghenv.Component.Category = "Dewbee"
 ghenv.Component.SubCategory = "0 :: Miscellaneous"
@@ -76,6 +76,7 @@ DEV_PTH_FILES = (
 
 DEV_INFO_DIR = os.path.join(APPDATA_DIR, "ladybug_tools", "dewbee", "dev_mode")
 DEV_INFO_FILE = os.path.join(DEV_INFO_DIR, "active.json")
+DEV_PACKAGE_JUNCTION = os.path.join(RHINO_SCRIPTS_DIR, "dewbee")
 
 # Legacy GhPython / Grasshopper IronPython stores its paths here. This is
 # separate from Rhino 8 Script Editor's python-2*.pth path system.
@@ -227,6 +228,71 @@ def write_dev_paths(repo_dir):
             stream.write(repo_dir + "\n")
 
 
+def read_dev_info():
+    if not os.path.isfile(DEV_INFO_FILE):
+        return None
+    try:
+        with open(DEV_INFO_FILE, "r") as stream:
+            return json.load(stream)
+    except Exception:
+        return None
+
+
+def create_dev_package_junction(repo_dir):
+    """Expose local dewbee through Rhino's existing pre-LBT scripts path."""
+    if os.name != "nt":
+        raise EnvironmentError(
+            "The Dewbee development package junction is currently Windows-only."
+        )
+
+    source = os.path.join(repo_dir, "dewbee")
+    target = DEV_PACKAGE_JUNCTION
+    state = read_dev_info()
+
+    if not os.path.isfile(os.path.join(source, "__init__.py")):
+        raise IOError("Local Dewbee package is missing:\n{}".format(source))
+
+    if os.path.exists(target):
+        managed = (
+            state
+            and state.get("junction")
+            and normalize_path(state.get("junction")) == normalize_path(target)
+        )
+        same_source = (
+            managed
+            and state.get("package_source")
+            and normalize_path(state.get("package_source")) == normalize_path(source)
+        )
+        if same_source and os.path.isfile(os.path.join(target, "__init__.py")):
+            return source, target
+        if not managed:
+            raise IOError(
+                "Development junction target already exists and was not created "
+                "by DB Development Mode. It was left untouched:\n{}".format(target)
+            )
+
+        # os.rmdir removes a Windows directory junction itself; it does not
+        # recurse into or delete the local repository that it points to.
+        os.rmdir(target)
+
+    ensure_dir(os.path.dirname(target))
+    code, out, err = run_process(
+        ["cmd.exe", "/d", "/c", "mklink", "/J", target, source]
+    )
+    if code != 0:
+        raise Exception(
+            "Could not create the Dewbee development junction.\n{}".format(
+                err or out
+            )
+        )
+    if not os.path.isfile(os.path.join(target, "__init__.py")):
+        raise IOError(
+            "The development junction was created but could not be verified:\n{}"
+            .format(target)
+        )
+    return source, target
+
+
 def ironpython_settings_files():
     """Return legacy IronPython settings files for Rhino and Rhino.Inside."""
     ensure_dir(IRONPYTHON_SETTINGS_DIR)
@@ -341,10 +407,19 @@ def use_repo_in_current_session(repo_dir):
                 pass
 
 
-def write_dev_info(repo_dir):
+def write_dev_info(repo_dir, package_source, junction):
     ensure_dir(DEV_INFO_DIR)
     with open(DEV_INFO_FILE, "w") as stream:
-        json.dump({"active": True, "repo": repo_dir}, stream, indent=2)
+        json.dump(
+            {
+                "active": True,
+                "repo": repo_dir,
+                "package_source": package_source,
+                "junction": junction,
+            },
+            stream,
+            indent=2,
+        )
 
 
 def current_status():
@@ -376,18 +451,18 @@ if _run:
             validate_repo(repo_dir)
 
         gh_source, gh_target, material_source = install_local_assets(repo_dir)
-        ironpython_files = configure_legacy_ironpython(repo_dir)
+        package_source, package_junction = create_dev_package_junction(repo_dir)
         write_dev_paths(repo_dir)
         use_repo_in_current_session(repo_dir)
-        write_dev_info(repo_dir)
+        write_dev_info(repo_dir, package_source, package_junction)
 
         lines = [
             "Dewbee DEVELOPMENT mode activated/refreshed.",
             "Python source: {}".format(repo_dir),
             "Grasshopper components: {} -> {}".format(gh_source, gh_target),
             "Materials: {} -> {}".format(material_source, MATERIAL_TARGET),
-            "Legacy IronPython repo path placed before LBT in:",
-            "\n".join(ironpython_files),
+            "Legacy IronPython package junction:",
+            "{} -> {}".format(package_junction, package_source),
         ]
         if sync_report:
             lines.append("Git: {}".format(sync_report))
@@ -395,7 +470,8 @@ if _run:
             "",
             "The repository material file was copied, not removed.",
             "The current IronPython session was updated immediately.",
-            "Restart Rhino to verify that the persistent path is loaded.",
+            "After restart, Rhino's existing scripts path resolves the junction",
+            "before Ladybug Tools site-packages.",
             "Run DB Installer and Updater to return to release mode.",
         ])
         report = "\n".join(lines)
