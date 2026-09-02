@@ -30,3 +30,5 @@ The current process of creating or editing a component is still very manual. Whi
  2. Select the component and create a User Object (File - Create User Object...). Make sure all properties match the old component when updating one.
  3. Got to your local Grasshoppers User Objects folder (File - Special Folders - User Object Folder). Move the GH User Object file to dewbee folder (replace existing one when updating a component).
  4. To update the local repo (creating src python and ghuser files): run SaveCompos component in Grasshopper.
+
+ When creating new materials, use the DB DEV Materials gh file. This script uses the component "DB Dump or Merge Objects" to update the dewbee_materials.json file in the local repo as well as in ladybug's custom materials folder.
