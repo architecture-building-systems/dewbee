@@ -89,13 +89,16 @@ to all remaining surfaces.
         html: The HTML file path containing all requested Summary Reports.
 """
 
+DEWBEE_COMPONENT_VERSION = "0.1.2"
 ghenv.Component.Name = 'DB Run HAMT Simulation'
 ghenv.Component.NickName = 'RunHAMT'
 try:
     import dewbee
-    ghenv.Component.Message = dewbee.component_message()
+    ghenv.Component.Message = dewbee.component_message(
+        DEWBEE_COMPONENT_VERSION
+    )
 except ImportError:
-    ghenv.Component.Message = '?'
+    ghenv.Component.Message = "?"
 ghenv.Component.Category = 'Dewbee'
 ghenv.Component.SubCategory = "2 :: Simulation"
 

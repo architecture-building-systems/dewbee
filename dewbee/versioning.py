@@ -104,11 +104,6 @@ def gather_canvas_components(component):
     return components
 
 
-def has_version_changed(user_object, component):
-    """Check if the version (Message) of a component differs from a user object."""
-    return not user_object.Message == component.Message
-
-
 def update_port(p1, p2):
     """Update one port based on another. Returns True if the port changed."""
     if hasattr(p1, 'TypeHint'):  # input
@@ -187,9 +182,12 @@ def sync_component(component, syncing_component):
             document. Typically, this can be accessed through the
             ``ghenv.Component`` call.
 
+    Synchronization is intentionally unconditional. Dewbee component messages
+    are derived dynamically from the imported backend and therefore cannot be
+    used to determine whether the serialized canvas component is current.
+
     Returns:
-        ``False`` if there was nothing to update, otherwise a string message
-        describing the update result.
+        A string describing the update result.
     """
     # locate the user object file on disk
     ghuser_file = '%s.ghuser' % component.Name
@@ -203,11 +201,8 @@ def sync_component(component, syncing_component):
     # load the instance of the user object from the file
     uo = gh.GH_UserObject(fp).InstantiateObject()
 
-    # check to see if the version of the userobject has changed
-    if not has_version_changed(uo, component):
-        return False
-
-    # the version has changed; update the code
+    # Always inject the installed code. The user explicitly requested a sync,
+    # and the runtime Message is not a reliable component-version identifier.
     component.Code = uo.Code
     doc = syncing_component.OnPingDocument()
 

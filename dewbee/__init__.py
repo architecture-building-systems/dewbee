@@ -34,6 +34,19 @@ def is_dev_mode():
         return False
 
 
-def component_message():
-    """Return the message displayed by Dewbee Grasshopper components."""
-    return "DEV" if is_dev_mode() else __version__
+def component_message(component_version=None):
+    backend_version = __version__
+
+    if is_dev_mode(): 
+        if component_version:
+            return "DEV | {}".format(component_version)
+        return "DEV"
+
+    if component_version is None:
+        return backend_version
+
+    if component_version == backend_version:
+        return component_version
+
+    return "{} | py {}".format(component_version, backend_version)
+    

@@ -4,15 +4,17 @@ Export all installed Dewbee user objects to a local Dewbee repository.
 The component:
   1. requires DB Development Mode to be active for the selected repository;
   2. loads every ``DB*.ghuser`` from Grasshopper's Dewbee UserObjects folder;
-  3. replaces the first hardcoded component-message assignment with a runtime
-     call to ``dewbee.component_message()``;
+  3. stamps ``DEWBEE_COMPONENT_VERSION`` into every component and replaces its
+     metadata-message assignment with a runtime call to
+     ``dewbee.component_message(DEWBEE_COMPONENT_VERSION)``;
   4. writes the component code to ``grasshopper/src``;
   5. writes the modified user object to ``grasshopper/user_objects``; and
   6. copies the updated user object back to Grasshopper's local folder.
 
-The saved .ghuser metadata uses the numeric ``dewbee.__version__``. Therefore,
-``DEV`` is never baked into a release artifact; the dynamic component code
-changes the message to ``DEV`` only while development mode is active.
+The saved component source and .ghuser metadata use the selected repository's
+numeric ``dewbee.__version__``. Therefore, ``DEV`` is never baked into a
+release artifact; the dynamic component code changes the message to ``DEV``
+only while development mode is active.
 -
     Args:
         _run: Set to True to export the Dewbee components.
@@ -33,8 +35,24 @@ from Grasshopper.Folders import UserObjectFolders
 from Grasshopper.Kernel import GH_RuntimeMessageLevel as Message
 
 
+DEWBEE_COMPONENT_VERSION = "0.1.2"
+
 ghenv.Component.Name = "DB Save Compos"
 ghenv.Component.NickName = "SaveCompos"
+
+try:
+    import dewbee
+    reload(dewbee)
+try:
+    import dewbee
+    ghenv.Component.Message = dewbee.component_message(
+        DEWBEE_COMPONENT_VERSION
+    )
+except ImportError:
+    ghenv.Component.Message = "?"
+except ImportError:
+    ghenv.Component.Message = "?"
+
 ghenv.Component.Category = "Dewbee"
 ghenv.Component.SubCategory = "0 :: Miscellaneous"
 
@@ -67,7 +85,10 @@ DEV_INFO_FILE = os.path.join(
     "active.json",
 )
 
-DYNAMIC_MESSAGE_LINE = "ghenv.Component.Message = dewbee.component_message()"
+COMPONENT_VERSION_NAME = "DEWBEE_COMPONENT_VERSION"
+DYNAMIC_MESSAGE_START = (
+    "ghenv.Component.Message = dewbee.component_message("
+)
 
 
 # -----------------------------------------------------------------------------
@@ -80,13 +101,6 @@ except Exception as error:
     raise ImportError("Failed to import dewbee:\n\t{}".format(error))
 
 DEWBEE_VERSION = dewbee.__version__
-
-if hasattr(dewbee, "component_message"):
-    ghenv.Component.Message = dewbee.component_message()
-else:
-    # Allows the utility to perform the one-time migration after __init__.py
-    # has been edited but before Rhino has reloaded the module.
-    ghenv.Component.Message = DEWBEE_VERSION
 
 
 # -----------------------------------------------------------------------------
@@ -180,50 +194,72 @@ def validate_development_mode(repo_dir):
         )
 
 
-def fallback_message(component_name):
-    if component_name == "DB Installer and Updater":
-        return "INSTALL"
-    if component_name == "DB Development Mode":
-        return "DEV"
-    return "?"
-
-
-def dynamic_message_block(component_name):
+def dynamic_message_block():
     """Return a bootstrap-safe runtime message block."""
     return [
         "try:",
         "    import dewbee",
-        "    {}".format(DYNAMIC_MESSAGE_LINE),
+        "    {}".format(DYNAMIC_MESSAGE_START),
+        "        {}".format(COMPONENT_VERSION_NAME),
+        "    )",
         "except ImportError:",
-        "    ghenv.Component.Message = {!r}".format(
-            fallback_message(component_name)
-        ),
+        '    ghenv.Component.Message = "?"',
     ]
 
 
-def update_component_message(gh_component):
-    """Replace the hardcoded metadata message while leaving status messages.
+def update_component_message(gh_component, release_version):
+    """Stamp the component version and install its dynamic message block.
 
-    Only an unindented ``ghenv.Component.Message = ...`` assignment is treated
-    as the component metadata line. Indented runtime/status assignments remain
-    untouched. The operation is idempotent.
+    The version is stored as a literal in the component source, so it remains
+    tied to the serialized component even when a different Dewbee backend is
+    imported. Only the first metadata-message assignment near the component
+    header is migrated; later runtime/status assignments remain untouched. The
+    operation is idempotent.
     """
     if not hasattr(gh_component, "Code"):
         return False
 
     source = gh_component.Code
-    if DYNAMIC_MESSAGE_LINE in source:
-        gh_component.Message = dewbee.component_message()
-        return False
-
     lines = source.splitlines()
-    message_index = None
+
+    # Insert or update the immutable version carried by this component.
+    version_line = '{} = "{}"'.format(COMPONENT_VERSION_NAME, release_version)
+    version_index = None
     for index, line in enumerate(lines):
-        if re.match(r"^ghenv\.Component\.Message\s*=", line):
-            message_index = index
+        if re.match(
+            r"^{}\s*=".format(re.escape(COMPONENT_VERSION_NAME)), line
+        ):
+            version_index = index
             break
 
-    block = dynamic_message_block(gh_component.Name)
+    if version_index is None:
+        insert_index = 0
+        for index, line in enumerate(lines):
+            if re.match(r"^ghenv\.Component\.(Name|NickName)\s*=", line):
+                insert_index = index
+                break
+        lines.insert(insert_index, version_line)
+    else:
+        lines[version_index] = version_line
+
+    # Find the first component metadata message near the header. Dynamic calls
+    # may occupy multiple lines; hardcoded legacy assignments occupy one.
+    message_index = None
+    message_end_index = None
+    for index, line in enumerate(lines[:200]):
+        if re.match(r"^\s{0,4}ghenv\.Component\.Message\s*=", line):
+            message_index = index
+            if "dewbee.component_message(" in line and ")" not in line:
+                message_end_index = index
+                for end_index in range(index + 1, min(index + 6, len(lines))):
+                    if lines[end_index].strip() == ")":
+                        message_end_index = end_index
+                        break
+            else:
+                message_end_index = index
+            break
+
+    block = dynamic_message_block()
 
     if message_index is None:
         # Components should normally have a message line. If one is absent,
@@ -234,12 +270,30 @@ def update_component_message(gh_component):
                 insert_index = index + 1
         lines[insert_index:insert_index] = block
     else:
-        lines[message_index:message_index + 1] = block
+        # Replace the complete existing try/import/message/except bootstrap when
+        # present. This avoids nesting a new try block inside the old one.
+        block_start = message_index
+        block_end = message_end_index
+        if message_index >= 2 and \
+                lines[message_index - 1].strip() == "import dewbee" and \
+                lines[message_index - 2].strip() == "try:":
+            block_start = message_index - 2
+            search_end = min(message_end_index + 5, len(lines))
+            for end_index in range(message_end_index + 1, search_end):
+                if lines[end_index].strip().startswith("except ImportError"):
+                    block_end = end_index
+                    if end_index + 1 < len(lines) and \
+                            re.match(r"^\s+ghenv\.Component\.Message\s*=", 
+                                     lines[end_index + 1]):
+                        block_end = end_index + 1
+                    break
+        lines[block_start:block_end + 1] = block
 
     trailing_newline = source.endswith("\n") or source.endswith("\r")
-    gh_component.Code = "\n".join(lines) + ("\n" if trailing_newline else "")
-    gh_component.Message = dewbee.component_message()
-    return True
+    updated_source = "\n".join(lines) + ("\n" if trailing_newline else "")
+    gh_component.Code = updated_source
+    gh_component.Message = dewbee.component_message(release_version)
+    return updated_source != source
 
 
 class NamespaceComponentsOntoCanvas(object):
@@ -380,7 +434,7 @@ if _run:
                 )
 
             for component, user_object, _ in components.compos:
-                if update_component_message(component):
+                if update_component_message(component, repo_version):
                     changed_messages += 1
                 py_path = write_py_code(component, repo_py)
                 if py_path:
@@ -401,7 +455,9 @@ if _run:
             "Repository: {}".format(repo_dir),
             "Components exported: {}".format(len(ghuser_files)),
             "Python files written: {}".format(len(py_files)),
-            "Hardcoded messages migrated: {}".format(changed_messages),
+            "Component version/message blocks updated: {}".format(
+                changed_messages
+            ),
             "Runtime canvas message: {}".format(dewbee.component_message()),
             "Serialized .ghuser message: {}".format(repo_version),
             "Repository user objects: {}".format(repo_ghuser),

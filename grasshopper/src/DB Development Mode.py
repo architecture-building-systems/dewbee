@@ -20,13 +20,16 @@ Run DB Installer and Updater to return to a coherent released installation.
         report: Status and actions performed.
 """
 
+DEWBEE_COMPONENT_VERSION = "0.1.2"
 ghenv.Component.Name = "DB Development Mode"
 ghenv.Component.NickName = "DBDevMode"
 try:
     import dewbee
-    ghenv.Component.Message = dewbee.component_message()
+    ghenv.Component.Message = dewbee.component_message(
+        DEWBEE_COMPONENT_VERSION
+    )
 except ImportError:
-    ghenv.Component.Message = 'DEV'
+    ghenv.Component.Message = "?"
 
 try:
     import dewbee

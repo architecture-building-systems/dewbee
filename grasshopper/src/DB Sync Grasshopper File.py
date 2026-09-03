@@ -20,13 +20,16 @@ outputs have changed) will be circled in red and should be replaced manually.
         report: Errors, warnings, etc.
 """
 
+DEWBEE_COMPONENT_VERSION = "0.1.2"
 ghenv.Component.Name = 'DB Sync Grasshopper File'
 ghenv.Component.NickName = 'DBSyncGHFile'
 try:
     import dewbee
-    ghenv.Component.Message = dewbee.component_message()
+    ghenv.Component.Message = dewbee.component_message(
+        DEWBEE_COMPONENT_VERSION
+    )
 except ImportError:
-    ghenv.Component.Message = '?'
+    ghenv.Component.Message = "?"
 ghenv.Component.Category = 'Dewbee'
 ghenv.Component.SubCategory = '0 :: Miscellaneous'
 ghenv.Component.AdditionalHelpFromDocStrings = '1'

@@ -19,13 +19,16 @@ conductivity = _conductivity_dry*(1+_conductivity_supplement*w/_bulk_density)
         conductivity: A list of (moisture-dependent) thermal conductivities [W/m-K]
 """
 
+DEWBEE_COMPONENT_VERSION = "0.1.2"
 ghenv.Component.Name = "DB Wet Thermal Conductivity"
 ghenv.Component.NickName = 'WetConductivity'
 try:
     import dewbee
-    ghenv.Component.Message = dewbee.component_message()
+    ghenv.Component.Message = dewbee.component_message(
+        DEWBEE_COMPONENT_VERSION
+    )
 except ImportError:
-    ghenv.Component.Message = '?'
+    ghenv.Component.Message = "?"
 ghenv.Component.Category = 'Dewbee'
 ghenv.Component.SubCategory = "1 :: Constructions"
 

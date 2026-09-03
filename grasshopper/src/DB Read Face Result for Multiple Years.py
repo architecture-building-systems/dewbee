@@ -21,13 +21,16 @@ longer than 1 year.
             gain (positive) through each building surfaces (kWh).
 """
 
+DEWBEE_COMPONENT_VERSION = "0.1.2"
 ghenv.Component.Name = 'DB Read Face Result for Multiple Years'
 ghenv.Component.NickName = 'MultiyearFaceResult'
 try:
     import dewbee
-    ghenv.Component.Message = dewbee.component_message()
+    ghenv.Component.Message = dewbee.component_message(
+        DEWBEE_COMPONENT_VERSION
+    )
 except ImportError:
-    ghenv.Component.Message = '?'
+    ghenv.Component.Message = "?"
 ghenv.Component.Category = 'Dewbee'
 ghenv.Component.SubCategory = "3 :: Results"
 
