@@ -22,7 +22,7 @@ Run DB Installer and Updater to return to a coherent released installation.
 
 DEWBEE_COMPONENT_VERSION = "0.1.2"
 ghenv.Component.Name = "DB Development Mode"
-ghenv.Component.NickName = "DBDevMode"
+ghenv.Component.NickName = "DevMode"
 try:
     import dewbee
     ghenv.Component.Message = dewbee.component_message(
@@ -30,18 +30,6 @@ try:
     )
 except ImportError:
     ghenv.Component.Message = "?"
-
-try:
-    import dewbee
-    component_message = getattr(dewbee, "component_message", None)
-
-    if component_message is None:
-        ghenv.Component.Message = getattr(dewbee, "__version__", "DEV")
-    else:
-        ghenv.Component.Message = component_message()
-
-except Exception:
-    ghenv.Component.Message = "DEV"
 
 ghenv.Component.Category = "Dewbee"
 ghenv.Component.SubCategory = "0 :: Miscellaneous"
