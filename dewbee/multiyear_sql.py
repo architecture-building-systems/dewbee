@@ -411,3 +411,59 @@ class MultiYearSQLiteResult(SQLiteResult):
             data._validated_a_period = True
 
         return data_colls
+
+    def construction_layers_by_surface(self, surface_names=None):
+        """Get the ordered material layers of each surface's construction.
+
+        Reads the Surfaces, ConstructionLayers and Materials tables, which
+        EnergyPlus writes to the SQLite file whenever an Output:SQLite object
+        is present. Layers are ordered from the outside to the inside of the
+        construction (EnergyPlus LayerIndex 1 is the outside layer), matching
+        the direction of the HAMT cell origins.
+
+        Args:
+            surface_names: Optional iterable of surface names to restrict the
+                query to. If None, every surface in the file is returned.
+
+        Returns:
+            A dictionary mapping each surface name (str) to a list of
+            (material_name, thickness_in_meters, density_kg_m3) tuples ordered
+            outside to inside. Surfaces whose construction has no material
+            thickness data map to an empty list. An empty dictionary is
+            returned if the relevant tables are missing from the SQLite file.
+        """
+        query = (
+            'SELECT s.SurfaceName, cl.LayerIndex, m.Name, m.Thickness, '
+            'm.Density '
+            'FROM Surfaces s '
+            'JOIN ConstructionLayers cl '
+            'ON s.ConstructionIndex = cl.ConstructionIndex '
+            'JOIN Materials m ON cl.MaterialIndex = m.MaterialIndex'
+        )
+        params = ()
+        if surface_names is not None:
+            surface_names = tuple(surface_names)
+            if not surface_names:
+                return {}
+            placeholders = ','.join('?' for _ in surface_names)
+            query += ' WHERE s.SurfaceName IN ({})'.format(placeholders)
+            params = surface_names
+        query += ' ORDER BY s.SurfaceName, cl.LayerIndex'
+
+        conn = sqlite3.connect(self.file_path)
+        try:
+            c = conn.cursor()
+            c.execute(query, params)
+            rows = c.fetchall()
+        except sqlite3.OperationalError:
+            # Tables absent (e.g. a minimal SQLite output); no layer data.
+            return {}
+        finally:
+            conn.close()
+
+        layers_by_surface = {}
+        for surface_name, _layer_index, material_name, thickness, density in rows:
+            layers_by_surface.setdefault(surface_name, []).append(
+                (material_name, thickness, density)
+            )
+        return layers_by_surface

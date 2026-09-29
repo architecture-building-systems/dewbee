@@ -1,6 +1,6 @@
 """
-Parse all of the common Face-level comfort-related results per simulated year
-from an SQL result file that has been generated from an energy simulation.
+Parse all of the common Face-level comfort-related and HAMT related results per 
+simulated year from an SQL result file that has been generated from an energy simulation.
 
 _
 Note that this component only works in Windows, with hourly data for periods
@@ -19,6 +19,14 @@ longer than 1 year.
             of each surface (C).
         face_energy_flow: DataCollections for the heat loss (negative) or heat
             gain (positive) through each building surfaces (kWh).
+        face_indoor_rh: DataCollections for the indoor surface relative humidity
+            of each surface (%).
+        face_outdoor_rh: DataCollections for the outdoor surface relative humidity
+            of each surface (%).
+        face_indoor_pv: DataCollections for the indoor surface vapor pressure of
+            each surface (%).
+        face_avr_w: DataCollections for the dry-mass weighted average water content
+            ratio for all cells of each surface (kg water/kg dry material).
 """
 
 DEWBEE_COMPONENT_VERSION = "0.1.2"
@@ -68,15 +76,22 @@ face_outdoor_temp_output = 'Surface Outside Face Temperature'
 opaque_energy_flow_output = 'Surface Inside Face Conduction Heat Transfer Energy'
 window_loss_output = 'Surface Window Heat Loss Energy'
 window_gain_output = 'Surface Window Heat Gain Energy'
+face_indoor_rh_output = "HAMT Surface Inside Face Relative Humidity"
+face_outdoor_rh_output = "HAMT Surface Outside Face Relative Humidity"
+face_indoor_pv_output = "HAMT Surface Inside Face Vapor Pressure"
+face_avr_w_output = "HAMT Surface Outside Face Relative Humidity"
 
 all_output = [
     face_indoor_temp_output,
     face_outdoor_temp_output,
     opaque_energy_flow_output,
     window_loss_output,
-    window_gain_output
+    window_gain_output,
+    face_indoor_rh_output,
+    face_outdoor_rh_output,
+    face_indoor_pv_output,
+    face_avr_w_output,
 ]
-
 
 if all_required_inputs(ghenv.Component):
     assert os.path.isfile(_sql), 'No sql file found at: {}.'.format(_sql)
@@ -101,7 +116,13 @@ if all_required_inputs(ghenv.Component):
 
         # Combine opaque and window results
         face_energy_flow = opaque_energy_flow + window_energy_flow
-
+        
+        # HAMT outputs
+        face_indoor_rh = all_results[face_indoor_rh_output]
+        face_outdoor_rh = all_results[face_outdoor_rh_output]
+        face_indoor_pv = all_results[face_indoor_pv_output]
+        face_avr_w = all_results[face_avr_w_output]
+        
     else:
         raise NotImplementedError(
             'This multi-year component currently only works on Windows.'

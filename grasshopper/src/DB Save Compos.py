@@ -42,9 +42,6 @@ ghenv.Component.NickName = "SaveCompos"
 
 try:
     import dewbee
-    reload(dewbee)
-try:
-    import dewbee
     ghenv.Component.Message = dewbee.component_message(
         DEWBEE_COMPONENT_VERSION
     )

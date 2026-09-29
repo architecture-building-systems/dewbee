@@ -279,4 +279,3 @@ def turn_off_old_tag(component):
         component.ToggleObsolete(False)
     except Exception:
         pass  # older version of Rhino that does not have the Obsolete method
-
