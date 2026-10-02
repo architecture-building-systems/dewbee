@@ -48,6 +48,11 @@ to all remaining surfaces.
             _
             If run_hamt_ = "True", the HAMT algorithm will be run to all surfaces 
             that have constructions with hygrothermal material properties.
+        output_cells_: Set to "True" to output HAMT cell results, which include temperature,
+            relative humidity, and moisture content profiles for all HAMT surfaces. (Default: "False")
+            _
+            Note that setting this to "True" will slow down the result analysis and increase the size of 
+            result files by a large margin. This is because every surface has up to 10 cells per material layer.
         _write: Set to "True" to write out the honeybee JSONs (containing the Honeybee
             Model and Simulation Parameters) and write the OpenStudio Model file (OSM).
             This process will also write either an EnergyPlus Input Data File (IDF)
@@ -271,7 +276,7 @@ if all_required_inputs(ghenv.Component) and _write:
             warmup_days_ = 100 if warmup_days_ is None else warmup_days_
             sim_years_ = 1 if sim_years_ is None else sim_years_
             
-            # Add HAMT outputs
+            # Add HAMT general outputs
             hamt_outputs = [
                 "HAMT Surface Average Water Content Ratio",
                 "HAMT Surface Inside Face Temperature",
@@ -280,9 +285,12 @@ if all_required_inputs(ghenv.Component) and _write:
                 "HAMT Surface Outside Face Temperature",
                 "HAMT Surface Outside Face Relative Humidity",
                 ]
-            hamt_outputs.extend("HAMT Surface Temperature Cell {}".format(i+1) for i in range(99))
-            hamt_outputs.extend("HAMT Surface Water Content Cell {}".format (i+1) for i in range(99))
-            hamt_outputs.extend("HAMT Surface Relative Humidity Cell {}".format (i+1) for i in range(99))
+            # Add HAMT cell outputs only if requested (otherwise sql results are super heavy)
+            output_cells_ = False if output_cells_ is None else output_cells_
+            if output_cells_:
+                hamt_outputs.extend("HAMT Surface Temperature Cell {}".format(i+1) for i in range(99))
+                hamt_outputs.extend("HAMT Surface Water Content Cell {}".format (i+1) for i in range(99))
+                hamt_outputs.extend("HAMT Surface Relative Humidity Cell {}".format (i+1) for i in range(99))
             for hamt_output in hamt_outputs:
                 sim_par.output.add_output(hamt_output)
     else:

@@ -79,7 +79,7 @@ window_gain_output = 'Surface Window Heat Gain Energy'
 face_indoor_rh_output = "HAMT Surface Inside Face Relative Humidity"
 face_outdoor_rh_output = "HAMT Surface Outside Face Relative Humidity"
 face_indoor_pv_output = "HAMT Surface Inside Face Vapor Pressure"
-face_avr_w_output = "HAMT Surface Outside Face Relative Humidity"
+face_avr_w_output = "HAMT Surface Average Water Content Ratio"
 
 all_output = [
     face_indoor_temp_output,
