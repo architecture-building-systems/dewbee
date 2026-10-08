@@ -68,8 +68,19 @@ for more information on the required inputs.
             This list must have the same length as _suction_w
             _
             At least a datapoint at w = 0 is needed. The liquid coefficient at 
-            the highest entered w is used for all values above this threshold.
-            These coefficients are used when the rain flag is set in the epw. (Default: 0)
+            the highest entered w is used for all values above this threshold. (Default: 0)
+            _
+            EnergyPlus uses suction coefficients instead of
+            redistribution coefficients whenever the rain indicator
+            is active (e.g., hourly precipitation >= 0.8 mm). This behavior
+            can be disabled using rain_indicator_ in the "DB Run HAMT
+            Simulation" component.
+            _
+            Note that this switch applies to all HAMT surfaces, including
+            interior constructions, regardless of rain exposure. Therefore,
+            when rain indicators are enabled, it is recommended to use
+            identical suction and redistribution coefficients for interior
+            constructions to avoid artificial changes in liquid transport.
             
         _redist_w_: A list of moisture contents for the liquid redistribution [kg/m3].
             Required for capillary-active materials.

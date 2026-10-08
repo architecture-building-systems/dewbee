@@ -43,6 +43,25 @@ to all remaining surfaces.
             Note that when sim_years_ > 1, sql result files must be read with custom
             Dewbee results components, because Honeybee does not support multiple years
             results.
+
+        use_rain_: Set to "False" to disable weather-file rain indicators.
+            If True (default), EnergyPlus activates rain conditions when
+            indicated by the weather file (e.g., precipitation >= 0.8 mm/h).
+        
+            During rain:
+            - Wind-exposed outdoor surfaces are assumed wet, using
+              wet-bulb temperature and, for HAMT, saturated air (100% RH)
+              as exterior boundary conditions. The exterior convective
+              heat transfer coefficient is set to 1000 W/m2-K unless
+              overridden.
+            - All HAMT surfaces, including interior partitions, use the
+              suction liquid transport coefficient (Dws) instead of the
+              redistribution coefficient (Dww), regardless of their
+              exposure to rain.
+        
+            Rainfall intensity is not directly applied as a liquid water
+            flux to the surface.
+
         run_hamt_: Set to "False" to use the default EnergyPlus solver (CTF) for all 
             surfaces. This can be useful when comparing multiple models. (Default: "True")
             _
@@ -275,6 +294,7 @@ if all_required_inputs(ghenv.Component) and _write:
             # Assign default values for edit_idf()
             warmup_days_ = 100 if warmup_days_ is None else warmup_days_
             sim_years_ = 1 if sim_years_ is None else sim_years_
+            use_rain_ = True if use_rain_ is None else use_rain_
             
             # Add HAMT general outputs
             hamt_outputs = [
@@ -296,6 +316,7 @@ if all_required_inputs(ghenv.Component) and _write:
     else:
         warmup_days_ = 25
         sim_years_ = 1
+        use_rain_ = True
 # ------------------------------------------------------------------------------
     # Run the translation with IronPython
     add_str = '\n'.join(add_str_) if len(add_str_) != 0 and \
@@ -305,8 +326,8 @@ if all_required_inputs(ghenv.Component) and _write:
         schedule_directory=sch_directory, enforce_rooms=True,
         additional_measures=measures_, strings_to_inject=add_str)
         # ----------------------------------------------------------------------
-    # Edit idf to include warmup days and multiple years to simulation
-    idf = edit_idf(idf, warmup_days_, sim_years_)
+    # Edit idf to include warmup days, multiple years, and whether to use rain indicators in simulation
+    idf = edit_idf(idf, warmup_days_, sim_years_, use_rain_)
     # ----------------------------------------------------------------------
 
     if run_ > 0:

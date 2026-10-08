@@ -165,8 +165,13 @@ def generate_hygro_idf(model):
     return '\n\n'.join(idf_strings), msg
 
 # Function to edit an existing IDF file to modify warmup days and simulation years without using eppy
-def edit_idf(idf_path, warmup_days, years):
+def edit_idf(idf_path, warmup_days, years, use_rain_indicators=None):
+    # use_rain_indicators: True/False sets "Use Weather File Rain Indicators"
+    # in RunPeriod to Yes/No. None leaves the IDF value untouched.
     # ---- Input validation ----
+    if use_rain_indicators is not None and not isinstance(use_rain_indicators, bool):
+        raise ValueError("use_rain_indicators must be True, False or None. Got: {}".format(use_rain_indicators))
+
     if not isinstance(warmup_days, int) or warmup_days <= 0:
         raise ValueError("warmup_days must be a positive integer. Got: {}".format(warmup_days))
 
@@ -214,6 +219,19 @@ def edit_idf(idf_path, warmup_days, years):
                 parts[0] = "  {}".format(new_end_year)
                 line = ",".join(parts)
 
+        if inside_runperiod and use_rain_indicators is not None \
+                and "use weather file rain indicators" in stripped:
+            value = "Yes" if use_rain_indicators else "No"
+            code, sep, comment = line.partition("!")
+            terminator = ";" if ";" in code else ","
+            line = "  {}{}".format(value, terminator)
+            if sep:
+                line += "  !{}".format(comment)
+            else:
+                line += "\n"
+
+        # The RunPeriod object ends at the first line whose data part has ';'
+        if inside_runperiod and ";" in line.split("!")[0]:
             inside_runperiod = False
 
         new_lines.append(line)
