@@ -1,1047 +1,51 @@
 {
- "DB Stabilized Rammed Earth": {
-  "density": 1900.0, 
-  "type": "EnergyMaterial", 
-  "display_name": "DB Stabilized Rammed Earth", 
-  "user_data": {
-   "info": "Source: Allinson, D. & Hall, M. Hygrothermal analysis of a stabilised rammed earth test building in the UK. Energy and Buildings 42, 845–852 (2010).\r\n", 
-   "hygro_material": {
-    "conductivity_w": [
-     0.0, 
-     59.0, 
-     118.0, 
-     177.0, 
-     236.0, 
-     295.0
-    ], 
-    "diff_resist": [
-     14.340000000000000
-    ], 
-    "redist_coeff": [
-     0.0, 
-     5.0200781751165296e-11, 
-     6.176045405882679e-11, 
-     8.7238960131041573e-11, 
-     1.4148502642361641e-10, 
-     2.6345744773382193e-10, 
-     5.6326203545192707e-10, 
-     1.3826443402907428e-09, 
-     3.8968212086848341e-09, 
-     1.2609866253192591e-08, 
-     4.6850095472646118e-08
-    ], 
-    "identifier": "DB Stabilized Rammed Earth", 
-    "conductivity": [
-     0.64300000000000002, 
-     0.73065443684210529, 
-     0.81830887368421068, 
-     0.90596331052631573, 
-     0.99361774736842112, 
-     1.0812721842105264
-    ], 
-    "sorption_rh": [
-     0.32850000000000001, 
-     0.43049999999999999, 
-     0.58150000000000002, 
-     0.75580000000000003, 
-     0.80000000000000004, 
-     0.94059999999999999, 
-     1.0
-    ], 
-    "suction_coeff": [
-     0.0, 
-     5.0200781751165296e-10, 
-     6.1760454058826787e-10, 
-     8.723896013104157e-10, 
-     1.414850264236164e-09, 
-     2.6345744773382193e-09, 
-     5.6326203545192703e-09, 
-     1.3826443402907429e-08, 
-     3.8968212086848343e-08, 
-     1.2609866253192591e-07, 
-     4.6850095472646121e-07
-    ], 
-    "sorption_w": [
-     23.129999999999999, 
-     27.809999999999999, 
-     40.310000000000002, 
-     53.439999999999998, 
-     61.5, 
-     105.63000000000000, 
-     253.47000000000000
-    ], 
-    "initial_w": 0.032368421052631581, 
-    "type": "HygroMaterial", 
-    "suction_w": [
-     0.0, 
-     2.5347000000000004, 
-     10.138800000000002, 
-     22.812300000000000, 
-     40.555200000000006, 
-     63.367500000000000, 
-     91.249200000000002, 
-     124.20029999999998, 
-     162.22080000000003, 
-     205.31070000000003, 
-     253.47000000000000
-    ], 
-    "redist_w": [
-     0.0, 
-     2.5347000000000004, 
-     10.138800000000002, 
-     22.812300000000000, 
-     40.555200000000006, 
-     63.367500000000000, 
-     91.249200000000002, 
-     124.20029999999998, 
-     162.22080000000003, 
-     205.31070000000003, 
-     253.47000000000000
-    ], 
-    "porosity": 0.29499999999999998, 
-    "diff_rh": [
-     0.0
-    ]
-   }
-  }, 
-  "identifier": "DB Stabilized Rammed Earth", 
-  "solar_absorptance": 0.69999999999999996, 
-  "properties": {
-   "ph": {
-    "divisions": {
-     "column_widths": [], 
-     "row_heights": [], 
-     "steel_stud_spacing_mm": null, 
-     "cells": []
-    }, 
-    "id_num": 0, 
-    "user_data": {}
-   }, 
-   "type": "EnergyMaterialProperties"
-  }, 
-  "visible_absorptance": 0.69999999999999996, 
-  "conductivity": 0.64300000000000002, 
-  "specific_heat": 868.0, 
-  "roughness": "MediumRough", 
-  "thickness": 0.29999999999999999, 
-  "thermal_absorptance": 0.90000000000000002
- }, 
- "DB Plywood": {
-  "density": 530.0, 
-  "type": "EnergyMaterial", 
-  "display_name": "DB Plywood", 
-  "user_data": {
-   "info": "Source: EnergyPlus Reference DataSets, MoistureMaterials.idf", 
-   "hygro_material": {
-    "conductivity_w": [
-     0.0, 
-     500.0
-    ], 
-    "diff_resist": [
-     700.0, 
-     200.0, 
-     20.0
-    ], 
-    "redist_coeff": [
-     0.0
-    ], 
-    "identifier": "DB Plywood", 
-    "conductivity": [
-     0.10000000000000001, 
-     0.25
-    ], 
-    "sorption_rh": [
-     0.20150000000000001, 
-     0.20300000000000001, 
-     0.435, 
-     0.439, 
-     0.64949999999999997, 
-     0.65149999999999997, 
-     0.82150000000000001, 
-     0.82499999999999996, 
-     0.92149999999999999, 
-     0.92500000000000004, 
-     0.95750000000000002, 
-     0.96050000000000002
-    ], 
-    "suction_coeff": [
-     0.0
-    ], 
-    "sorption_w": [
-     3.7124999999999999, 
-     3.7400000000000002, 
-     5.8025000000000002, 
-     5.8300000000000001, 
-     7.7824999999999998, 
-     7.8099999999999996, 
-     10.367500000000000, 
-     10.367500000000000, 
-     13.117500000000000, 
-     13.117500000000000, 
-     14.712500000000000, 
-     15.345000000000001
-    ], 
-    "initial_w": 0.050000000000000003, 
-    "type": "HygroMaterial", 
-    "suction_w": [
-     0.0
-    ], 
-    "redist_w": [
-     0.0
-    ], 
-    "porosity": 0.5, 
-    "diff_rh": [
-     0.0, 
-     0.5, 
-     1.0
-    ]
-   }
-  }, 
-  "identifier": "DB Plywood", 
-  "solar_absorptance": 0.69999999999999996, 
-  "properties": {
-   "ph": {
-    "divisions": {
-     "column_widths": [], 
-     "row_heights": [], 
-     "steel_stud_spacing_mm": null, 
-     "cells": []
-    }, 
-    "id_num": 0, 
-    "user_data": {}
-   }, 
-   "type": "EnergyMaterialProperties"
-  }, 
-  "visible_absorptance": 0.69999999999999996, 
-  "conductivity": 0.14000000000000001, 
-  "specific_heat": 1880.0, 
-  "roughness": "Rough", 
-  "thickness": 0.025000000000000001, 
-  "thermal_absorptance": 0.90000000000000002
- }, 
- "DB OSB3": {
-  "density": 595.0, 
-  "type": "EnergyMaterial", 
-  "display_name": "DB OSB3", 
-  "user_data": {
-   "info": "Source: MASEA, OSB/3", 
-   "hygro_material": {
-    "conductivity_w": [
-     0
-    ], 
-    "diff_resist": [
-     165.0, 
-     165.0, 
-     117.0, 
-     96.0
-    ], 
-    "redist_coeff": [
-     0.0, 
-     2.4580730097392101e-15, 
-     3.0240904602589504e-15, 
-     4.2716413134512703e-15, 
-     6.9277910144508356e-15, 
-     1.2900150533497494e-14, 
-     2.758003278948961e-14, 
-     6.7700952383245677e-14, 
-     1.9080720862728752e-13, 
-     6.1744002408238393e-13, 
-     2.2940072080121217e-12
-    ], 
-    "identifier": "DB OSB3", 
-    "conductivity": [
-     0.13
-    ], 
-    "sorption_rh": [
-     0.0, 
-     0.80000000000000004, 
-     0.93000000000000005, 
-     0.98999999999999999, 
-     1.0
-    ], 
-    "suction_coeff": [
-     0.0, 
-     2.4580730097392101e-14, 
-     3.0240904602589503e-14, 
-     4.2716413134512701e-14, 
-     6.9277910144508356e-14, 
-     1.2900150533497493e-13, 
-     2.758003278948961e-13, 
-     6.7700952383245677e-13, 
-     1.9080720862728751e-12, 
-     6.1744002408238393e-12, 
-     2.2940072080121218e-11
-    ], 
-    "sorption_w": [
-     0.0, 
-     97.0, 
-     130.0, 
-     810.0, 
-     814.0
-    ], 
-    "initial_w": 0.15915966386554622, 
-    "type": "HygroMaterial", 
-    "suction_w": [
-     0.0, 
-     8.1400000000000023, 
-     32.560000000000009, 
-     73.259999999999991, 
-     130.24000000000004, 
-     203.5, 
-     293.03999999999996, 
-     398.85999999999996, 
-     520.96000000000015, 
-     659.34000000000003, 
-     814.0
-    ], 
-    "redist_w": [
-     0.0, 
-     8.1400000000000023, 
-     32.560000000000009, 
-     73.259999999999991, 
-     130.24000000000004, 
-     203.5, 
-     293.03999999999996, 
-     398.85999999999996, 
-     520.96000000000015, 
-     659.34000000000003, 
-     814.0
-    ], 
-    "porosity": 0.52200000000000002, 
-    "diff_rh": [
-     0.0, 
-     0.26000000000000001, 
-     0.63, 
-     0.71999999999999997
-    ]
-   }
-  }, 
-  "identifier": "DB OSB3", 
-  "solar_absorptance": 0.69999999999999996, 
-  "properties": {
-   "ph": {
-    "divisions": {
-     "column_widths": [], 
-     "row_heights": [], 
-     "steel_stud_spacing_mm": null, 
-     "cells": []
-    }, 
-    "id_num": 0, 
-    "user_data": {}
-   }, 
-   "type": "EnergyMaterialProperties"
-  }, 
-  "visible_absorptance": 0.69999999999999996, 
-  "conductivity": 0.13, 
-  "specific_heat": 1700.0, 
-  "roughness": "MediumRough", 
-  "thickness": 0.014999999999999999, 
-  "thermal_absorptance": 0.90000000000000002
- }, 
- "DB Softwood": {
-  "density": 400.0, 
-  "type": "EnergyMaterial", 
-  "display_name": "DB Softwood", 
-  "user_data": {
-   "info": "Source: MASEA, Weichholz", 
-   "hygro_material": {
-    "conductivity_w": [
-     0
-    ], 
-    "diff_resist": [
-     180.71428700000001, 
-     64.866076550000002, 
-     44.642871810000003, 
-     29.642856490000000, 
-     20.0, 
-     10.357143510000000
-    ], 
-    "redist_coeff": [
-     0.0, 
-     1.0000000000000001e-16, 
-     1.0000000000000001e-16, 
-     1.0000000000000001e-16, 
-     1.0000000000000001e-16, 
-     1.0000000000000001e-16, 
-     1.0000000000000001e-16, 
-     1.0000000000000001e-16, 
-     1.0000000000000001e-16, 
-     1.0000000000000001e-16, 
-     1.0000000000000001e-16
-    ], 
-    "identifier": "DB Softwood", 
-    "conductivity": [
-     0.089999999999999997
-    ], 
-    "sorption_rh": [
-     0.49913977199999998, 
-     0.79892467199999995, 
-     0.89913974600000002, 
-     0.96924724200000001, 
-     0.99935481900000001, 
-     1.0
-    ], 
-    "suction_coeff": [
-     0.0, 
-     1.0000000000000001e-15, 
-     1.0000000000000001e-15, 
-     1.0000000000000001e-15, 
-     1.0000000000000001e-15, 
-     1.0000000000000001e-15, 
-     1.0000000000000001e-15, 
-     1.0000000000000001e-15, 
-     1.0000000000000001e-15, 
-     1.0000000000000001e-15, 
-     1.0000000000000001e-15
-    ], 
-    "sorption_w": [
-     30.303692000000002, 
-     57.660924000000001, 
-     86.559384000000009, 
-     113.14596700000000, 
-     574.0, 
-     575.0
-    ], 
-    "initial_w": 0.14999999999999999, 
-    "type": "HygroMaterial", 
-    "suction_w": [
-     0.0, 
-     5.7500000000000009, 
-     23.000000000000004, 
-     51.75, 
-     92.000000000000014, 
-     143.75, 
-     207.0, 
-     281.74999999999994, 
-     368.00000000000006, 
-     465.75000000000006, 
-     575.0
-    ], 
-    "redist_w": [
-     0.0, 
-     5.7500000000000009, 
-     23.000000000000004, 
-     51.75, 
-     92.000000000000014, 
-     143.75, 
-     207.0, 
-     281.74999999999994, 
-     368.00000000000006, 
-     465.75000000000006, 
-     575.0
-    ], 
-    "porosity": 0.72999999999999998, 
-    "diff_rh": [
-     0.24937784900000001, 
-     0.49839551599999998, 
-     0.60055661000000005, 
-     0.69973803099999998, 
-     0.90022917899999999, 
-     0.99855930999999998
-    ]
-   }
-  }, 
-  "identifier": "DB Softwood", 
-  "solar_absorptance": 0.69999999999999996, 
-  "properties": {
-   "ph": {
-    "divisions": {
-     "column_widths": [], 
-     "row_heights": [], 
-     "steel_stud_spacing_mm": null, 
-     "cells": []
-    }, 
-    "id_num": 0, 
-    "user_data": {}
-   }, 
-   "type": "EnergyMaterialProperties"
-  }, 
-  "visible_absorptance": 0.69999999999999996, 
-  "conductivity": 0.089999999999999997, 
-  "specific_heat": 1500.0, 
-  "roughness": "MediumRough", 
-  "thickness": 0.02, 
-  "thermal_absorptance": 0.90000000000000002
- }, 
- "DB Lime Plaster": {
-  "density": 1600.0, 
-  "type": "EnergyMaterial", 
-  "display_name": "DB Lime Plaster", 
-  "user_data": {
-   "info": "Source: MASEA, Kalkputz", 
-   "hygro_material": {
-    "conductivity_w": [
-     0.0
-    ], 
-    "diff_resist": [
-     7.0
-    ], 
-    "redist_coeff": [
-     0.0, 
-     1.6287093439611617e-11, 
-     2.0037502426057393e-11, 
-     2.8303724477275578e-11, 
-     4.5903266150110653e-11, 
-     8.5475881428933051e-11, 
-     1.8274419406184673e-10, 
-     4.4858380245329056e-10, 
-     1.2642809320760609e-09, 
-     4.0911329019689126e-09, 
-     1.5199999999999997e-08
-    ], 
-    "identifier": "DB Lime Plaster", 
-    "conductivity": [
-     0.69999999999999996
-    ], 
-    "sorption_rh": [
-     0.0, 
-     0.5, 
-     0.80000000000000004, 
-     0.90000000000000002, 
-     0.93000000000000005, 
-     0.98999999999999999, 
-     1.0
-    ], 
-    "suction_coeff": [
-     0.0, 
-     1.6287093439611615e-10, 
-     2.0037502426057392e-10, 
-     2.8303724477275577e-10, 
-     4.5903266150110655e-10, 
-     8.5475881428933051e-10, 
-     1.8274419406184672e-09, 
-     4.4858380245329057e-09, 
-     1.2642809320760609e-08, 
-     4.0911329019689126e-08, 
-     1.5199999999999998e-07
-    ], 
-    "sorption_w": [
-     0.0, 
-     20.0, 
-     30.0, 
-     50.0, 
-     70.0, 
-     180.0, 
-     250.0
-    ], 
-    "initial_w": 0.018749999999999999, 
-    "type": "HygroMaterial", 
-    "suction_w": [
-     0.0, 
-     2.5000000000000004, 
-     10.000000000000002, 
-     22.5, 
-     40.000000000000007, 
-     62.5, 
-     90.0, 
-     122.49999999999999, 
-     160.00000000000003, 
-     202.5, 
-     250.0
-    ], 
-    "redist_w": [
-     0.0, 
-     2.5000000000000004, 
-     10.000000000000002, 
-     22.5, 
-     40.000000000000007, 
-     62.5, 
-     90.0, 
-     122.49999999999999, 
-     160.00000000000003, 
-     202.5, 
-     250.0
-    ], 
-    "porosity": 0.29999999999999999, 
-    "diff_rh": [
-     0.0
-    ]
-   }
-  }, 
-  "identifier": "DB Lime Plaster", 
-  "solar_absorptance": 0.69999999999999996, 
-  "properties": {
-   "ph": {
-    "divisions": {
-     "column_widths": [], 
-     "row_heights": [], 
-     "steel_stud_spacing_mm": null, 
-     "cells": []
-    }, 
-    "id_num": 0, 
-    "user_data": {}
-   }, 
-   "type": "EnergyMaterialProperties"
-  }, 
-  "visible_absorptance": 0.69999999999999996, 
-  "conductivity": 0.69999999999999996, 
-  "specific_heat": 850.0, 
-  "roughness": "MediumRough", 
-  "thickness": 0.029999999999999999, 
-  "thermal_absorptance": 0.64000000000000001
- }, 
- "DB Rammed Earth": {
-  "density": 1930.0, 
-  "type": "EnergyMaterial", 
-  "display_name": "DB Rammed Earth", 
-  "user_data": {
-   "info": "Source: Losini, A. E. et al. Extended hygrothermal characterization of unstabilized rammed earth for modern construction. Construction and Building Materials 409, 133904 (2023).\r\n", 
-   "hygro_material": {
-    "conductivity_w": [
-     0.0, 
-     6.2699999999999996, 
-     15.970000000000001, 
-     23.859999999999999, 
-     32.350000000000001, 
-     40.840000000000003, 
-     71.379999999999995
-    ], 
-    "diff_resist": [
-     20.5, 
-     18.600000000000001, 
-     18.0, 
-     15.100000000000000, 
-     13.800000000000001, 
-     12.699999999999999, 
-     7.0499999999999998
-    ], 
-    "redist_coeff": [
-     0.0, 
-     4.4099999999999998e-10, 
-     6.6399999999999998e-10, 
-     5.4399999999999998e-10, 
-     6.0399999999999998e-10, 
-     6.7500000000000005e-10, 
-     7.4200000000000002e-10, 
-     8.3400000000000002e-10, 
-     9.4200000000000006e-10
-    ], 
-    "identifier": "DB Rammed Earth", 
-    "conductivity": [
-     1.3400000000000001, 
-     1.3899999999999999, 
-     1.4399999999999999, 
-     1.5500000000000000, 
-     1.5700000000000001, 
-     1.6100000000000001, 
-     1.8600000000000001
-    ], 
-    "sorption_rh": [
-     0.089999999999999997, 
-     0.2293, 
-     0.35420000000000001, 
-     0.48509999999999998, 
-     0.58960000000000001, 
-     0.68079999999999996, 
-     0.7863, 
-     0.84199999999999997, 
-     0.89539999999999997, 
-     0.98360000000000003
-    ], 
-    "suction_coeff": [
-     0.0, 
-     4.4100000000000003e-09, 
-     6.6400000000000002e-09, 
-     5.4400000000000002e-09, 
-     6.0399999999999998e-09, 
-     6.7500000000000001e-09, 
-     7.4199999999999996e-09, 
-     8.3400000000000006e-09, 
-     9.4199999999999993e-09
-    ], 
-    "sorption_w": [
-     8.4920000000000009, 
-     13.124000000000001, 
-     17.177000000000000, 
-     21.809000000000001, 
-     26.440999999999999, 
-     31.652000000000001, 
-     40.143999999999998, 
-     46.320000000000000, 
-     54.426000000000002, 
-     75.656000000000006
-    ], 
-    "initial_w": 0.040000000000000001, 
-    "type": "HygroMaterial", 
-    "suction_w": [
-     0.0, 
-     51.460914000000002, 
-     55.788884000000003, 
-     60.427518999999997, 
-     64.906402000000000, 
-     69.578136000000001, 
-     73.607478999999998, 
-     78.499960999999999, 
-     84.139303999999996
-    ], 
-    "redist_w": [
-     0.0, 
-     51.460914000000002, 
-     55.788884000000003, 
-     60.427518999999997, 
-     64.906402000000000, 
-     69.578136000000001, 
-     73.607478999999998, 
-     78.499960999999999, 
-     84.139303999999996
-    ], 
-    "porosity": 0.25, 
-    "diff_rh": [
-     0.055, 
-     0.25, 
-     0.31, 
-     0.42499999999999999, 
-     0.47999999999999998, 
-     0.68000000000000005, 
-     0.88
-    ]
-   }
-  }, 
-  "identifier": "DB Rammed Earth", 
-  "solar_absorptance": 0.69999999999999996, 
-  "properties": {
-   "ph": {
-    "divisions": {
-     "column_widths": [], 
-     "row_heights": [], 
-     "steel_stud_spacing_mm": null, 
-     "cells": []
-    }, 
-    "id_num": 0, 
-    "user_data": {}
-   }, 
-   "type": "EnergyMaterialProperties"
-  }, 
-  "visible_absorptance": 0.69999999999999996, 
-  "conductivity": 1.3400000000000001, 
-  "specific_heat": 773.0, 
-  "roughness": "MediumRough", 
-  "thickness": 0.40000000000000002, 
-  "thermal_absorptance": 0.64000000000000001
- }, 
- "DB Cement Screed": {
-  "density": 2058.0, 
-  "type": "EnergyMaterial", 
-  "display_name": "DB Cement Screed", 
-  "user_data": {
-   "info": "Source: MASEA, Fliessestrich FE 50", 
-   "hygro_material": {
-    "conductivity_w": [
-     0
-    ], 
-    "diff_resist": [
-     83.700000000000003
-    ], 
-    "redist_coeff": [
-     0.0, 
-     1.1658255364880505e-10, 
-     1.4342787497568398e-10, 
-     2.0259725834861192e-10, 
-     3.2857427928701475e-10, 
-     6.1183393889862248e-10, 
-     1.3080777664360796e-09, 
-     3.2109501556800057e-09, 
-     9.0496871119094763e-09, 
-     2.928421346611712e-08, 
-     1.0880116959064326e-07
-    ], 
-    "identifier": "DB Cement Screed", 
-    "conductivity": [
-     0.96999999999999997
-    ], 
-    "sorption_rh": [
-     0.065699999999999995, 
-     0.22800000000000001, 
-     0.33000000000000002, 
-     0.58199999999999996, 
-     0.754, 
-     0.95999999999999996, 
-     0.97399999999999998, 
-     1.0
-    ], 
-    "suction_coeff": [
-     0.0, 
-     1.1658255364880505e-09, 
-     1.4342787497568397e-09, 
-     2.0259725834861193e-09, 
-     3.2857427928701472e-09, 
-     6.1183393889862246e-09, 
-     1.3080777664360796e-08, 
-     3.2109501556800057e-08, 
-     9.0496871119094766e-08, 
-     2.9284213466117119e-07, 
-     1.0880116959064326e-06
-    ], 
-    "sorption_w": [
-     4.5800000000000001, 
-     5.2999999999999998, 
-     7.0700000000000003, 
-     9.2699999999999996, 
-     15.150000000000000, 
-     29.030000000000001, 
-     36.769999999999996, 
-     152.0
-    ], 
-    "initial_w": 0.0073858114674441198, 
-    "type": "HygroMaterial", 
-    "suction_w": [
-     0.0, 
-     1.5200000000000002, 
-     6.0800000000000010, 
-     13.680000000000000, 
-     24.320000000000004, 
-     38.0, 
-     54.719999999999999, 
-     74.479999999999990, 
-     97.280000000000015, 
-     123.12000000000000, 
-     152.0
-    ], 
-    "redist_w": [
-     0.0, 
-     1.5200000000000002, 
-     6.0800000000000010, 
-     13.680000000000000, 
-     24.320000000000004, 
-     38.0, 
-     54.719999999999999, 
-     74.479999999999990, 
-     97.280000000000015, 
-     123.12000000000000, 
-     152.0
-    ], 
-    "porosity": 0.26500000000000001, 
-    "diff_rh": [
-     0.0
-    ]
-   }
-  }, 
-  "identifier": "DB Cement Screed", 
-  "solar_absorptance": 0.69999999999999996, 
-  "properties": {
-   "ph": {
-    "divisions": {
-     "column_widths": [], 
-     "row_heights": [], 
-     "steel_stud_spacing_mm": null, 
-     "cells": []
-    }, 
-    "id_num": 0, 
-    "user_data": {}
-   }, 
-   "type": "EnergyMaterialProperties"
-  }, 
-  "visible_absorptance": 0.69999999999999996, 
-  "conductivity": 0.96999999999999997, 
-  "specific_heat": 699.0, 
-  "roughness": "MediumRough", 
-  "thickness": 0.059999999999999998, 
-  "thermal_absorptance": 0.90000000000000002
- }, 
- "DB Vapor Retarder (Sd = 50)": {
-  "density": 130.0, 
-  "type": "EnergyMaterial", 
-  "display_name": "DB Vapor Retarder (Sd = 50)", 
-  "user_data": {
-   "info": "Source: TUM, PE Foil", 
-   "hygro_material": {
-    "conductivity_w": [
-     0
-    ], 
-    "diff_resist": [
-     50000.0
-    ], 
-    "redist_coeff": [
-     0
-    ], 
-    "identifier": "DB Vapor Retarder (Sd = 50)", 
-    "conductivity": [
-     2.2999999999999998
-    ], 
-    "sorption_rh": [
-     0.0
-    ], 
-    "suction_coeff": [
-     0
-    ], 
-    "sorption_w": [
-     0.0
-    ], 
-    "initial_w": 0, 
-    "type": "HygroMaterial", 
-    "suction_w": [
-     0
-    ], 
-    "redist_w": [
-     0
-    ], 
-    "porosity": 0.001, 
-    "diff_rh": [
-     0.0
-    ]
-   }
-  }, 
-  "identifier": "DB Vapor Retarder (Sd = 50)", 
-  "solar_absorptance": 0.69999999999999996, 
-  "properties": {
-   "ph": {
-    "divisions": {
-     "column_widths": [], 
-     "row_heights": [], 
-     "steel_stud_spacing_mm": null, 
-     "cells": []
-    }, 
-    "id_num": 0, 
-    "user_data": {}
-   }, 
-   "type": "EnergyMaterialProperties"
-  }, 
-  "visible_absorptance": 0.69999999999999996, 
-  "conductivity": 2.2999999999999998, 
-  "specific_heat": 2300.0, 
-  "roughness": "Rough", 
-  "thickness": 0.001, 
-  "thermal_absorptance": 0.90000000000000002
- }, 
- "DB PE Vapor Barrier (Sd = 50)": {
-  "user_data": {
-   "hygro_material": {
-    "redist_w": [
-     0
-    ], 
-    "initial_w": 0, 
-    "diff_resist": [
-     50000.0
-    ], 
-    "sorption_w": [
-     0.0
-    ], 
-    "type": "HygroMaterial", 
-    "suction_coeff": [
-     0
-    ], 
-    "redist_coeff": [
-     0
-    ], 
-    "conductivity": [
-     2.2999999999999998
-    ], 
-    "diff_rh": [
-     0.0
-    ], 
-    "suction_w": [
-     0
-    ], 
-    "identifier": "DB PE Vapor Barrier (Sd = 50)", 
-    "sorption_rh": [
-     0.0
-    ], 
-    "porosity": 0.001, 
-    "conductivity_w": [
-     0
-    ]
-   }, 
-   "info": "Source: TUM"
-  }, 
-  "roughness": "Rough", 
-  "type": "EnergyMaterial", 
-  "conductivity": 2.2999999999999998, 
-  "density": 130.0, 
+ "DB Concrete": {
+  "density": 2104.0, 
   "properties": {
    "type": "EnergyMaterialProperties", 
    "ph": {
-    "divisions": {
-     "steel_stud_spacing_mm": null, 
-     "column_widths": [], 
-     "row_heights": [], 
-     "cells": []
-    }, 
+    "user_data": {}, 
     "id_num": 0, 
-    "user_data": {}
+    "divisions": {
+     "cells": [], 
+     "steel_stud_spacing_mm": null, 
+     "row_heights": [], 
+     "column_widths": []
+    }
    }
   }, 
+  "thickness": 0.14999999999999999, 
   "solar_absorptance": 0.69999999999999996, 
-  "identifier": "DB PE Vapor Barrier (Sd = 50)", 
-  "display_name": "DB PE Vapor Barrier (Sd = 50)", 
-  "visible_absorptance": 0.69999999999999996, 
-  "thermal_absorptance": 0.90000000000000002, 
-  "specific_heat": 2300.0, 
-  "thickness": 0.001
- }, 
- "DB Vapor Retarder (Sd = 25)": {
-  "density": 121.0, 
-  "type": "EnergyMaterial", 
-  "display_name": "DB Vapor Retarder (Sd = 25)", 
   "user_data": {
-   "info": "Source: Ubakus, Majpell 25", 
    "hygro_material": {
-    "conductivity_w": [
-     0
+    "suction_w": [
+     0.0, 
+     1.4400000000000004, 
+     5.7600000000000016, 
+     12.959999999999999, 
+     23.040000000000006, 
+     36.0, 
+     51.839999999999996, 
+     70.559999999999988, 
+     92.160000000000025, 
+     116.64000000000001, 
+     144.0
     ], 
-    "diff_resist": [
-     59523.809523809519
-    ], 
-    "redist_coeff": [
-     0
-    ], 
-    "identifier": "DB Vapor Retarder (Sd = 25)", 
     "conductivity": [
-     0.20000000000000001
-    ], 
-    "sorption_rh": [
-     0.0
+     1.9399999999999999
     ], 
     "suction_coeff": [
-     0
-    ], 
-    "sorption_w": [
-     0.0
-    ], 
-    "initial_w": 0, 
-    "type": "HygroMaterial", 
-    "suction_w": [
-     0
-    ], 
-    "redist_w": [
-     0
-    ], 
-    "porosity": 0.001, 
-    "diff_rh": [
-     0.0
-    ]
-   }
-  }, 
-  "identifier": "DB Vapor Retarder (Sd = 25)", 
-  "solar_absorptance": 0.69999999999999996, 
-  "properties": {
-   "ph": {
-    "divisions": {
-     "column_widths": [], 
-     "row_heights": [], 
-     "steel_stud_spacing_mm": null, 
-     "cells": []
-    }, 
-    "id_num": 0, 
-    "user_data": {}
-   }, 
-   "type": "EnergyMaterialProperties"
-  }, 
-  "visible_absorptance": 0.69999999999999996, 
-  "conductivity": 0.20000000000000001, 
-  "specific_heat": 1000.0, 
-  "roughness": "MediumRough", 
-  "thickness": 0.00042000000000000002, 
-  "thermal_absorptance": 0.90000000000000002
- }, 
- "DB Concrete": {
-  "density": 2104.0, 
-  "type": "EnergyMaterial", 
-  "display_name": "DB Concrete", 
-  "user_data": {
-   "info": "Source: MASEA, Beton", 
-   "hygro_material": {
-    "conductivity_w": [
-     0
+     0.0, 
+     3.0681644843982871e-11, 
+     3.7746669488708861e-11, 
+     5.3318587837267423e-11, 
+     8.6472624131399374e-11, 
+     1.610195610685618e-10, 
+     3.4425371723287463e-10, 
+     8.4504266894925068e-10, 
+     2.3816538343567287e-09, 
+     7.7068807379996458e-09, 
+     2.8633777006172837e-08
     ], 
     "diff_resist": [
      76.099999999999994
@@ -1059,10 +63,6 @@
      7.7068807379996458e-10, 
      2.8633777006172837e-09
     ], 
-    "identifier": "DB Concrete", 
-    "conductivity": [
-     1.9399999999999999
-    ], 
     "sorption_rh": [
      0.065456674000000006, 
      0.112529274, 
@@ -1072,19 +72,15 @@
      0.96053864200000005, 
      0.97388758799999997
     ], 
-    "suction_coeff": [
-     0.0, 
-     3.0681644843982871e-11, 
-     3.7746669488708861e-11, 
-     5.3318587837267423e-11, 
-     8.6472624131399374e-11, 
-     1.610195610685618e-10, 
-     3.4425371723287463e-10, 
-     8.4504266894925068e-10, 
-     2.3816538343567287e-09, 
-     7.7068807379996458e-09, 
-     2.8633777006172837e-08
+    "diff_rh": [
+     0.0
     ], 
+    "initial_w": 0.048003802281368822, 
+    "type": "HygroMaterial", 
+    "conductivity_w": [
+     0
+    ], 
+    "porosity": 0.17199999999999999, 
     "sorption_w": [
      25.058139999999998, 
      29.244185999999999, 
@@ -1094,21 +90,7 @@
      150.11627899999999, 
      150.81395300000000
     ], 
-    "initial_w": 0.048003802281368822, 
-    "type": "HygroMaterial", 
-    "suction_w": [
-     0.0, 
-     1.4400000000000004, 
-     5.7600000000000016, 
-     12.959999999999999, 
-     23.040000000000006, 
-     36.0, 
-     51.839999999999996, 
-     70.559999999999988, 
-     92.160000000000025, 
-     116.64000000000001, 
-     144.0
-    ], 
+    "identifier": "DB Concrete", 
     "redist_w": [
      0.0, 
      1.4400000000000004, 
@@ -1121,229 +103,128 @@
      92.160000000000025, 
      116.64000000000001, 
      144.0
-    ], 
-    "porosity": 0.17199999999999999, 
-    "diff_rh": [
-     0.0
     ]
-   }
-  }, 
-  "identifier": "DB Concrete", 
-  "solar_absorptance": 0.69999999999999996, 
-  "properties": {
-   "ph": {
-    "divisions": {
-     "column_widths": [], 
-     "row_heights": [], 
-     "steel_stud_spacing_mm": null, 
-     "cells": []
-    }, 
-    "id_num": 0, 
-    "user_data": {}
    }, 
-   "type": "EnergyMaterialProperties"
+   "info": "Source: MASEA, Beton"
   }, 
-  "visible_absorptance": 0.69999999999999996, 
-  "conductivity": 1.9399999999999999, 
-  "specific_heat": 776.0, 
+  "type": "EnergyMaterial", 
   "roughness": "MediumRough", 
-  "thickness": 0.14999999999999999, 
-  "thermal_absorptance": 0.90000000000000002
+  "conductivity": 1.9399999999999999, 
+  "thermal_absorptance": 0.90000000000000002, 
+  "visible_absorptance": 0.69999999999999996, 
+  "display_name": "DB Concrete", 
+  "specific_heat": 776.0, 
+  "identifier": "DB Concrete"
  }, 
- "DB Cellulose Insulation": {
-  "density": 55.0, 
-  "type": "EnergyMaterial", 
-  "display_name": "DB Cellulose Insulation", 
-  "user_data": {
-   "info": "Source: EnergyPlus Reference DataSets, MoistureMaterials.idf", 
-   "hygro_material": {
-    "conductivity_w": [
-     0.0, 
-     950.0
-    ], 
-    "diff_resist": [
-     1.5
-    ], 
-    "redist_coeff": [
-     0.0
-    ], 
-    "identifier": "DB Cellulose Insulation", 
-    "conductivity": [
-     0.040000000000000001, 
-     0.58299999999999996
-    ], 
-    "sorption_rh": [
-     0.25, 
-     0.44, 
-     0.66000000000000003, 
-     0.85999999999999999, 
-     1.0
-    ], 
-    "suction_coeff": [
-     0.0
-    ], 
-    "sorption_w": [
-     2.3650000000000002, 
-     4.6200000000000001, 
-     6.6550000000000002, 
-     11.412500000000000, 
-     13.0
-    ], 
-    "initial_w": 0.001, 
-    "type": "HygroMaterial", 
-    "suction_w": [
-     0.0
-    ], 
-    "redist_w": [
-     0.0
-    ], 
-    "porosity": 0.94999999999999996, 
-    "diff_rh": [
-     0.0
-    ]
+ "DB Earth Plaster": {
+  "density": 1514.0, 
+  "properties": {
+   "type": "EnergyMaterialProperties", 
+   "ph": {
+    "user_data": {}, 
+    "id_num": 0, 
+    "divisions": {
+     "cells": [], 
+     "steel_stud_spacing_mm": null, 
+     "row_heights": [], 
+     "column_widths": []
+    }
    }
   }, 
-  "identifier": "DB Cellulose Insulation", 
+  "thickness": 0.0050000000000000001, 
   "solar_absorptance": 0.69999999999999996, 
-  "properties": {
-   "ph": {
-    "divisions": {
-     "column_widths": [], 
-     "row_heights": [], 
-     "steel_stud_spacing_mm": null, 
-     "cells": []
-    }, 
-    "id_num": 0, 
-    "user_data": {}
-   }, 
-   "type": "EnergyMaterialProperties"
-  }, 
-  "visible_absorptance": 0.69999999999999996, 
-  "conductivity": 0.040000000000000001, 
-  "specific_heat": 1880.0, 
-  "roughness": "Rough", 
-  "thickness": 0.066000000000000003, 
-  "thermal_absorptance": 0.90000000000000002
- }, 
- "DB XPS": {
-  "density": 34.0, 
-  "type": "EnergyMaterial", 
-  "display_name": "DB XPS", 
   "user_data": {
-   "info": "Source: MASEA, XPS Extrudierter Polystyrol-Hartschaum 1 (Kernschicht)", 
    "hygro_material": {
-    "conductivity_w": [
-     0
+    "suction_w": [
+     0.0, 
+     18.800000000000001, 
+     294.0
+    ], 
+    "conductivity": [
+     0.65000000000000002
+    ], 
+    "suction_coeff": [
+     0.0, 
+     2.0000000000000001e-10, 
+     7.6980000000000005e-08
     ], 
     "diff_resist": [
-     70.0
+     11.300000000000001, 
+     9.5999999999999996
     ], 
     "redist_coeff": [
-     0
-    ], 
-    "identifier": "DB XPS", 
-    "conductivity": [
-     0.040000000000000001
+     0.0, 
+     6.9999999999999996e-10, 
+     8.0000000000000007e-05
     ], 
     "sorption_rh": [
      0.0, 
-     0.10000000000000001, 
-     0.20000000000000001, 
-     0.29999999999999999, 
-     0.40000000000000002, 
-     0.5, 
-     0.55000000000000004, 
-     0.59999999999999998, 
      0.65000000000000002, 
-     0.69999999999999996, 
-     0.75, 
      0.80000000000000004, 
-     0.84999999999999998, 
-     0.90000000000000002, 
-     0.91000000000000003, 
-     0.92000000000000004, 
      0.93000000000000005, 
-     0.93999999999999995, 
-     0.94999999999999996, 
-     0.95999999999999996, 
-     0.96999999999999997, 
-     0.97999999999999998, 
-     0.98999999999999999, 
      1.0
     ], 
-    "suction_coeff": [
-     0
-    ], 
-    "sorption_w": [
-     0.0, 
-     0.052197802197802241, 
-     0.11728395061728404, 
-     0.20070422535211285, 
-     0.31147540983606586, 
-     0.46568627450980432, 
-     0.56793478260869623, 
-     0.69512195121951281, 
-     0.85763888888888973, 
-     1.0725806451612911, 
-     1.3701923076923088, 
-     1.8095238095238115, 
-     2.5234375000000018, 
-     3.8863636363636402, 
-     4.3225000000000051, 
-     4.8555555555555614, 
-     5.5218750000000076, 
-     6.378571428571429, 
-     7.5208333333333330, 
-     9.1199999999999992, 
-     11.518749999999999, 
-     15.516666666666667, 
-     23.512499999999999, 
-     47.5
+    "diff_rh": [
+     0.26500000000000001, 
+     0.71499999999999997
     ], 
     "initial_w": 0, 
     "type": "HygroMaterial", 
-    "suction_w": [
+    "conductivity_w": [
      0
     ], 
+    "porosity": 0.42399999999999999, 
+    "sorption_w": [
+     0.0, 
+     13.0, 
+     18.0, 
+     25.399999999999999, 
+     294.0
+    ], 
+    "identifier": "DB Earth Plaster", 
     "redist_w": [
-     0
-    ], 
-    "porosity": 0.94999999999999996, 
-    "diff_rh": [
-     0.0
+     0.0, 
+     18.800000000000001, 
+     294.0
     ]
-   }
-  }, 
-  "identifier": "DB XPS", 
-  "solar_absorptance": 0.69999999999999996, 
-  "properties": {
-   "ph": {
-    "divisions": {
-     "column_widths": [], 
-     "row_heights": [], 
-     "steel_stud_spacing_mm": null, 
-     "cells": []
-    }, 
-    "id_num": 0, 
-    "user_data": {}
    }, 
-   "type": "EnergyMaterialProperties"
+   "info": "Source: MASEA, Lehmputz (extracted from XML instead of HTML)"
   }, 
-  "visible_absorptance": 0.69999999999999996, 
-  "conductivity": 0.040000000000000001, 
-  "specific_heat": 1450.0, 
+  "type": "EnergyMaterial", 
   "roughness": "MediumRough", 
-  "thickness": 0.059999999999999998, 
-  "thermal_absorptance": 0.90000000000000002
+  "conductivity": 0.65000000000000002, 
+  "thermal_absorptance": 0.90000000000000002, 
+  "visible_absorptance": 0.69999999999999996, 
+  "display_name": "DB Earth Plaster", 
+  "specific_heat": 1000.0, 
+  "identifier": "DB Earth Plaster"
  }, 
  "DB Linoleum": {
   "density": 1200.0, 
-  "type": "EnergyMaterial", 
-  "display_name": "DB Linoleum", 
+  "properties": {
+   "type": "EnergyMaterialProperties", 
+   "ph": {
+    "user_data": {}, 
+    "id_num": 0, 
+    "divisions": {
+     "cells": [], 
+     "steel_stud_spacing_mm": null, 
+     "row_heights": [], 
+     "column_widths": []
+    }
+   }
+  }, 
+  "thickness": 0.01, 
+  "solar_absorptance": 0.69999999999999996, 
   "user_data": {
-   "info": "Source: DIN EN ISO 10456", 
    "hygro_material": {
-    "conductivity_w": [
+    "suction_w": [
+     0
+    ], 
+    "conductivity": [
+     0.17000000000000001
+    ], 
+    "suction_coeff": [
      0
     ], 
     "diff_resist": [
@@ -1354,10 +235,6 @@
     "redist_coeff": [
      0
     ], 
-    "identifier": "DB Linoleum", 
-    "conductivity": [
-     0.17000000000000001
-    ], 
     "sorption_rh": [
      0.0, 
      0.10000000000000001, 
@@ -1384,9 +261,17 @@
      0.98999999999999999, 
      1.0
     ], 
-    "suction_coeff": [
+    "diff_rh": [
+     0.0, 
+     0.26500000000000001, 
+     0.71499999999999997
+    ], 
+    "initial_w": 0, 
+    "type": "HygroMaterial", 
+    "conductivity_w": [
      0
     ], 
+    "porosity": 0.10000000000000001, 
     "sorption_w": [
      0.0, 
      0.0054945054945055001, 
@@ -1413,53 +298,1472 @@
      2.4750000000000005, 
      5.0000000000000009
     ], 
-    "initial_w": 0, 
+    "identifier": "DB Linoleum", 
+    "redist_w": [
+     0
+    ]
+   }, 
+   "info": "Source: DIN EN ISO 10456"
+  }, 
+  "type": "EnergyMaterial", 
+  "roughness": "MediumRough", 
+  "conductivity": 0.17000000000000001, 
+  "thermal_absorptance": 0.90000000000000002, 
+  "visible_absorptance": 0.69999999999999996, 
+  "display_name": "DB Linoleum", 
+  "specific_heat": 1400.0, 
+  "identifier": "DB Linoleum"
+ }, 
+ "DB Plasterboard": {
+  "density": 850.0, 
+  "properties": {
+   "type": "EnergyMaterialProperties", 
+   "ph": {
+    "user_data": {}, 
+    "id_num": 0, 
+    "divisions": {
+     "cells": [], 
+     "steel_stud_spacing_mm": null, 
+     "row_heights": [], 
+     "column_widths": []
+    }
+   }
+  }, 
+  "thickness": 0.012, 
+  "solar_absorptance": 0.59999999999999998, 
+  "user_data": {
+   "hygro_material": {
+    "suction_w": [
+     0.0, 
+     60.0, 
+     100.0, 
+     160.0, 
+     240.0, 
+     320.0, 
+     360.0, 
+     380.0, 
+     400.0
+    ], 
+    "conductivity": [
+     0.20000000000000001, 
+     1.4239999999999999
+    ], 
+    "suction_coeff": [
+     0.0, 
+     3e-09, 
+     9.9999999999999995e-08, 
+     9.9999999999999995e-08, 
+     1.1999999999999999e-07, 
+     2.2000000000000001e-07, 
+     5.9999999999999997e-07, 
+     8.9999999999999996e-07, 
+     4.4999999999999998e-07
+    ], 
+    "diff_resist": [
+     8.3000000000000007
+    ], 
+    "redist_coeff": [
+     0.0, 
+     3e-09, 
+     8.0000000000000005e-09, 
+     8.0000000000000005e-09, 
+     1.3000000000000001e-08, 
+     9.9999999999999995e-08, 
+     2.9999999999999999e-07, 
+     6.9999999999999997e-07, 
+     9.9999999999999995e-07
+    ], 
+    "sorption_rh": [
+     0.20200000000000001, 
+     0.4325, 
+     0.64649999999999996, 
+     0.84650000000000003, 
+     0.94799999999999995, 
+     0.97799999999999998
+    ], 
+    "diff_rh": [
+     0.0
+    ], 
+    "initial_w": 0.10000000000000001, 
     "type": "HygroMaterial", 
+    "conductivity_w": [
+     0.0, 
+     650.0
+    ], 
+    "porosity": 0.65000000000000002, 
+    "sorption_w": [
+     0.748, 
+     1.0400000000000000, 
+     1.2400000000000000, 
+     1.5600000000000001, 
+     1.9199999999999999, 
+     2.7200000000000002
+    ], 
+    "identifier": "DB Plasterboard", 
+    "redist_w": [
+     0.0, 
+     60.0, 
+     100.0, 
+     160.0, 
+     240.0, 
+     320.0, 
+     360.0, 
+     380.0, 
+     400.0
+    ]
+   }, 
+   "info": "Source: EnergyPlus Reference DataSets, MoistureMaterials.idf"
+  }, 
+  "type": "EnergyMaterial", 
+  "roughness": "Rough", 
+  "conductivity": 0.20000000000000001, 
+  "thermal_absorptance": 0.90000000000000002, 
+  "visible_absorptance": 0.69999999999999996, 
+  "display_name": "DB Plasterboard", 
+  "specific_heat": 850.0, 
+  "identifier": "DB Plasterboard"
+ }, 
+ "DB Lime Plaster": {
+  "density": 1600.0, 
+  "properties": {
+   "type": "EnergyMaterialProperties", 
+   "ph": {
+    "user_data": {}, 
+    "id_num": 0, 
+    "divisions": {
+     "cells": [], 
+     "steel_stud_spacing_mm": null, 
+     "row_heights": [], 
+     "column_widths": []
+    }
+   }
+  }, 
+  "thickness": 0.029999999999999999, 
+  "solar_absorptance": 0.69999999999999996, 
+  "user_data": {
+   "hygro_material": {
+    "suction_w": [
+     0.0, 
+     2.5000000000000004, 
+     10.000000000000002, 
+     22.5, 
+     40.000000000000007, 
+     62.5, 
+     90.0, 
+     122.49999999999999, 
+     160.00000000000003, 
+     202.5, 
+     250.0
+    ], 
+    "conductivity": [
+     0.69999999999999996
+    ], 
+    "suction_coeff": [
+     0.0, 
+     1.6287093439611615e-10, 
+     2.0037502426057392e-10, 
+     2.8303724477275577e-10, 
+     4.5903266150110655e-10, 
+     8.5475881428933051e-10, 
+     1.8274419406184672e-09, 
+     4.4858380245329057e-09, 
+     1.2642809320760609e-08, 
+     4.0911329019689126e-08, 
+     1.5199999999999998e-07
+    ], 
+    "diff_resist": [
+     7.0
+    ], 
+    "redist_coeff": [
+     0.0, 
+     1.6287093439611617e-11, 
+     2.0037502426057393e-11, 
+     2.8303724477275578e-11, 
+     4.5903266150110653e-11, 
+     8.5475881428933051e-11, 
+     1.8274419406184673e-10, 
+     4.4858380245329056e-10, 
+     1.2642809320760609e-09, 
+     4.0911329019689126e-09, 
+     1.5199999999999997e-08
+    ], 
+    "sorption_rh": [
+     0.0, 
+     0.5, 
+     0.80000000000000004, 
+     0.90000000000000002, 
+     0.93000000000000005, 
+     0.98999999999999999, 
+     1.0
+    ], 
+    "diff_rh": [
+     0.0
+    ], 
+    "initial_w": 0.018749999999999999, 
+    "type": "HygroMaterial", 
+    "conductivity_w": [
+     0.0
+    ], 
+    "porosity": 0.29999999999999999, 
+    "sorption_w": [
+     0.0, 
+     20.0, 
+     30.0, 
+     50.0, 
+     70.0, 
+     180.0, 
+     250.0
+    ], 
+    "identifier": "DB Lime Plaster", 
+    "redist_w": [
+     0.0, 
+     2.5000000000000004, 
+     10.000000000000002, 
+     22.5, 
+     40.000000000000007, 
+     62.5, 
+     90.0, 
+     122.49999999999999, 
+     160.00000000000003, 
+     202.5, 
+     250.0
+    ]
+   }, 
+   "info": "Source: MASEA, Kalkputz"
+  }, 
+  "type": "EnergyMaterial", 
+  "roughness": "MediumRough", 
+  "conductivity": 0.69999999999999996, 
+  "thermal_absorptance": 0.64000000000000001, 
+  "visible_absorptance": 0.69999999999999996, 
+  "display_name": "DB Lime Plaster", 
+  "specific_heat": 850.0, 
+  "identifier": "DB Lime Plaster"
+ }, 
+ "DB Vapor Barrier (Sd = 1500)": {
+  "density": 175.0, 
+  "properties": {
+   "type": "EnergyMaterialProperties", 
+   "ph": {
+    "user_data": {}, 
+    "id_num": 0, 
+    "divisions": {
+     "cells": [], 
+     "steel_stud_spacing_mm": null, 
+     "row_heights": [], 
+     "column_widths": []
+    }
+   }
+  }, 
+  "thickness": 0.00027999999999999998, 
+  "solar_absorptance": 0.69999999999999996, 
+  "user_data": {
+   "hygro_material": {
     "suction_w": [
      0
     ], 
-    "redist_w": [
+    "conductivity": [
+     0.23000000000000001
+    ], 
+    "suction_coeff": [
      0
     ], 
-    "porosity": 0.10000000000000001, 
+    "diff_resist": [
+     5357142.8571428573
+    ], 
+    "redist_coeff": [
+     0
+    ], 
+    "sorption_rh": [
+     0.0
+    ], 
     "diff_rh": [
-     0.0, 
-     0.26500000000000001, 
-     0.71499999999999997
+     0.0
+    ], 
+    "initial_w": 0, 
+    "type": "HygroMaterial", 
+    "conductivity_w": [
+     0
+    ], 
+    "porosity": 0.001, 
+    "sorption_w": [
+     0.0
+    ], 
+    "identifier": "DB Vapor Barrier (Sd = 1500)", 
+    "redist_w": [
+     0
     ]
+   }, 
+   "info": "Source: Ubakus, Sisalex 518"
+  }, 
+  "type": "EnergyMaterial", 
+  "roughness": "MediumRough", 
+  "conductivity": 0.23000000000000001, 
+  "thermal_absorptance": 0.90000000000000002, 
+  "visible_absorptance": 0.69999999999999996, 
+  "display_name": "DB Vapor Barrier (Sd = 1500)", 
+  "specific_heat": 1500.0, 
+  "identifier": "DB Vapor Barrier (Sd = 1500)"
+ }, 
+ "DB Cellulose Insulation": {
+  "density": 55.0, 
+  "properties": {
+   "type": "EnergyMaterialProperties", 
+   "ph": {
+    "user_data": {}, 
+    "id_num": 0, 
+    "divisions": {
+     "cells": [], 
+     "steel_stud_spacing_mm": null, 
+     "row_heights": [], 
+     "column_widths": []
+    }
    }
   }, 
-  "identifier": "DB Linoleum", 
+  "thickness": 0.066000000000000003, 
   "solar_absorptance": 0.69999999999999996, 
+  "user_data": {
+   "hygro_material": {
+    "suction_w": [
+     0.0
+    ], 
+    "conductivity": [
+     0.040000000000000001, 
+     0.58299999999999996
+    ], 
+    "suction_coeff": [
+     0.0
+    ], 
+    "diff_resist": [
+     1.5
+    ], 
+    "redist_coeff": [
+     0.0
+    ], 
+    "sorption_rh": [
+     0.25, 
+     0.44, 
+     0.66000000000000003, 
+     0.85999999999999999, 
+     1.0
+    ], 
+    "diff_rh": [
+     0.0
+    ], 
+    "initial_w": 0.001, 
+    "type": "HygroMaterial", 
+    "conductivity_w": [
+     0.0, 
+     950.0
+    ], 
+    "porosity": 0.94999999999999996, 
+    "sorption_w": [
+     2.3650000000000002, 
+     4.6200000000000001, 
+     6.6550000000000002, 
+     11.412500000000000, 
+     13.0
+    ], 
+    "identifier": "DB Cellulose Insulation", 
+    "redist_w": [
+     0.0
+    ]
+   }, 
+   "info": "Source: EnergyPlus Reference DataSets, MoistureMaterials.idf"
+  }, 
+  "type": "EnergyMaterial", 
+  "roughness": "Rough", 
+  "conductivity": 0.040000000000000001, 
+  "thermal_absorptance": 0.90000000000000002, 
+  "visible_absorptance": 0.69999999999999996, 
+  "display_name": "DB Cellulose Insulation", 
+  "specific_heat": 1880.0, 
+  "identifier": "DB Cellulose Insulation"
+ }, 
+ "DB Plywood": {
+  "density": 530.0, 
+  "properties": {
+   "type": "EnergyMaterialProperties", 
+   "ph": {
+    "user_data": {}, 
+    "id_num": 0, 
+    "divisions": {
+     "cells": [], 
+     "steel_stud_spacing_mm": null, 
+     "row_heights": [], 
+     "column_widths": []
+    }
+   }
+  }, 
+  "thickness": 0.025000000000000001, 
+  "solar_absorptance": 0.69999999999999996, 
+  "user_data": {
+   "hygro_material": {
+    "suction_w": [
+     0.0
+    ], 
+    "conductivity": [
+     0.10000000000000001, 
+     0.25
+    ], 
+    "suction_coeff": [
+     0.0
+    ], 
+    "diff_resist": [
+     700.0, 
+     200.0, 
+     20.0
+    ], 
+    "redist_coeff": [
+     0.0
+    ], 
+    "sorption_rh": [
+     0.20150000000000001, 
+     0.20300000000000001, 
+     0.435, 
+     0.439, 
+     0.64949999999999997, 
+     0.65149999999999997, 
+     0.82150000000000001, 
+     0.82499999999999996, 
+     0.92149999999999999, 
+     0.92500000000000004, 
+     0.95750000000000002, 
+     0.96050000000000002
+    ], 
+    "diff_rh": [
+     0.0, 
+     0.5, 
+     1.0
+    ], 
+    "initial_w": 0.050000000000000003, 
+    "type": "HygroMaterial", 
+    "conductivity_w": [
+     0.0, 
+     500.0
+    ], 
+    "porosity": 0.5, 
+    "sorption_w": [
+     3.7124999999999999, 
+     3.7400000000000002, 
+     5.8025000000000002, 
+     5.8300000000000001, 
+     7.7824999999999998, 
+     7.8099999999999996, 
+     10.367500000000000, 
+     10.367500000000000, 
+     13.117500000000000, 
+     13.117500000000000, 
+     14.712500000000000, 
+     15.345000000000001
+    ], 
+    "identifier": "DB Plywood", 
+    "redist_w": [
+     0.0
+    ]
+   }, 
+   "info": "Source: EnergyPlus Reference DataSets, MoistureMaterials.idf"
+  }, 
+  "type": "EnergyMaterial", 
+  "roughness": "Rough", 
+  "conductivity": 0.14000000000000001, 
+  "thermal_absorptance": 0.90000000000000002, 
+  "visible_absorptance": 0.69999999999999996, 
+  "display_name": "DB Plywood", 
+  "specific_heat": 1880.0, 
+  "identifier": "DB Plywood"
+ }, 
+ "DB Cement Stabilized Rammed Earth (6% 703)": {
+  "density": 1980.0, 
+  "properties": {
+   "type": "EnergyMaterialProperties", 
+   "ph": {
+    "user_data": {}, 
+    "id_num": 0, 
+    "divisions": {
+     "cells": [], 
+     "steel_stud_spacing_mm": null, 
+     "row_heights": [], 
+     "column_widths": []
+    }
+   }
+  }, 
+  "thickness": 0.29999999999999999, 
+  "solar_absorptance": 0.69999999999999996, 
+  "user_data": {
+   "hygro_material": {
+    "suction_w": [
+     0.0, 
+     2.2649800000000004, 
+     9.0599200000000017, 
+     20.384819999999998, 
+     36.239680000000007, 
+     56.624499999999998, 
+     81.539279999999991, 
+     110.98401999999999, 
+     144.95872000000003, 
+     183.46338000000000, 
+     226.49799999999999
+    ], 
+    "conductivity": [
+     0.86599999999999999, 
+     1.0313991769696971, 
+     1.1967983539393940, 
+     1.3621975309090908, 
+     1.5275967078787880, 
+     1.6929958848484847
+    ], 
+    "suction_coeff": [
+     0.0, 
+     9.6434210912532443e-09, 
+     1.1863999812362328e-08, 
+     1.6758345164359091e-08, 
+     2.7178853402583786e-08, 
+     5.060939331019706e-08, 
+     1.0820096426990919e-07, 
+     2.6560187167906346e-07, 
+     7.485677816521649e-07, 
+     2.422317859245234e-06, 
+     8.9997642078085032e-06
+    ], 
+    "diff_resist": [
+     7.8780000000000001
+    ], 
+    "redist_coeff": [
+     0.0, 
+     9.6434210912532443e-10, 
+     1.1863999812362329e-09, 
+     1.6758345164359092e-09, 
+     2.7178853402583785e-09, 
+     5.0609393310197059e-09, 
+     1.0820096426990918e-08, 
+     2.6560187167906346e-08, 
+     7.4856778165216485e-08, 
+     2.4223178592452342e-07, 
+     8.9997642078085032e-07
+    ], 
+    "sorption_rh": [
+     0.0, 
+     0.32900000000000001, 
+     0.43159999999999998, 
+     0.58199999999999996, 
+     0.75360000000000005, 
+     0.93999999999999995, 
+     1.0
+    ], 
+    "diff_rh": [
+     0.0
+    ], 
+    "initial_w": 0.0074878787878787881, 
+    "type": "HygroMaterial", 
+    "conductivity_w": [
+     0.0, 
+     60.399999999999999, 
+     120.80000000000000, 
+     181.19999999999999, 
+     241.59999999999999, 
+     302.0
+    ], 
+    "porosity": 0.30199999999999999, 
+    "sorption_w": [
+     0.0, 
+     6.9400000000000004, 
+     8.8309999999999995, 
+     10.935499999999999, 
+     14.826000000000001, 
+     28.943500000000000, 
+     226.49799999999999
+    ], 
+    "identifier": "DB Cement Stabilized Rammed Earth (6% 703)", 
+    "redist_w": [
+     0.0, 
+     2.2649800000000004, 
+     9.0599200000000017, 
+     20.384819999999998, 
+     36.239680000000007, 
+     56.624499999999998, 
+     81.539279999999991, 
+     110.98401999999999, 
+     144.95872000000003, 
+     183.46338000000000, 
+     226.49799999999999
+    ]
+   }, 
+   "info": "Mix 703 from Hall, M. & Allinson, D. Analysis of the hygrothermal functional properties of stabilised rammed earth materials. Building and Environment 44, 1935–1942 (2009).\r\n"
+  }, 
+  "type": "EnergyMaterial", 
+  "roughness": "MediumRough", 
+  "conductivity": 0.86599999999999999, 
+  "thermal_absorptance": 0.90000000000000002, 
+  "visible_absorptance": 0.69999999999999996, 
+  "display_name": "DB Cement Stabilized Rammed Earth (6%, 703)", 
+  "specific_heat": 868.17999999999995, 
+  "identifier": "DB Cement Stabilized Rammed Earth (6% 703)"
+ }, 
+ "DB PE Vapor Barrier (Sd = 50)": {
+  "specific_heat": 2300.0, 
+  "visible_absorptance": 0.69999999999999996, 
   "properties": {
    "ph": {
-    "divisions": {
-     "column_widths": [], 
-     "row_heights": [], 
-     "steel_stud_spacing_mm": null, 
-     "cells": []
-    }, 
+    "user_data": {}, 
     "id_num": 0, 
-    "user_data": {}
+    "divisions": {
+     "steel_stud_spacing_mm": null, 
+     "cells": [], 
+     "row_heights": [], 
+     "column_widths": []
+    }
    }, 
    "type": "EnergyMaterialProperties"
   }, 
-  "visible_absorptance": 0.69999999999999996, 
-  "conductivity": 0.17000000000000001, 
-  "specific_heat": 1400.0, 
+  "display_name": "DB PE Vapor Barrier (Sd = 50)", 
+  "density": 130.0, 
+  "identifier": "DB PE Vapor Barrier (Sd = 50)", 
+  "conductivity": 2.2999999999999998, 
+  "thickness": 0.001, 
+  "roughness": "Rough", 
+  "thermal_absorptance": 0.90000000000000002, 
+  "user_data": {
+   "info": "Source: TUM", 
+   "hygro_material": {
+    "sorption_w": [
+     0.0
+    ], 
+    "identifier": "DB PE Vapor Barrier (Sd = 50)", 
+    "suction_w": [
+     0
+    ], 
+    "conductivity": [
+     2.2999999999999998
+    ], 
+    "porosity": 0.001, 
+    "diff_resist": [
+     50000.0
+    ], 
+    "diff_rh": [
+     0.0
+    ], 
+    "suction_coeff": [
+     0
+    ], 
+    "redist_coeff": [
+     0
+    ], 
+    "conductivity_w": [
+     0
+    ], 
+    "initial_w": 0, 
+    "redist_w": [
+     0
+    ], 
+    "sorption_rh": [
+     0.0
+    ], 
+    "type": "HygroMaterial"
+   }
+  }, 
+  "solar_absorptance": 0.69999999999999996, 
+  "type": "EnergyMaterial"
+ }, 
+ "DB Straw-Chitosan Insulation": {
+  "density": 121.0, 
+  "properties": {
+   "type": "EnergyMaterialProperties", 
+   "ph": {
+    "user_data": {}, 
+    "id_num": 0, 
+    "divisions": {
+     "cells": [], 
+     "steel_stud_spacing_mm": null, 
+     "row_heights": [], 
+     "column_widths": []
+    }
+   }
+  }, 
+  "thickness": 0.5, 
+  "solar_absorptance": 0.69999999999999996, 
+  "user_data": {
+   "hygro_material": {
+    "suction_w": [
+     0
+    ], 
+    "conductivity": [
+     0.042000000000000003
+    ], 
+    "suction_coeff": [
+     0
+    ], 
+    "diff_resist": [
+     3.7000000000000002
+    ], 
+    "redist_coeff": [
+     0
+    ], 
+    "sorption_rh": [
+     0.0, 
+     0.71555000000000002, 
+     1.4407700000000001, 
+     1.6330899999999999, 
+     2.1815000000000002, 
+     2.9440200000000001, 
+     3.3371700000000000, 
+     4.5629299999999997, 
+     6.3647400000000003, 
+     6.9859600000000004, 
+     8.4414800000000003, 
+     10.442399999999999, 
+     10.928470000000001, 
+     14.039410000000000, 
+     16.126349999999999, 
+     18.139389999999999, 
+     20.816620000000000
+    ], 
+    "diff_rh": [
+     0.0
+    ], 
+    "initial_w": 0, 
+    "type": "HygroMaterial", 
+    "conductivity_w": [
+     0
+    ], 
+    "porosity": 0.94999999999999996, 
+    "sorption_w": [
+     0.0, 
+     0.050000000000000003, 
+     0.10000000000000001, 
+     0.11310000000000001, 
+     0.14999999999999999, 
+     0.20000000000000001, 
+     0.22509999999999999, 
+     0.29999999999999999, 
+     0.40000000000000002, 
+     0.43159999999999998, 
+     0.5, 
+     0.58199999999999996, 
+     0.59999999999999998, 
+     0.69999999999999996, 
+     0.75470000000000004, 
+     0.80000000000000004, 
+     0.85109999999999997
+    ], 
+    "identifier": "DB Straw-Chitosan Insulation", 
+    "redist_w": [
+     0
+    ]
+   }, 
+   "info": "Source: C5 mix from Zhou, Y., Trabelsi, A. & El Mankibi, M. Hygrothermal properties of insulation materials from rice straw and natural binders for buildings. Construction and Building Materials 372, 130770 (2023).\n"
+  }, 
+  "type": "EnergyMaterial", 
   "roughness": "MediumRough", 
-  "thickness": 0.01, 
-  "thermal_absorptance": 0.90000000000000002
+  "conductivity": 0.042000000000000003, 
+  "thermal_absorptance": 0.90000000000000002, 
+  "visible_absorptance": 0.69999999999999996, 
+  "display_name": "DB Straw-Chitosan Insulation", 
+  "specific_heat": 1375.0, 
+  "identifier": "DB Straw-Chitosan Insulation"
+ }, 
+ "DB Vapor Retarder (Sd = 25)": {
+  "density": 121.0, 
+  "properties": {
+   "type": "EnergyMaterialProperties", 
+   "ph": {
+    "user_data": {}, 
+    "id_num": 0, 
+    "divisions": {
+     "cells": [], 
+     "steel_stud_spacing_mm": null, 
+     "row_heights": [], 
+     "column_widths": []
+    }
+   }
+  }, 
+  "thickness": 0.00042000000000000002, 
+  "solar_absorptance": 0.69999999999999996, 
+  "user_data": {
+   "hygro_material": {
+    "suction_w": [
+     0
+    ], 
+    "conductivity": [
+     0.20000000000000001
+    ], 
+    "suction_coeff": [
+     0
+    ], 
+    "diff_resist": [
+     59523.809523809519
+    ], 
+    "redist_coeff": [
+     0
+    ], 
+    "sorption_rh": [
+     0.0
+    ], 
+    "diff_rh": [
+     0.0
+    ], 
+    "initial_w": 0, 
+    "type": "HygroMaterial", 
+    "conductivity_w": [
+     0
+    ], 
+    "porosity": 0.001, 
+    "sorption_w": [
+     0.0
+    ], 
+    "identifier": "DB Vapor Retarder (Sd = 25)", 
+    "redist_w": [
+     0
+    ]
+   }, 
+   "info": "Source: Ubakus, Majpell 25"
+  }, 
+  "type": "EnergyMaterial", 
+  "roughness": "MediumRough", 
+  "conductivity": 0.20000000000000001, 
+  "thermal_absorptance": 0.90000000000000002, 
+  "visible_absorptance": 0.69999999999999996, 
+  "display_name": "DB Vapor Retarder (Sd = 25)", 
+  "specific_heat": 1000.0, 
+  "identifier": "DB Vapor Retarder (Sd = 25)"
+ }, 
+ "DB Cement Stabilized Rammed Earth (7%)": {
+  "density": 1900.0, 
+  "properties": {
+   "type": "EnergyMaterialProperties", 
+   "ph": {
+    "user_data": {}, 
+    "id_num": 0, 
+    "divisions": {
+     "cells": [], 
+     "steel_stud_spacing_mm": null, 
+     "row_heights": [], 
+     "column_widths": []
+    }
+   }
+  }, 
+  "thickness": 0.29999999999999999, 
+  "solar_absorptance": 0.69999999999999996, 
+  "user_data": {
+   "hygro_material": {
+    "suction_w": [
+     0.0, 
+     2.5347000000000004, 
+     10.138800000000002, 
+     22.812300000000000, 
+     40.555200000000006, 
+     63.367500000000000, 
+     91.249200000000002, 
+     124.20029999999998, 
+     162.22080000000003, 
+     205.31070000000003, 
+     253.47000000000000
+    ], 
+    "conductivity": [
+     0.64300000000000002, 
+     0.73065443684210529, 
+     0.81830887368421068, 
+     0.90596331052631573, 
+     0.99361774736842112, 
+     1.0812721842105264
+    ], 
+    "suction_coeff": [
+     0.0, 
+     5.0200781751165296e-10, 
+     6.1760454058826787e-10, 
+     8.723896013104157e-10, 
+     1.414850264236164e-09, 
+     2.6345744773382193e-09, 
+     5.6326203545192703e-09, 
+     1.3826443402907429e-08, 
+     3.8968212086848343e-08, 
+     1.2609866253192591e-07, 
+     4.6850095472646121e-07
+    ], 
+    "diff_resist": [
+     14.340000000000000
+    ], 
+    "redist_coeff": [
+     0.0, 
+     5.0200781751165296e-11, 
+     6.176045405882679e-11, 
+     8.7238960131041573e-11, 
+     1.4148502642361641e-10, 
+     2.6345744773382193e-10, 
+     5.6326203545192707e-10, 
+     1.3826443402907428e-09, 
+     3.8968212086848341e-09, 
+     1.2609866253192591e-08, 
+     4.6850095472646118e-08
+    ], 
+    "sorption_rh": [
+     0.32850000000000001, 
+     0.43049999999999999, 
+     0.58150000000000002, 
+     0.75580000000000003, 
+     0.80000000000000004, 
+     0.94059999999999999, 
+     1.0
+    ], 
+    "diff_rh": [
+     0.0
+    ], 
+    "initial_w": 0.032368421052631581, 
+    "type": "HygroMaterial", 
+    "conductivity_w": [
+     0.0, 
+     59.0, 
+     118.0, 
+     177.0, 
+     236.0, 
+     295.0
+    ], 
+    "porosity": 0.29499999999999998, 
+    "sorption_w": [
+     23.129999999999999, 
+     27.809999999999999, 
+     40.310000000000002, 
+     53.439999999999998, 
+     61.5, 
+     105.63000000000000, 
+     253.47000000000000
+    ], 
+    "identifier": "DB Cement Stabilized Rammed Earth (7%)", 
+    "redist_w": [
+     0.0, 
+     2.5347000000000004, 
+     10.138800000000002, 
+     22.812300000000000, 
+     40.555200000000006, 
+     63.367500000000000, 
+     91.249200000000002, 
+     124.20029999999998, 
+     162.22080000000003, 
+     205.31070000000003, 
+     253.47000000000000
+    ]
+   }, 
+   "info": "Source: Allinson, D. & Hall, M. Hygrothermal analysis of a stabilised rammed earth test building in the UK. Energy and Buildings 42, 845–852 (2010).\r\n"
+  }, 
+  "type": "EnergyMaterial", 
+  "roughness": "MediumRough", 
+  "conductivity": 0.64300000000000002, 
+  "thermal_absorptance": 0.90000000000000002, 
+  "visible_absorptance": 0.69999999999999996, 
+  "display_name": "DB Cement Stabilized Rammed Earth (7%)", 
+  "specific_heat": 868.0, 
+  "identifier": "DB Cement Stabilized Rammed Earth (7%)"
+ }, 
+ "DB Spruce": {
+  "density": 455.0, 
+  "properties": {
+   "type": "EnergyMaterialProperties", 
+   "ph": {
+    "user_data": {}, 
+    "id_num": 0, 
+    "divisions": {
+     "cells": [], 
+     "steel_stud_spacing_mm": null, 
+     "row_heights": [], 
+     "column_widths": []
+    }
+   }
+  }, 
+  "thickness": 0.012, 
+  "solar_absorptance": 0.69999999999999996, 
+  "user_data": {
+   "hygro_material": {
+    "suction_w": [
+     0.0, 
+     20.0, 
+     600.0
+    ], 
+    "conductivity": [
+     0.089999999999999997, 
+     0.27800000000000002
+    ], 
+    "suction_coeff": [
+     0.0, 
+     3.2e-13, 
+     9.1999999999999996e-12
+    ], 
+    "diff_resist": [
+     130.0
+    ], 
+    "redist_coeff": [
+     0.0, 
+     3.2e-13, 
+     9.1999999999999996e-12
+    ], 
+    "sorption_rh": [
+     0.20499999999999999, 
+     0.44650000000000001, 
+     0.65149999999999997, 
+     0.65449999999999997, 
+     0.82999999999999996, 
+     0.95250000000000001, 
+     0.95599999999999996
+    ], 
+    "diff_rh": [
+     0.0
+    ], 
+    "initial_w": 0.050000000000000003, 
+    "type": "HygroMaterial", 
+    "conductivity_w": [
+     0.0, 
+     730.0
+    ], 
+    "porosity": 0.72999999999999998, 
+    "sorption_w": [
+     25.934999999999999, 
+     44.362499999999997, 
+     61.993749999999999, 
+     61.993749999999999, 
+     87.132499999999993, 
+     119.66500000000001, 
+     120.12000000000000
+    ], 
+    "identifier": "DB Spruce", 
+    "redist_w": [
+     0.0, 
+     20.0, 
+     600.0
+    ]
+   }, 
+   "info": "Source: EnergyPlus Reference DataSets, MoistureMaterials.idf"
+  }, 
+  "type": "EnergyMaterial", 
+  "roughness": "Rough", 
+  "conductivity": 0.089999999999999997, 
+  "thermal_absorptance": 0.90000000000000002, 
+  "visible_absorptance": 0.69999999999999996, 
+  "display_name": "DB Spruce", 
+  "specific_heat": 1500.0, 
+  "identifier": "DB Spruce"
+ }, 
+ "DB Vapor Retarder (Sd = 50)": {
+  "density": 130.0, 
+  "properties": {
+   "type": "EnergyMaterialProperties", 
+   "ph": {
+    "user_data": {}, 
+    "id_num": 0, 
+    "divisions": {
+     "cells": [], 
+     "steel_stud_spacing_mm": null, 
+     "row_heights": [], 
+     "column_widths": []
+    }
+   }
+  }, 
+  "thickness": 0.001, 
+  "solar_absorptance": 0.69999999999999996, 
+  "user_data": {
+   "hygro_material": {
+    "suction_w": [
+     0
+    ], 
+    "conductivity": [
+     2.2999999999999998
+    ], 
+    "suction_coeff": [
+     0
+    ], 
+    "diff_resist": [
+     50000.0
+    ], 
+    "redist_coeff": [
+     0
+    ], 
+    "sorption_rh": [
+     0.0
+    ], 
+    "diff_rh": [
+     0.0
+    ], 
+    "initial_w": 0, 
+    "type": "HygroMaterial", 
+    "conductivity_w": [
+     0
+    ], 
+    "porosity": 0.001, 
+    "sorption_w": [
+     0.0
+    ], 
+    "identifier": "DB Vapor Retarder (Sd = 50)", 
+    "redist_w": [
+     0
+    ]
+   }, 
+   "info": "Source: TUM, PE Foil"
+  }, 
+  "type": "EnergyMaterial", 
+  "roughness": "Rough", 
+  "conductivity": 2.2999999999999998, 
+  "thermal_absorptance": 0.90000000000000002, 
+  "visible_absorptance": 0.69999999999999996, 
+  "display_name": "DB Vapor Retarder (Sd = 50)", 
+  "specific_heat": 2300.0, 
+  "identifier": "DB Vapor Retarder (Sd = 50)"
+ }, 
+ "DB Dispersion Paint": {
+  "density": 2000.0, 
+  "properties": {
+   "type": "EnergyMaterialProperties", 
+   "ph": {
+    "user_data": {}, 
+    "id_num": 0, 
+    "divisions": {
+     "cells": [], 
+     "steel_stud_spacing_mm": null, 
+     "row_heights": [], 
+     "column_widths": []
+    }
+   }
+  }, 
+  "thickness": 0.00014999999999999999, 
+  "solar_absorptance": 0.69999999999999996, 
+  "user_data": {
+   "hygro_material": {
+    "suction_w": [
+     0
+    ], 
+    "conductivity": [
+     0.25
+    ], 
+    "suction_coeff": [
+     0
+    ], 
+    "diff_resist": [
+     16000.0
+    ], 
+    "redist_coeff": [
+     0
+    ], 
+    "sorption_rh": [
+     0.0
+    ], 
+    "diff_rh": [
+     0.0
+    ], 
+    "initial_w": 0, 
+    "type": "HygroMaterial", 
+    "conductivity_w": [
+     0
+    ], 
+    "porosity": 0.001, 
+    "sorption_w": [
+     0.0
+    ], 
+    "identifier": "DB Dispersion Paint", 
+    "redist_w": [
+     0
+    ]
+   }, 
+   "info": "Source: MASEA, Dispersionsfarbe"
+  }, 
+  "type": "EnergyMaterial", 
+  "roughness": "MediumRough", 
+  "conductivity": 0.25, 
+  "thermal_absorptance": 0.90000000000000002, 
+  "visible_absorptance": 0.69999999999999996, 
+  "display_name": "DB Dispersion Paint", 
+  "specific_heat": 1250.0, 
+  "identifier": "DB Dispersion Paint"
+ }, 
+ "DB Cement Stabilized Rammed Earth (6% 613)": {
+  "density": 2020.0, 
+  "properties": {
+   "type": "EnergyMaterialProperties", 
+   "ph": {
+    "user_data": {}, 
+    "id_num": 0, 
+    "divisions": {
+     "cells": [], 
+     "steel_stud_spacing_mm": null, 
+     "row_heights": [], 
+     "column_widths": []
+    }
+   }
+  }, 
+  "thickness": 0.29999999999999999, 
+  "solar_absorptance": 0.69999999999999996, 
+  "user_data": {
+   "hygro_material": {
+    "suction_w": [
+     0.0, 
+     1.9921500000000005, 
+     7.9686000000000021, 
+     17.929349999999999, 
+     31.874400000000009, 
+     49.803750000000001, 
+     71.717399999999998, 
+     97.615349999999992, 
+     127.49760000000003, 
+     161.36415000000002, 
+     199.21500000000000
+    ], 
+    "conductivity": [
+     0.83299999999999996, 
+     0.94012990316831679, 
+     1.0472598063366336, 
+     1.1543897095049505, 
+     1.2615196126732673, 
+     1.3686495158415839
+    ], 
+    "suction_coeff": [
+     0.0, 
+     7.6635499321194667e-09, 
+     9.4282261550479295e-09, 
+     1.3317723423199428e-08, 
+     2.1598818321578376e-08, 
+     4.0218881763729351e-08, 
+     8.5986444493026005e-08, 
+     2.1107169192508692e-07, 
+     5.9488085379477473e-07, 
+     1.9249967091687061e-06, 
+     7.1520409335229815e-06
+    ], 
+    "diff_resist": [
+     11.683000000000000
+    ], 
+    "redist_coeff": [
+     0.0, 
+     7.6635499321194671e-10, 
+     9.4282261550479299e-10, 
+     1.3317723423199429e-09, 
+     2.1598818321578378e-09, 
+     4.0218881763729352e-09, 
+     8.5986444493026005e-09, 
+     2.1107169192508691e-08, 
+     5.9488085379477471e-08, 
+     1.9249967091687061e-07, 
+     7.1520409335229813e-07
+    ], 
+    "sorption_rh": [
+     0.0, 
+     0.32900000000000001, 
+     0.43159999999999998, 
+     0.58199999999999996, 
+     0.75360000000000005, 
+     0.93999999999999995, 
+     1.0
+    ], 
+    "diff_rh": [
+     0.0
+    ], 
+    "initial_w": 0.0094480198019801977, 
+    "type": "HygroMaterial", 
+    "conductivity_w": [
+     0.0, 
+     54.600000000000001, 
+     109.20000000000000, 
+     163.80000000000001, 
+     218.40000000000001, 
+     273.0
+    ], 
+    "porosity": 0.27300000000000002, 
+    "sorption_w": [
+     0.0, 
+     7.2560000000000002, 
+     12.008500000000000, 
+     13.411000000000000, 
+     19.085000000000001, 
+     30.599000000000000, 
+     199.21500000000000
+    ], 
+    "identifier": "DB Cement Stabilized Rammed Earth (6% 613)", 
+    "redist_w": [
+     0.0, 
+     1.9921500000000005, 
+     7.9686000000000021, 
+     17.929349999999999, 
+     31.874400000000009, 
+     49.803750000000001, 
+     71.717399999999998, 
+     97.615349999999992, 
+     127.49760000000003, 
+     161.36415000000002, 
+     199.21500000000000
+    ]
+   }, 
+   "info": "Mix 613 from Hall, M. & Allinson, D. Analysis of the hygrothermal functional properties of stabilised rammed earth materials. Building and Environment 44, 1935–1942 (2009).\r\n"
+  }, 
+  "type": "EnergyMaterial", 
+  "roughness": "MediumRough", 
+  "conductivity": 0.83299999999999996, 
+  "thermal_absorptance": 0.90000000000000002, 
+  "visible_absorptance": 0.69999999999999996, 
+  "display_name": "DB Cement Stabilized Rammed Earth (6%, 613)", 
+  "specific_heat": 855.44000000000005, 
+  "identifier": "DB Cement Stabilized Rammed Earth (6% 613)"
+ }, 
+ "DB OSB3": {
+  "density": 595.0, 
+  "properties": {
+   "type": "EnergyMaterialProperties", 
+   "ph": {
+    "user_data": {}, 
+    "id_num": 0, 
+    "divisions": {
+     "cells": [], 
+     "steel_stud_spacing_mm": null, 
+     "row_heights": [], 
+     "column_widths": []
+    }
+   }
+  }, 
+  "thickness": 0.014999999999999999, 
+  "solar_absorptance": 0.69999999999999996, 
+  "user_data": {
+   "hygro_material": {
+    "suction_w": [
+     0.0, 
+     8.1400000000000023, 
+     32.560000000000009, 
+     73.259999999999991, 
+     130.24000000000004, 
+     203.5, 
+     293.03999999999996, 
+     398.85999999999996, 
+     520.96000000000015, 
+     659.34000000000003, 
+     814.0
+    ], 
+    "conductivity": [
+     0.13
+    ], 
+    "suction_coeff": [
+     0.0, 
+     2.4580730097392101e-14, 
+     3.0240904602589503e-14, 
+     4.2716413134512701e-14, 
+     6.9277910144508356e-14, 
+     1.2900150533497493e-13, 
+     2.758003278948961e-13, 
+     6.7700952383245677e-13, 
+     1.9080720862728751e-12, 
+     6.1744002408238393e-12, 
+     2.2940072080121218e-11
+    ], 
+    "diff_resist": [
+     165.0, 
+     165.0, 
+     117.0, 
+     96.0
+    ], 
+    "redist_coeff": [
+     0.0, 
+     2.4580730097392101e-15, 
+     3.0240904602589504e-15, 
+     4.2716413134512703e-15, 
+     6.9277910144508356e-15, 
+     1.2900150533497494e-14, 
+     2.758003278948961e-14, 
+     6.7700952383245677e-14, 
+     1.9080720862728752e-13, 
+     6.1744002408238393e-13, 
+     2.2940072080121217e-12
+    ], 
+    "sorption_rh": [
+     0.0, 
+     0.80000000000000004, 
+     0.93000000000000005, 
+     0.98999999999999999, 
+     1.0
+    ], 
+    "diff_rh": [
+     0.0, 
+     0.26000000000000001, 
+     0.63, 
+     0.71999999999999997
+    ], 
+    "initial_w": 0.15915966386554622, 
+    "type": "HygroMaterial", 
+    "conductivity_w": [
+     0
+    ], 
+    "porosity": 0.52200000000000002, 
+    "sorption_w": [
+     0.0, 
+     97.0, 
+     130.0, 
+     810.0, 
+     814.0
+    ], 
+    "identifier": "DB OSB3", 
+    "redist_w": [
+     0.0, 
+     8.1400000000000023, 
+     32.560000000000009, 
+     73.259999999999991, 
+     130.24000000000004, 
+     203.5, 
+     293.03999999999996, 
+     398.85999999999996, 
+     520.96000000000015, 
+     659.34000000000003, 
+     814.0
+    ]
+   }, 
+   "info": "Source: MASEA, OSB/3"
+  }, 
+  "type": "EnergyMaterial", 
+  "roughness": "MediumRough", 
+  "conductivity": 0.13, 
+  "thermal_absorptance": 0.90000000000000002, 
+  "visible_absorptance": 0.69999999999999996, 
+  "display_name": "DB OSB3", 
+  "specific_heat": 1700.0, 
+  "identifier": "DB OSB3"
  }, 
  "DB Wood Fiber": {
   "density": 168.0, 
-  "type": "EnergyMaterial", 
-  "display_name": "DB Wood Fiber", 
+  "properties": {
+   "type": "EnergyMaterialProperties", 
+   "ph": {
+    "user_data": {}, 
+    "id_num": 0, 
+    "divisions": {
+     "cells": [], 
+     "steel_stud_spacing_mm": null, 
+     "row_heights": [], 
+     "column_widths": []
+    }
+   }
+  }, 
+  "thickness": 0.37, 
+  "solar_absorptance": 0.69999999999999996, 
   "user_data": {
-   "info": "Source: MASEA, Holzfaserdämmplatte 1", 
    "hygro_material": {
-    "conductivity_w": [
-     0.0
+    "suction_w": [
+     0.0, 
+     5.2600000000000007, 
+     21.040000000000003, 
+     47.339999999999996, 
+     84.160000000000011, 
+     131.5, 
+     189.35999999999999, 
+     257.73999999999995, 
+     336.64000000000004, 
+     426.06000000000000, 
+     526.0
+    ], 
+    "conductivity": [
+     0.040000000000000001
+    ], 
+    "suction_coeff": [
+     0.0, 
+     1.6351951821315685e-13, 
+     2.011729566759334e-13, 
+     2.8416435426752253e-13, 
+     4.6086061906054843e-13, 
+     8.5816263054713292e-13, 
+     1.8347191707372802e-12, 
+     4.5037015061870468e-12, 
+     1.2693155452547596e-11, 
+     4.1074245908661252e-11, 
+     1.5260529363668055e-10
     ], 
     "diff_resist": [
      3.2999999999999998
@@ -1477,10 +1781,6 @@
      4.1074245908661252e-12, 
      1.5260529363668056e-11
     ], 
-    "identifier": "DB Wood Fiber", 
-    "conductivity": [
-     0.040000000000000001
-    ], 
     "sorption_rh": [
      0.0, 
      0.65000000000000002, 
@@ -1488,19 +1788,15 @@
      0.93000000000000005, 
      1.0
     ], 
-    "suction_coeff": [
-     0.0, 
-     1.6351951821315685e-13, 
-     2.011729566759334e-13, 
-     2.8416435426752253e-13, 
-     4.6086061906054843e-13, 
-     8.5816263054713292e-13, 
-     1.8347191707372802e-12, 
-     4.5037015061870468e-12, 
-     1.2693155452547596e-11, 
-     4.1074245908661252e-11, 
-     1.5260529363668055e-10
+    "diff_rh": [
+     0.0
     ], 
+    "initial_w": 0.10297619047619049, 
+    "type": "HygroMaterial", 
+    "conductivity_w": [
+     0.0
+    ], 
+    "porosity": 0.88, 
     "sorption_w": [
      0.0, 
      12.5, 
@@ -1508,21 +1804,7 @@
      25.0, 
      526.0
     ], 
-    "initial_w": 0.10297619047619049, 
-    "type": "HygroMaterial", 
-    "suction_w": [
-     0.0, 
-     5.2600000000000007, 
-     21.040000000000003, 
-     47.339999999999996, 
-     84.160000000000011, 
-     131.5, 
-     189.35999999999999, 
-     257.73999999999995, 
-     336.64000000000004, 
-     426.06000000000000, 
-     526.0
-    ], 
+    "identifier": "DB Wood Fiber", 
     "redist_w": [
      0.0, 
      5.2600000000000007, 
@@ -1535,435 +1817,401 @@
      336.64000000000004, 
      426.06000000000000, 
      526.0
-    ], 
-    "porosity": 0.88, 
-    "diff_rh": [
-     0.0
     ]
-   }
-  }, 
-  "identifier": "DB Wood Fiber", 
-  "solar_absorptance": 0.69999999999999996, 
-  "properties": {
-   "ph": {
-    "divisions": {
-     "column_widths": [], 
-     "row_heights": [], 
-     "steel_stud_spacing_mm": null, 
-     "cells": []
-    }, 
-    "id_num": 0, 
-    "user_data": {}
    }, 
-   "type": "EnergyMaterialProperties"
+   "info": "Source: MASEA, Holzfaserdämmplatte 1"
   }, 
-  "visible_absorptance": 0.69999999999999996, 
+  "type": "EnergyMaterial", 
+  "roughness": "MediumRough", 
   "conductivity": 0.040000000000000001, 
+  "thermal_absorptance": 0.64000000000000001, 
+  "visible_absorptance": 0.69999999999999996, 
+  "display_name": "DB Wood Fiber", 
   "specific_heat": 1700.0, 
-  "roughness": "MediumRough", 
-  "thickness": 0.37, 
-  "thermal_absorptance": 0.64000000000000001
+  "identifier": "DB Wood Fiber"
  }, 
- "DB Plasterboard": {
-  "density": 850.0, 
-  "type": "EnergyMaterial", 
-  "display_name": "DB Plasterboard", 
-  "user_data": {
-   "info": "Source: EnergyPlus Reference DataSets, MoistureMaterials.idf", 
-   "hygro_material": {
-    "conductivity_w": [
-     0.0, 
-     650.0
-    ], 
-    "diff_resist": [
-     8.3000000000000007
-    ], 
-    "redist_coeff": [
-     0.0, 
-     3e-09, 
-     8.0000000000000005e-09, 
-     8.0000000000000005e-09, 
-     1.3000000000000001e-08, 
-     9.9999999999999995e-08, 
-     2.9999999999999999e-07, 
-     6.9999999999999997e-07, 
-     9.9999999999999995e-07
-    ], 
-    "identifier": "DB Plasterboard", 
-    "conductivity": [
-     0.20000000000000001, 
-     1.4239999999999999
-    ], 
-    "sorption_rh": [
-     0.20200000000000001, 
-     0.4325, 
-     0.64649999999999996, 
-     0.84650000000000003, 
-     0.94799999999999995, 
-     0.97799999999999998
-    ], 
-    "suction_coeff": [
-     0.0, 
-     3e-09, 
-     9.9999999999999995e-08, 
-     9.9999999999999995e-08, 
-     1.1999999999999999e-07, 
-     2.2000000000000001e-07, 
-     5.9999999999999997e-07, 
-     8.9999999999999996e-07, 
-     4.4999999999999998e-07
-    ], 
-    "sorption_w": [
-     0.748, 
-     1.0400000000000000, 
-     1.2400000000000000, 
-     1.5600000000000001, 
-     1.9199999999999999, 
-     2.7200000000000002
-    ], 
-    "initial_w": 0.10000000000000001, 
-    "type": "HygroMaterial", 
-    "suction_w": [
-     0.0, 
-     60.0, 
-     100.0, 
-     160.0, 
-     240.0, 
-     320.0, 
-     360.0, 
-     380.0, 
-     400.0
-    ], 
-    "redist_w": [
-     0.0, 
-     60.0, 
-     100.0, 
-     160.0, 
-     240.0, 
-     320.0, 
-     360.0, 
-     380.0, 
-     400.0
-    ], 
-    "porosity": 0.65000000000000002, 
-    "diff_rh": [
-     0.0
-    ]
-   }
-  }, 
-  "identifier": "DB Plasterboard", 
-  "solar_absorptance": 0.59999999999999998, 
-  "properties": {
-   "ph": {
-    "divisions": {
-     "column_widths": [], 
-     "row_heights": [], 
-     "steel_stud_spacing_mm": null, 
-     "cells": []
-    }, 
-    "id_num": 0, 
-    "user_data": {}
-   }, 
-   "type": "EnergyMaterialProperties"
-  }, 
-  "visible_absorptance": 0.69999999999999996, 
-  "conductivity": 0.20000000000000001, 
-  "specific_heat": 850.0, 
-  "roughness": "Rough", 
-  "thickness": 0.012, 
-  "thermal_absorptance": 0.90000000000000002
- }, 
- "DB Spruce": {
-  "density": 455.0, 
-  "type": "EnergyMaterial", 
-  "display_name": "DB Spruce", 
-  "user_data": {
-   "info": "Source: EnergyPlus Reference DataSets, MoistureMaterials.idf", 
-   "hygro_material": {
-    "conductivity_w": [
-     0.0, 
-     730.0
-    ], 
-    "diff_resist": [
-     130.0
-    ], 
-    "redist_coeff": [
-     0.0, 
-     3.2e-13, 
-     9.1999999999999996e-12
-    ], 
-    "identifier": "DB Spruce", 
-    "conductivity": [
-     0.089999999999999997, 
-     0.27800000000000002
-    ], 
-    "sorption_rh": [
-     0.20499999999999999, 
-     0.44650000000000001, 
-     0.65149999999999997, 
-     0.65449999999999997, 
-     0.82999999999999996, 
-     0.95250000000000001, 
-     0.95599999999999996
-    ], 
-    "suction_coeff": [
-     0.0, 
-     3.2e-13, 
-     9.1999999999999996e-12
-    ], 
-    "sorption_w": [
-     25.934999999999999, 
-     44.362499999999997, 
-     61.993749999999999, 
-     61.993749999999999, 
-     87.132499999999993, 
-     119.66500000000001, 
-     120.12000000000000
-    ], 
-    "initial_w": 0.050000000000000003, 
-    "type": "HygroMaterial", 
-    "suction_w": [
-     0.0, 
-     20.0, 
-     600.0
-    ], 
-    "redist_w": [
-     0.0, 
-     20.0, 
-     600.0
-    ], 
-    "porosity": 0.72999999999999998, 
-    "diff_rh": [
-     0.0
-    ]
-   }
-  }, 
-  "identifier": "DB Spruce", 
-  "solar_absorptance": 0.69999999999999996, 
-  "properties": {
-   "ph": {
-    "divisions": {
-     "column_widths": [], 
-     "row_heights": [], 
-     "steel_stud_spacing_mm": null, 
-     "cells": []
-    }, 
-    "id_num": 0, 
-    "user_data": {}
-   }, 
-   "type": "EnergyMaterialProperties"
-  }, 
-  "visible_absorptance": 0.69999999999999996, 
-  "conductivity": 0.089999999999999997, 
-  "specific_heat": 1500.0, 
-  "roughness": "Rough", 
-  "thickness": 0.012, 
-  "thermal_absorptance": 0.90000000000000002
- }, 
- "DB Dispersion Paint": {
-  "density": 2000.0, 
-  "type": "EnergyMaterial", 
-  "display_name": "DB Dispersion Paint", 
-  "user_data": {
-   "info": "Source: MASEA, Dispersionsfarbe", 
-   "hygro_material": {
-    "conductivity_w": [
-     0
-    ], 
-    "diff_resist": [
-     16000.0
-    ], 
-    "redist_coeff": [
-     0
-    ], 
-    "identifier": "DB Dispersion Paint", 
-    "conductivity": [
-     0.25
-    ], 
-    "sorption_rh": [
-     0.0
-    ], 
-    "suction_coeff": [
-     0
-    ], 
-    "sorption_w": [
-     0.0
-    ], 
-    "initial_w": 0, 
-    "type": "HygroMaterial", 
-    "suction_w": [
-     0
-    ], 
-    "redist_w": [
-     0
-    ], 
-    "porosity": 0.001, 
-    "diff_rh": [
-     0.0
-    ]
-   }
-  }, 
-  "identifier": "DB Dispersion Paint", 
-  "solar_absorptance": 0.69999999999999996, 
-  "properties": {
-   "ph": {
-    "divisions": {
-     "column_widths": [], 
-     "row_heights": [], 
-     "steel_stud_spacing_mm": null, 
-     "cells": []
-    }, 
-    "id_num": 0, 
-    "user_data": {}
-   }, 
-   "type": "EnergyMaterialProperties"
-  }, 
-  "visible_absorptance": 0.69999999999999996, 
-  "conductivity": 0.25, 
-  "specific_heat": 1250.0, 
-  "roughness": "MediumRough", 
-  "thickness": 0.00014999999999999999, 
-  "thermal_absorptance": 0.90000000000000002
- }, 
- "DB Vapor Barrier Sisalex 518 (Sd = 1500)": {
-  "user_data": {
-   "hygro_material": {
-    "redist_w": [
-     0
-    ], 
-    "initial_w": 0, 
-    "diff_resist": [
-     5357142.8571428573
-    ], 
-    "sorption_w": [
-     0.0
-    ], 
-    "type": "HygroMaterial", 
-    "suction_coeff": [
-     0
-    ], 
-    "redist_coeff": [
-     0
-    ], 
-    "conductivity": [
-     0.23000000000000001
-    ], 
-    "diff_rh": [
-     0.0
-    ], 
-    "suction_w": [
-     0
-    ], 
-    "identifier": "DB Vapor Barrier Sisalex 518 (Sd = 1500)", 
-    "sorption_rh": [
-     0.0
-    ], 
-    "porosity": 0.001, 
-    "conductivity_w": [
-     0
-    ]
-   }, 
-   "info": "Source: Ubakus, Sisalex 518"
-  }, 
-  "roughness": "MediumRough", 
-  "type": "EnergyMaterial", 
-  "conductivity": 0.23000000000000001, 
-  "density": 175.0, 
+ "DB Cement Screed": {
+  "density": 2058.0, 
   "properties": {
    "type": "EnergyMaterialProperties", 
    "ph": {
-    "divisions": {
-     "steel_stud_spacing_mm": null, 
-     "column_widths": [], 
-     "row_heights": [], 
-     "cells": []
-    }, 
+    "user_data": {}, 
     "id_num": 0, 
-    "user_data": {}
+    "divisions": {
+     "cells": [], 
+     "steel_stud_spacing_mm": null, 
+     "row_heights": [], 
+     "column_widths": []
+    }
    }
   }, 
+  "thickness": 0.059999999999999998, 
   "solar_absorptance": 0.69999999999999996, 
-  "identifier": "DB Vapor Barrier Sisalex 518 (Sd = 1500)", 
-  "display_name": "DB Vapor Barrier Sisalex 518 (Sd = 1500)", 
-  "visible_absorptance": 0.69999999999999996, 
-  "thermal_absorptance": 0.90000000000000002, 
-  "specific_heat": 1500.0, 
-  "thickness": 0.00027999999999999998
- }, 
- "DB Vapor Barrier (Sd = 1500)": {
-  "density": 175.0, 
-  "type": "EnergyMaterial", 
-  "display_name": "DB Vapor Barrier (Sd = 1500)", 
   "user_data": {
-   "info": "Source: Ubakus, Sisalex 518", 
    "hygro_material": {
+    "suction_w": [
+     0.0, 
+     1.5200000000000002, 
+     6.0800000000000010, 
+     13.680000000000000, 
+     24.320000000000004, 
+     38.0, 
+     54.719999999999999, 
+     74.479999999999990, 
+     97.280000000000015, 
+     123.12000000000000, 
+     152.0
+    ], 
+    "conductivity": [
+     0.96999999999999997
+    ], 
+    "suction_coeff": [
+     0.0, 
+     1.1658255364880505e-09, 
+     1.4342787497568397e-09, 
+     2.0259725834861193e-09, 
+     3.2857427928701472e-09, 
+     6.1183393889862246e-09, 
+     1.3080777664360796e-08, 
+     3.2109501556800057e-08, 
+     9.0496871119094766e-08, 
+     2.9284213466117119e-07, 
+     1.0880116959064326e-06
+    ], 
+    "diff_resist": [
+     83.700000000000003
+    ], 
+    "redist_coeff": [
+     0.0, 
+     1.1658255364880505e-10, 
+     1.4342787497568398e-10, 
+     2.0259725834861192e-10, 
+     3.2857427928701475e-10, 
+     6.1183393889862248e-10, 
+     1.3080777664360796e-09, 
+     3.2109501556800057e-09, 
+     9.0496871119094763e-09, 
+     2.928421346611712e-08, 
+     1.0880116959064326e-07
+    ], 
+    "sorption_rh": [
+     0.065699999999999995, 
+     0.22800000000000001, 
+     0.33000000000000002, 
+     0.58199999999999996, 
+     0.754, 
+     0.95999999999999996, 
+     0.97399999999999998, 
+     1.0
+    ], 
+    "diff_rh": [
+     0.0
+    ], 
+    "initial_w": 0.0073858114674441198, 
+    "type": "HygroMaterial", 
     "conductivity_w": [
      0
     ], 
+    "porosity": 0.26500000000000001, 
+    "sorption_w": [
+     4.5800000000000001, 
+     5.2999999999999998, 
+     7.0700000000000003, 
+     9.2699999999999996, 
+     15.150000000000000, 
+     29.030000000000001, 
+     36.769999999999996, 
+     152.0
+    ], 
+    "identifier": "DB Cement Screed", 
+    "redist_w": [
+     0.0, 
+     1.5200000000000002, 
+     6.0800000000000010, 
+     13.680000000000000, 
+     24.320000000000004, 
+     38.0, 
+     54.719999999999999, 
+     74.479999999999990, 
+     97.280000000000015, 
+     123.12000000000000, 
+     152.0
+    ]
+   }, 
+   "info": "Source: MASEA, Fliessestrich FE 50"
+  }, 
+  "type": "EnergyMaterial", 
+  "roughness": "MediumRough", 
+  "conductivity": 0.96999999999999997, 
+  "thermal_absorptance": 0.90000000000000002, 
+  "visible_absorptance": 0.69999999999999996, 
+  "display_name": "DB Cement Screed", 
+  "specific_heat": 699.0, 
+  "identifier": "DB Cement Screed"
+ }, 
+ "DB Softwood": {
+  "density": 400.0, 
+  "properties": {
+   "type": "EnergyMaterialProperties", 
+   "ph": {
+    "user_data": {}, 
+    "id_num": 0, 
+    "divisions": {
+     "cells": [], 
+     "steel_stud_spacing_mm": null, 
+     "row_heights": [], 
+     "column_widths": []
+    }
+   }
+  }, 
+  "thickness": 0.02, 
+  "solar_absorptance": 0.69999999999999996, 
+  "user_data": {
+   "hygro_material": {
+    "suction_w": [
+     0.0, 
+     5.7500000000000009, 
+     23.000000000000004, 
+     51.75, 
+     92.000000000000014, 
+     143.75, 
+     207.0, 
+     281.74999999999994, 
+     368.00000000000006, 
+     465.75000000000006, 
+     575.0
+    ], 
+    "conductivity": [
+     0.089999999999999997
+    ], 
+    "suction_coeff": [
+     0.0, 
+     1.0000000000000001e-15, 
+     1.0000000000000001e-15, 
+     1.0000000000000001e-15, 
+     1.0000000000000001e-15, 
+     1.0000000000000001e-15, 
+     1.0000000000000001e-15, 
+     1.0000000000000001e-15, 
+     1.0000000000000001e-15, 
+     1.0000000000000001e-15, 
+     1.0000000000000001e-15
+    ], 
     "diff_resist": [
-     5357142.8571428573
+     180.71428700000001, 
+     64.866076550000002, 
+     44.642871810000003, 
+     29.642856490000000, 
+     20.0, 
+     10.357143510000000
     ], 
     "redist_coeff": [
-     0
-    ], 
-    "identifier": "DB Vapor Barrier (Sd = 1500)", 
-    "conductivity": [
-     0.23000000000000001
+     0.0, 
+     1.0000000000000001e-16, 
+     1.0000000000000001e-16, 
+     1.0000000000000001e-16, 
+     1.0000000000000001e-16, 
+     1.0000000000000001e-16, 
+     1.0000000000000001e-16, 
+     1.0000000000000001e-16, 
+     1.0000000000000001e-16, 
+     1.0000000000000001e-16, 
+     1.0000000000000001e-16
     ], 
     "sorption_rh": [
-     0.0
+     0.49913977199999998, 
+     0.79892467199999995, 
+     0.89913974600000002, 
+     0.96924724200000001, 
+     0.99935481900000001, 
+     1.0
+    ], 
+    "diff_rh": [
+     0.24937784900000001, 
+     0.49839551599999998, 
+     0.60055661000000005, 
+     0.69973803099999998, 
+     0.90022917899999999, 
+     0.99855930999999998
+    ], 
+    "initial_w": 0.14999999999999999, 
+    "type": "HygroMaterial", 
+    "conductivity_w": [
+     0
+    ], 
+    "porosity": 0.72999999999999998, 
+    "sorption_w": [
+     30.303692000000002, 
+     57.660924000000001, 
+     86.559384000000009, 
+     113.14596700000000, 
+     574.0, 
+     575.0
+    ], 
+    "identifier": "DB Softwood", 
+    "redist_w": [
+     0.0, 
+     5.7500000000000009, 
+     23.000000000000004, 
+     51.75, 
+     92.000000000000014, 
+     143.75, 
+     207.0, 
+     281.74999999999994, 
+     368.00000000000006, 
+     465.75000000000006, 
+     575.0
+    ]
+   }, 
+   "info": "Source: MASEA, Weichholz"
+  }, 
+  "type": "EnergyMaterial", 
+  "roughness": "MediumRough", 
+  "conductivity": 0.089999999999999997, 
+  "thermal_absorptance": 0.90000000000000002, 
+  "visible_absorptance": 0.69999999999999996, 
+  "display_name": "DB Softwood", 
+  "specific_heat": 1500.0, 
+  "identifier": "DB Softwood"
+ }, 
+ "DB XPS": {
+  "density": 34.0, 
+  "properties": {
+   "type": "EnergyMaterialProperties", 
+   "ph": {
+    "user_data": {}, 
+    "id_num": 0, 
+    "divisions": {
+     "cells": [], 
+     "steel_stud_spacing_mm": null, 
+     "row_heights": [], 
+     "column_widths": []
+    }
+   }
+  }, 
+  "thickness": 0.059999999999999998, 
+  "solar_absorptance": 0.69999999999999996, 
+  "user_data": {
+   "hygro_material": {
+    "suction_w": [
+     0
+    ], 
+    "conductivity": [
+     0.040000000000000001
     ], 
     "suction_coeff": [
      0
     ], 
-    "sorption_w": [
+    "diff_resist": [
+     70.0
+    ], 
+    "redist_coeff": [
+     0
+    ], 
+    "sorption_rh": [
+     0.0, 
+     0.10000000000000001, 
+     0.20000000000000001, 
+     0.29999999999999999, 
+     0.40000000000000002, 
+     0.5, 
+     0.55000000000000004, 
+     0.59999999999999998, 
+     0.65000000000000002, 
+     0.69999999999999996, 
+     0.75, 
+     0.80000000000000004, 
+     0.84999999999999998, 
+     0.90000000000000002, 
+     0.91000000000000003, 
+     0.92000000000000004, 
+     0.93000000000000005, 
+     0.93999999999999995, 
+     0.94999999999999996, 
+     0.95999999999999996, 
+     0.96999999999999997, 
+     0.97999999999999998, 
+     0.98999999999999999, 
+     1.0
+    ], 
+    "diff_rh": [
      0.0
     ], 
     "initial_w": 0, 
     "type": "HygroMaterial", 
-    "suction_w": [
+    "conductivity_w": [
      0
     ], 
+    "porosity": 0.94999999999999996, 
+    "sorption_w": [
+     0.0, 
+     0.052197802197802241, 
+     0.11728395061728404, 
+     0.20070422535211285, 
+     0.31147540983606586, 
+     0.46568627450980432, 
+     0.56793478260869623, 
+     0.69512195121951281, 
+     0.85763888888888973, 
+     1.0725806451612911, 
+     1.3701923076923088, 
+     1.8095238095238115, 
+     2.5234375000000018, 
+     3.8863636363636402, 
+     4.3225000000000051, 
+     4.8555555555555614, 
+     5.5218750000000076, 
+     6.378571428571429, 
+     7.5208333333333330, 
+     9.1199999999999992, 
+     11.518749999999999, 
+     15.516666666666667, 
+     23.512499999999999, 
+     47.5
+    ], 
+    "identifier": "DB XPS", 
     "redist_w": [
      0
-    ], 
-    "porosity": 0.001, 
-    "diff_rh": [
-     0.0
     ]
-   }
-  }, 
-  "identifier": "DB Vapor Barrier (Sd = 1500)", 
-  "solar_absorptance": 0.69999999999999996, 
-  "properties": {
-   "ph": {
-    "divisions": {
-     "column_widths": [], 
-     "row_heights": [], 
-     "steel_stud_spacing_mm": null, 
-     "cells": []
-    }, 
-    "id_num": 0, 
-    "user_data": {}
    }, 
-   "type": "EnergyMaterialProperties"
+   "info": "Source: MASEA, XPS Extrudierter Polystyrol-Hartschaum 1 (Kernschicht)"
   }, 
-  "visible_absorptance": 0.69999999999999996, 
-  "conductivity": 0.23000000000000001, 
-  "specific_heat": 1500.0, 
+  "type": "EnergyMaterial", 
   "roughness": "MediumRough", 
-  "thickness": 0.00027999999999999998, 
-  "thermal_absorptance": 0.90000000000000002
+  "conductivity": 0.040000000000000001, 
+  "thermal_absorptance": 0.90000000000000002, 
+  "visible_absorptance": 0.69999999999999996, 
+  "display_name": "DB XPS", 
+  "specific_heat": 1450.0, 
+  "identifier": "DB XPS"
  }, 
  "DB Glass Fiber Insulation": {
   "density": 80.0, 
-  "type": "EnergyMaterial", 
-  "display_name": "DB Glass Fiber Insulation", 
+  "properties": {
+   "type": "EnergyMaterialProperties", 
+   "ph": {
+    "user_data": {}, 
+    "id_num": 0, 
+    "divisions": {
+     "cells": [], 
+     "steel_stud_spacing_mm": null, 
+     "row_heights": [], 
+     "column_widths": []
+    }
+   }
+  }, 
+  "thickness": 1.0029999999999999, 
+  "solar_absorptance": 0.69999999999999996, 
   "user_data": {
-   "info": "Source: EnergyPlus Reference DataSets, MoistureMaterials.idf", 
    "hygro_material": {
-    "conductivity_w": [
-     0
+    "suction_w": [
+     0.0
+    ], 
+    "conductivity": [
+     0.040000000000000001
+    ], 
+    "suction_coeff": [
+     0.0
     ], 
     "diff_resist": [
      1.2543000000000000
@@ -1971,10 +2219,6 @@
     "redist_coeff": [
      0.0
     ], 
-    "identifier": "DB Glass Fiber Insulation", 
-    "conductivity": [
-     0.040000000000000001
-    ], 
     "sorption_rh": [
      0.20200000000000001, 
      0.4325, 
@@ -1983,9 +2227,15 @@
      0.94799999999999995, 
      0.97799999999999998
     ], 
-    "suction_coeff": [
+    "diff_rh": [
      0.0
     ], 
+    "initial_w": 0.10000000000000001, 
+    "type": "HygroMaterial", 
+    "conductivity_w": [
+     0
+    ], 
+    "porosity": 0.94999999999999996, 
     "sorption_w": [
      0.748, 
      1.0400000000000000, 
@@ -1994,40 +2244,462 @@
      1.9199999999999999, 
      2.7200000000000002
     ], 
-    "initial_w": 0.10000000000000001, 
-    "type": "HygroMaterial", 
-    "suction_w": [
-     0.0
-    ], 
+    "identifier": "DB Glass Fiber Insulation", 
     "redist_w": [
      0.0
-    ], 
-    "porosity": 0.94999999999999996, 
-    "diff_rh": [
-     0.0
     ]
+   }, 
+   "info": "Source: EnergyPlus Reference DataSets, MoistureMaterials.idf"
+  }, 
+  "type": "EnergyMaterial", 
+  "roughness": "Rough", 
+  "conductivity": 0.040000000000000001, 
+  "thermal_absorptance": 0.90000000000000002, 
+  "visible_absorptance": 0.69999999999999996, 
+  "display_name": "DB Glass Fiber Insulation", 
+  "specific_heat": 840.0, 
+  "identifier": "DB Glass Fiber Insulation"
+ }, 
+ "DB Foamglass": {
+  "density": 150.0, 
+  "properties": {
+   "type": "EnergyMaterialProperties", 
+   "ph": {
+    "user_data": {}, 
+    "id_num": 0, 
+    "divisions": {
+     "cells": [], 
+     "steel_stud_spacing_mm": null, 
+     "row_heights": [], 
+     "column_widths": []
+    }
    }
   }, 
-  "identifier": "DB Glass Fiber Insulation", 
+  "thickness": 0.20000000000000001, 
   "solar_absorptance": 0.69999999999999996, 
+  "user_data": {
+   "hygro_material": {
+    "suction_w": [
+     0
+    ], 
+    "conductivity": [
+     0.059999999999999998
+    ], 
+    "suction_coeff": [
+     0
+    ], 
+    "diff_resist": [
+     1000.0
+    ], 
+    "redist_coeff": [
+     0
+    ], 
+    "sorption_rh": [
+     0.0, 
+     0.10000000000000001, 
+     0.20000000000000001, 
+     0.29999999999999999, 
+     0.40000000000000002, 
+     0.5, 
+     0.55000000000000004, 
+     0.59999999999999998, 
+     0.65000000000000002, 
+     0.69999999999999996, 
+     0.75, 
+     0.80000000000000004, 
+     0.84999999999999998, 
+     0.90000000000000002, 
+     0.91000000000000003, 
+     0.92000000000000004, 
+     0.93000000000000005, 
+     0.93999999999999995, 
+     0.94999999999999996, 
+     0.95999999999999996, 
+     0.96999999999999997, 
+     0.97999999999999998, 
+     0.98999999999999999, 
+     1.0
+    ], 
+    "diff_rh": [
+     0.0
+    ], 
+    "initial_w": 0, 
+    "type": "HygroMaterial", 
+    "conductivity_w": [
+     0
+    ], 
+    "porosity": 0.94999999999999996, 
+    "sorption_w": [
+     0.0, 
+     0.052197802197802241, 
+     0.11728395061728404, 
+     0.20070422535211285, 
+     0.31147540983606586, 
+     0.46568627450980432, 
+     0.56793478260869623, 
+     0.69512195121951281, 
+     0.85763888888888973, 
+     1.0725806451612911, 
+     1.3701923076923088, 
+     1.8095238095238115, 
+     2.5234375000000018, 
+     3.8863636363636402, 
+     4.3225000000000051, 
+     4.8555555555555614, 
+     5.5218750000000076, 
+     6.378571428571429, 
+     7.5208333333333330, 
+     9.1199999999999992, 
+     11.518749999999999, 
+     15.516666666666667, 
+     23.512499999999999, 
+     47.5
+    ], 
+    "identifier": "DB Foamglass", 
+    "redist_w": [
+     0
+    ]
+   }, 
+   "info": "Source: MASEA, Schaumglas einlagig_150_20°C (Specific heat capacity estimated from Ubakus)"
+  }, 
+  "type": "EnergyMaterial", 
+  "roughness": "MediumRough", 
+  "conductivity": 0.059999999999999998, 
+  "thermal_absorptance": 0.90000000000000002, 
+  "visible_absorptance": 0.69999999999999996, 
+  "display_name": "DB Foamglass", 
+  "specific_heat": 1000.0, 
+  "identifier": "DB Foamglass"
+ }, 
+ "DB Vapor Barrier Sisalex 518 (Sd = 1500)": {
+  "specific_heat": 1500.0, 
+  "visible_absorptance": 0.69999999999999996, 
   "properties": {
    "ph": {
-    "divisions": {
-     "column_widths": [], 
-     "row_heights": [], 
-     "steel_stud_spacing_mm": null, 
-     "cells": []
-    }, 
+    "user_data": {}, 
     "id_num": 0, 
-    "user_data": {}
+    "divisions": {
+     "steel_stud_spacing_mm": null, 
+     "cells": [], 
+     "row_heights": [], 
+     "column_widths": []
+    }
    }, 
    "type": "EnergyMaterialProperties"
   }, 
+  "display_name": "DB Vapor Barrier Sisalex 518 (Sd = 1500)", 
+  "density": 175.0, 
+  "identifier": "DB Vapor Barrier Sisalex 518 (Sd = 1500)", 
+  "conductivity": 0.23000000000000001, 
+  "thickness": 0.00027999999999999998, 
+  "roughness": "MediumRough", 
+  "thermal_absorptance": 0.90000000000000002, 
+  "user_data": {
+   "info": "Source: Ubakus, Sisalex 518", 
+   "hygro_material": {
+    "sorption_w": [
+     0.0
+    ], 
+    "identifier": "DB Vapor Barrier Sisalex 518 (Sd = 1500)", 
+    "suction_w": [
+     0
+    ], 
+    "conductivity": [
+     0.23000000000000001
+    ], 
+    "porosity": 0.001, 
+    "diff_resist": [
+     5357142.8571428573
+    ], 
+    "diff_rh": [
+     0.0
+    ], 
+    "suction_coeff": [
+     0
+    ], 
+    "redist_coeff": [
+     0
+    ], 
+    "conductivity_w": [
+     0
+    ], 
+    "initial_w": 0, 
+    "redist_w": [
+     0
+    ], 
+    "sorption_rh": [
+     0.0
+    ], 
+    "type": "HygroMaterial"
+   }
+  }, 
+  "solar_absorptance": 0.69999999999999996, 
+  "type": "EnergyMaterial"
+ }, 
+ "DB Cement Stabilized Rammed Earth (6% 433)": {
+  "density": 2120.0, 
+  "properties": {
+   "type": "EnergyMaterialProperties", 
+   "ph": {
+    "user_data": {}, 
+    "id_num": 0, 
+    "divisions": {
+     "cells": [], 
+     "steel_stud_spacing_mm": null, 
+     "row_heights": [], 
+     "column_widths": []
+    }
+   }
+  }, 
+  "thickness": 0.29999999999999999, 
+  "solar_absorptance": 0.69999999999999996, 
+  "user_data": {
+   "hygro_material": {
+    "suction_w": [
+     0.0, 
+     1.6545700000000003, 
+     6.6182800000000013, 
+     14.891129999999999, 
+     26.473120000000005, 
+     41.364249999999998, 
+     59.564519999999995, 
+     81.073929999999990, 
+     105.89248000000002, 
+     134.02017000000001, 
+     165.45699999999999
+    ], 
+    "conductivity": [
+     1.0100000000000000, 
+     1.1720045716981133, 
+     1.3340091433962264, 
+     1.4960137150943396, 
+     1.6580182867924529, 
+     1.8200228584905658
+    ], 
+    "suction_coeff": [
+     0.0, 
+     5.4813053244822045e-09, 
+     6.7434787639980863e-09, 
+     9.5254169355135386e-09, 
+     1.5448417367569618e-08, 
+     2.8766299261950617e-08, 
+     6.1501257277326457e-08, 
+     1.5096768456449208e-07, 
+     4.2548474534908105e-07, 
+     1.3768416471528072e-06, 
+     5.1154517680544642e-06
+    ], 
+    "diff_resist": [
+     24.190000000000001
+    ], 
+    "redist_coeff": [
+     0.0, 
+     5.4813053244822045e-10, 
+     6.7434787639980859e-10, 
+     9.5254169355135394e-10, 
+     1.5448417367569618e-09, 
+     2.8766299261950615e-09, 
+     6.1501257277326454e-09, 
+     1.5096768456449209e-08, 
+     4.2548474534908106e-08, 
+     1.3768416471528072e-07, 
+     5.1154517680544646e-07
+    ], 
+    "sorption_rh": [
+     0.0, 
+     0.32900000000000001, 
+     0.43159999999999998, 
+     0.58199999999999996, 
+     0.75360000000000005, 
+     0.93999999999999995, 
+     1.0
+    ], 
+    "diff_rh": [
+     0.0
+    ], 
+    "initial_w": 0.010267216981132076, 
+    "type": "HygroMaterial", 
+    "conductivity_w": [
+     0.0, 
+     47.799999999999997, 
+     95.599999999999994, 
+     143.39999999999998, 
+     191.19999999999999, 
+     239.0
+    ], 
+    "porosity": 0.23899999999999999, 
+    "sorption_w": [
+     0.0, 
+     9.9365000000000006, 
+     11.306500000000000, 
+     14.419499999999999, 
+     21.766500000000001, 
+     40.851999999999997, 
+     165.45699999999999
+    ], 
+    "identifier": "DB Cement Stabilized Rammed Earth (6% 433)", 
+    "redist_w": [
+     0.0, 
+     1.6545700000000003, 
+     6.6182800000000013, 
+     14.891129999999999, 
+     26.473120000000005, 
+     41.364249999999998, 
+     59.564519999999995, 
+     81.073929999999990, 
+     105.89248000000002, 
+     134.02017000000001, 
+     165.45699999999999
+    ]
+   }, 
+   "info": "Mix 433 from Hall, M. & Allinson, D. Analysis of the hygrothermal functional properties of stabilised rammed earth materials. Building and Environment 44, 1935–1942 (2009).\r\n"
+  }, 
+  "type": "EnergyMaterial", 
+  "roughness": "MediumRough", 
+  "conductivity": 1.0100000000000000, 
+  "thermal_absorptance": 0.90000000000000002, 
   "visible_absorptance": 0.69999999999999996, 
-  "conductivity": 0.040000000000000001, 
-  "specific_heat": 840.0, 
-  "roughness": "Rough", 
-  "thickness": 1.0029999999999999, 
-  "thermal_absorptance": 0.90000000000000002
+  "display_name": "DB Cement Stabilized Rammed Earth (6%, 433)", 
+  "specific_heat": 827.36000000000001, 
+  "identifier": "DB Cement Stabilized Rammed Earth (6% 433)"
+ }, 
+ "DB Rammed Earth": {
+  "density": 1930.0, 
+  "properties": {
+   "type": "EnergyMaterialProperties", 
+   "ph": {
+    "user_data": {}, 
+    "id_num": 0, 
+    "divisions": {
+     "cells": [], 
+     "steel_stud_spacing_mm": null, 
+     "row_heights": [], 
+     "column_widths": []
+    }
+   }
+  }, 
+  "thickness": 0.40000000000000002, 
+  "solar_absorptance": 0.69999999999999996, 
+  "user_data": {
+   "hygro_material": {
+    "suction_w": [
+     0.0, 
+     51.460914000000002, 
+     55.788884000000003, 
+     60.427518999999997, 
+     64.906402000000000, 
+     69.578136000000001, 
+     73.607478999999998, 
+     78.499960999999999, 
+     84.139303999999996
+    ], 
+    "conductivity": [
+     1.3400000000000001, 
+     1.3899999999999999, 
+     1.4399999999999999, 
+     1.5500000000000000, 
+     1.5700000000000001, 
+     1.6100000000000001, 
+     1.8600000000000001
+    ], 
+    "suction_coeff": [
+     0.0, 
+     4.4100000000000003e-09, 
+     6.6400000000000002e-09, 
+     5.4400000000000002e-09, 
+     6.0399999999999998e-09, 
+     6.7500000000000001e-09, 
+     7.4199999999999996e-09, 
+     8.3400000000000006e-09, 
+     9.4199999999999993e-09
+    ], 
+    "diff_resist": [
+     20.5, 
+     18.600000000000001, 
+     18.0, 
+     15.100000000000000, 
+     13.800000000000001, 
+     12.699999999999999, 
+     7.0499999999999998
+    ], 
+    "redist_coeff": [
+     0.0, 
+     4.4099999999999998e-10, 
+     6.6399999999999998e-10, 
+     5.4399999999999998e-10, 
+     6.0399999999999998e-10, 
+     6.7500000000000005e-10, 
+     7.4200000000000002e-10, 
+     8.3400000000000002e-10, 
+     9.4200000000000006e-10
+    ], 
+    "sorption_rh": [
+     0.089999999999999997, 
+     0.2293, 
+     0.35420000000000001, 
+     0.48509999999999998, 
+     0.58960000000000001, 
+     0.68079999999999996, 
+     0.7863, 
+     0.84199999999999997, 
+     0.89539999999999997, 
+     0.98360000000000003
+    ], 
+    "diff_rh": [
+     0.055, 
+     0.25, 
+     0.31, 
+     0.42499999999999999, 
+     0.47999999999999998, 
+     0.68000000000000005, 
+     0.88
+    ], 
+    "initial_w": 0.040000000000000001, 
+    "type": "HygroMaterial", 
+    "conductivity_w": [
+     0.0, 
+     6.2699999999999996, 
+     15.970000000000001, 
+     23.859999999999999, 
+     32.350000000000001, 
+     40.840000000000003, 
+     71.379999999999995
+    ], 
+    "porosity": 0.25, 
+    "sorption_w": [
+     8.4920000000000009, 
+     13.124000000000001, 
+     17.177000000000000, 
+     21.809000000000001, 
+     26.440999999999999, 
+     31.652000000000001, 
+     40.143999999999998, 
+     46.320000000000000, 
+     54.426000000000002, 
+     75.656000000000006
+    ], 
+    "identifier": "DB Rammed Earth", 
+    "redist_w": [
+     0.0, 
+     51.460914000000002, 
+     55.788884000000003, 
+     60.427518999999997, 
+     64.906402000000000, 
+     69.578136000000001, 
+     73.607478999999998, 
+     78.499960999999999, 
+     84.139303999999996
+    ]
+   }, 
+   "info": "Source: Losini, A. E. et al. Extended hygrothermal characterization of unstabilized rammed earth for modern construction. Construction and Building Materials 409, 133904 (2023).\r\n"
+  }, 
+  "type": "EnergyMaterial", 
+  "roughness": "MediumRough", 
+  "conductivity": 1.3400000000000001, 
+  "thermal_absorptance": 0.64000000000000001, 
+  "visible_absorptance": 0.69999999999999996, 
+  "display_name": "DB Rammed Earth", 
+  "specific_heat": 773.0, 
+  "identifier": "DB Rammed Earth"
  }
 }

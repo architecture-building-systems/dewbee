@@ -42,12 +42,10 @@ except Exception as e:
 
 try:  # import the honeybee-energy dependencies
     from honeybee_energy.lib.materials import opaque_material_by_identifier
-    from honeybee_energy.lib.materials import window_material_by_identifier
-    from honeybee_energy.material.glazing import EnergyWindowMaterialGlazing
 except ImportError as e:
     raise ImportError('\nFailed to import honeybee_energy:\n\t{}'.format(e))
 try:  # import ladybug_rhino dependencies
-    from ladybug_rhino.grasshopper import all_required_inputs, give_warning
+    from ladybug_rhino.grasshopper import all_required_inputs
 except ImportError as e:
     raise ImportError('\nFailed to import ladybug_rhino:\n\t{}'.format(e))
 
@@ -60,9 +58,10 @@ if all_required_inputs(ghenv.Component):
             _mat = opaque_material_by_identifier(_mat)
         
         mat = _mat.duplicate()
-        mat.thickness = _thickness
+        if _thickness_ is not None:
+            mat.thickness = _thickness_
         
         if is_hygro is False:
             mat.user_data = {}
-            
+
         material.append(mat)
